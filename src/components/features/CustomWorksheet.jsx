@@ -350,30 +350,31 @@ export default function CustomWorksheet() {
   };
 
   return (
-    <div className="h-full flex flex-col gap-6 p-1 relative text-white overflow-y-auto custom-scrollbar">
+    <div className="h-full flex flex-col gap-6 p-4 relative text-[#1A1A2E] overflow-y-auto custom-scrollbar">
       {/* Header with action buttons */}
-      <div className="flex items-center justify-between bg-[#1a1a1a] border border-gray-800 p-4 rounded-xl -mx-1 -mt-1 shadow-md">
+      <div className="flex items-center justify-between rounded-2xl p-5 shadow-sm" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)', backdropFilter: 'blur(20px)' }}>
         <div>
-          <h3 className="font-semibold text-white">Custom Worksheet Builder</h3>
-          <p className="text-xs text-gray-400 mt-1">
+          <h3 className="text-lg font-bold" style={{ color: '#1A1A2E' }}>Custom Worksheet Builder</h3>
+          <p className="text-xs mt-1" style={{ color: '#5A5A72' }}>
             {selection.chapterTitle} <span className="mx-1.5">·</span> {selection.bookTitle || "Subject"}
           </p>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {isGenerated && (
             <>
               <button 
                 onClick={handleExportPDF}
-                className="flex items-center gap-2 px-4 py-2 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition-colors text-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-[#1A1A2E] text-white font-bold rounded-xl hover:opacity-90 transition-all text-sm shadow-xs"
               >
-                <FileText size={16} /> Export to PDF
+                <FileText size={16} /> Export PDF
               </button>
               <button 
                 onClick={handleExportDOCX}
-                className="flex items-center gap-2 px-4 py-2 bg-[#111] text-gray-300 font-semibold rounded-md hover:bg-[#222] border border-gray-700 transition-colors text-sm"
+                className="flex items-center gap-2 px-4 py-2 font-bold rounded-xl transition-all text-sm shadow-xs hover:bg-purple-50"
+                style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7', border: '1px solid rgba(107,92,231,0.2)' }}
               >
-                <Download size={16} /> Export to DOCX
+                <Download size={16} /> Export DOCX
               </button>
             </>
           )}
@@ -382,7 +383,7 @@ export default function CustomWorksheet() {
             <button 
               onClick={handleGenerate}
               disabled={isGenerating}
-              className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-black font-bold rounded-md hover:bg-amber-400 transition-colors text-sm"
+              className="cs-btn-purple flex items-center gap-2 px-5 py-2.5 rounded-full font-bold transition-all text-sm shadow-sm"
             >
               {isGenerating ? <Loader2 className="animate-spin" size={16} /> : <Play size={16} />}
               Generate Worksheet
@@ -396,7 +397,8 @@ export default function CustomWorksheet() {
               setSelectedChapterId('');
             }}
             title="Change book / chapter"
-            className="text-gray-400 hover:text-white transition-colors ml-2"
+            className="transition-colors ml-2 p-2 rounded-xl hover:bg-purple-50"
+            style={{ color: '#6B5CE7' }}
           >
             <RefreshCw size={18} />
           </button>
@@ -404,11 +406,11 @@ export default function CustomWorksheet() {
       </div>
 
       {!isGenerated ? (
-        <div className="h-full flex gap-6 pb-10">
+        <div className="h-full flex flex-col md:flex-row gap-6 pb-10">
           {/* Left Column - Draggable Pills */}
-          <GlassCard className="w-1/3 flex flex-col gap-4 bg-[#1a1a1a] border border-gray-800 rounded-xl p-6">
-            <h3 className="font-semibold text-white mb-2 text-sm">Question Types</h3>
-            <p className="text-xs text-gray-400 mb-4">Drag these types into the drop zone.</p>
+          <GlassCard className="w-full md:w-1/3 flex flex-col gap-4 rounded-2xl p-6 shadow-xs" style={{ background: 'rgba(255,255,255,0.8)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+            <h3 className="font-bold text-sm" style={{ color: '#1A1A2E' }}>Question Types</h3>
+            <p className="text-xs" style={{ color: '#5A5A72' }}>Drag these types into the drop zone.</p>
             <div className="space-y-3">
               {qTypes.map((type, i) => (
                 <div
@@ -416,9 +418,10 @@ export default function CustomWorksheet() {
                   draggable
                   onDragStart={(e) => handleDragStart(e, type)}
                   onClick={() => handleAddType(type)}
-                  className="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/10 cursor-pointer hover:bg-amber-500/20 hover:border-amber-500/50 transition-all text-sm text-gray-200"
+                  className="flex items-center gap-3 p-3.5 rounded-xl cursor-pointer transition-all text-sm font-semibold shadow-2xs hover:scale-[1.02]"
+                  style={{ background: 'white', border: '1px solid rgba(107,92,231,0.2)', color: '#1A1A2E' }}
                 >
-                  <GripVertical size={16} className="text-gray-500" />
+                  <GripVertical size={16} style={{ color: '#9CA3AF' }} />
                   {type}
                 </div>
               ))}
@@ -427,53 +430,52 @@ export default function CustomWorksheet() {
 
           {/* Right Column - Drop Zone Canvas */}
           <div 
-            className="flex-[2] bg-[#1a1a1a] rounded-xl border-2 border-dashed border-gray-700 p-8 flex flex-col relative transition-colors group"
+            className="flex-[2] rounded-2xl p-8 flex flex-col relative transition-colors group"
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            style={{ minHeight: '400px' }}
+            style={{ minHeight: '420px', background: 'rgba(107,92,231,0.03)', border: '2px dashed rgba(107,92,231,0.25)' }}
           >
-            <div className="absolute inset-0 bg-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl pointer-events-none"></div>
-            
             {droppedTypes.length === 0 ? (
               <div className="text-center space-y-4 m-auto">
-                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto text-gray-400 group-hover:text-amber-500 group-hover:bg-amber-500/20 transition-colors">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto transition-colors" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
                   <PlusCircle size={32} />
                 </div>
-                <h3 className="text-lg font-medium text-white">Drag & Drop to Build</h3>
-                <p className="text-sm text-gray-400 max-w-xs mx-auto">
-                  Drag question types from the left panel and drop them here to compose your custom worksheet.
+                <h3 className="text-lg font-bold" style={{ color: '#1A1A2E' }}>Drag & Drop to Build</h3>
+                <p className="text-sm max-w-xs mx-auto" style={{ color: '#5A5A72' }}>
+                  Drag question types from the left panel or click them to compose your custom worksheet.
                 </p>
               </div>
             ) : (
               <div className="flex flex-col gap-4 w-full z-10">
-                <h3 className="text-lg font-medium text-white mb-4">Your Worksheet Configuration</h3>
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>Your Worksheet Configuration</h3>
                 {droppedTypes.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-4 rounded-lg bg-[#222] border border-gray-700 shadow-sm">
-                    <span className="text-white text-sm font-medium">{item.type}</span>
+                  <div key={idx} className="flex items-center justify-between p-4 rounded-xl shadow-xs" style={{ background: 'white', border: '1px solid rgba(107,92,231,0.18)' }}>
+                    <span className="text-sm font-bold" style={{ color: '#1A1A2E' }}>{item.type}</span>
                     <div className="flex items-center gap-6">
                       <div className="flex items-center gap-3">
-                        <span className="text-gray-400 text-xs">No. of Questions:</span>
+                        <span className="text-xs font-semibold" style={{ color: '#5A5A72' }}>Count:</span>
                         <input 
                           type="number" 
                           min="1" max="50"
                           value={item.count}
                           onChange={(e) => updateCount(idx, parseInt(e.target.value) || 1)}
-                          className="w-16 bg-black border border-gray-600 rounded px-2 py-1 text-white text-center text-sm focus:outline-none focus:border-amber-500"
+                          className="cs-input w-16 px-2 py-1.5 text-center text-sm font-bold"
+                          style={{ color: '#6B5CE7' }}
                         />
                       </div>
-                      <button onClick={() => removeType(idx)} className="text-gray-400 hover:text-red-400 transition-colors">
+                      <button onClick={() => removeType(idx)} className="transition-colors hover:text-red-500" style={{ color: '#9CA3AF' }}>
                         <X size={18} />
                       </button>
                     </div>
                   </div>
                 ))}
                 
-                <div className="flex justify-between items-center p-4 bg-black/40 rounded-lg mt-2 border border-gray-800">
-                  <span className="text-gray-300 text-sm font-medium">Total Questions:</span>
-                  <span className="text-amber-500 font-bold text-lg">{droppedTypes.reduce((acc, curr) => acc + curr.count, 0)}</span>
+                <div className="flex justify-between items-center p-4 rounded-xl mt-4" style={{ background: 'rgba(107,92,231,0.08)', border: '1px solid rgba(107,92,231,0.2)' }}>
+                  <span className="text-sm font-bold" style={{ color: '#1A1A2E' }}>Total Questions:</span>
+                  <span className="font-extrabold text-lg" style={{ color: '#6B5CE7' }}>{droppedTypes.reduce((acc, curr) => acc + curr.count, 0)}</span>
                 </div>
                 
-                <div className="text-xs text-gray-500 mt-4 text-center">Drop more items below...</div>
+                <div className="text-xs mt-2 text-center italic" style={{ color: '#9CA3AF' }}>Add more items from the left panel...</div>
               </div>
             )}
           </div>
@@ -481,23 +483,23 @@ export default function CustomWorksheet() {
       ) : (
         /* Worksheet Render Area */
         <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-6 pb-20">
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-8 font-sans shadow-2xl">
-            <h1 className="text-xl font-bold text-center uppercase tracking-wider text-amber-500 mb-8 font-serif border-b border-gray-800 pb-4">
-              {chapterTitle} (Web Dashboard Preview)
+          <div className="rounded-2xl p-8 font-sans shadow-sm" style={{ background: 'rgba(255,255,255,0.9)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+            <h1 className="text-xl font-bold text-center uppercase tracking-wider mb-8 font-serif pb-4 border-b" style={{ color: '#6B5CE7', borderColor: 'rgba(107,92,231,0.15)' }}>
+              {chapterTitle} (Preview)
             </h1>
             
-            <div className="space-y-10 text-[15px] text-gray-200">
+            <div className="space-y-10 text-[15px]" style={{ color: '#1A1A2E' }}>
               {/* MCQs Preview */}
               {worksheetData.mcqs && worksheetData.mcqs.length > 0 && (
                 <div>
-                  <h2 className="font-bold text-lg mb-4 text-amber-400 font-serif">I. Multiple Choice Questions</h2>
+                  <h2 className="font-bold text-lg mb-4 font-serif" style={{ color: '#6B5CE7' }}>I. Multiple Choice Questions</h2>
                   <div className="space-y-6 pl-2">
                     {worksheetData.mcqs.map((item, idx) => (
-                      <div key={idx}>
-                        <p className="font-semibold mb-2">{idx + 1}. {item.question || item.q}</p>
-                        <div className="grid grid-cols-2 gap-2 pl-4 text-gray-400">
-                          {item.options?.map((opt, oIdx) => (
-                            <div key={oIdx} className={item.correctAnswer === opt ? 'text-amber-500 font-medium' : ''}>
+                      <div key={idx} className="space-y-2">
+                        <p className="font-semibold">{idx + 1}. {item.question || item.q}</p>
+                        <div className="grid grid-cols-2 gap-2 pl-4">
+                          {(item.options || []).map((opt, oIdx) => (
+                            <div key={oIdx} className="text-sm py-1" style={{ color: '#5A5A72' }}>
                               {String.fromCharCode(65 + oIdx)}. {opt}
                             </div>
                           ))}
@@ -510,11 +512,11 @@ export default function CustomWorksheet() {
 
               {/* Fill in the Blanks Preview */}
               {worksheetData.fillInTheBlanks && worksheetData.fillInTheBlanks.length > 0 && (
-                <div className="pt-4 border-t border-gray-800">
-                  <h2 className="font-bold text-lg mb-4 text-amber-400 font-serif">II. Fill in the Blanks</h2>
+                <div className="pt-6 border-t" style={{ borderColor: 'rgba(107,92,231,0.15)' }}>
+                  <h2 className="font-bold text-lg mb-4 font-serif" style={{ color: '#6B5CE7' }}>II. Fill in the Blanks</h2>
                   <div className="space-y-3 pl-2">
                     {worksheetData.fillInTheBlanks.map((item, idx) => (
-                      <p key={idx}>{idx + 1}. {item.question || item.q}</p>
+                      <p key={idx} className="font-medium">{idx + 1}. {item.question || item.q}</p>
                     ))}
                   </div>
                 </div>
@@ -522,13 +524,13 @@ export default function CustomWorksheet() {
 
               {/* True/False Preview */}
               {worksheetData.trueFalse && worksheetData.trueFalse.length > 0 && (
-                <div className="pt-4 border-t border-gray-800">
-                  <h2 className="font-bold text-lg mb-4 text-amber-400 font-serif">III. True or False</h2>
+                <div className="pt-6 border-t" style={{ borderColor: 'rgba(107,92,231,0.15)' }}>
+                  <h2 className="font-bold text-lg mb-4 font-serif" style={{ color: '#6B5CE7' }}>III. True or False</h2>
                   <div className="space-y-3 pl-2">
                     {worksheetData.trueFalse.map((item, idx) => (
-                      <div key={idx} className="flex justify-between">
-                        <p>{idx + 1}. {item.statement || item.q}</p>
-                        <div className="text-gray-400 font-mono">[ T ] &nbsp;&nbsp; [ F ]</div>
+                      <div key={idx} className="flex justify-between items-center">
+                        <p className="font-medium">{idx + 1}. {item.statement || item.q}</p>
+                        <div className="font-mono text-sm font-bold px-2 py-1 rounded" style={{ background: 'rgba(107,92,231,0.08)', color: '#6B5CE7' }}>[ T ] &nbsp; [ F ]</div>
                       </div>
                     ))}
                   </div>
@@ -537,14 +539,14 @@ export default function CustomWorksheet() {
               
               {/* Short Answer Preview */}
               {worksheetData.shortAnswer && worksheetData.shortAnswer.length > 0 && (
-                <div className="pt-4 border-t border-gray-800">
-                  <h2 className="font-bold text-lg mb-4 text-amber-400 font-serif">IV. Short Answer Questions</h2>
+                <div className="pt-6 border-t" style={{ borderColor: 'rgba(107,92,231,0.15)' }}>
+                  <h2 className="font-bold text-lg mb-4 font-serif" style={{ color: '#6B5CE7' }}>IV. Short Answer Questions</h2>
                   <div className="space-y-6 pl-2">
                     {worksheetData.shortAnswer.map((item, idx) => (
                       <div key={idx}>
-                        <p className="font-semibold mb-4">{idx + 1}. {item.question || item.q}</p>
-                        <div className="border-b border-gray-700 w-full h-4"></div>
-                        <div className="border-b border-gray-700 w-full h-6"></div>
+                        <p className="font-semibold mb-3">{idx + 1}. {item.question || item.q}</p>
+                        <div className="border-b w-full h-4" style={{ borderColor: 'rgba(107,92,231,0.2)' }}></div>
+                        <div className="border-b w-full h-6" style={{ borderColor: 'rgba(107,92,231,0.2)' }}></div>
                       </div>
                     ))}
                   </div>

@@ -395,51 +395,51 @@ export default function TestPaperGen() {
 
   return (
     <div className="h-full overflow-y-auto custom-scrollbar p-4 md:p-8 relative">
-      <div className="absolute top-20 right-20 w-96 h-96 bg-neon-purple/10 rounded-full blur-[100px] pointer-events-none"></div>
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-emerald-green/5 rounded-full blur-[120px] pointer-events-none"></div>
-
       <div className="max-w-5xl mx-auto space-y-8 pb-24 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
-          <GlassCard className="p-8 border border-white/10 hover:border-neon-purple/30 transition-colors group">
+          <GlassCard className="p-8 rounded-2xl shadow-xs" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-neon-purple/20 to-blue-500/10 flex items-center justify-center border border-neon-purple/20 group-hover:shadow-[0_0_15px_rgba(139,92,246,0.3)] transition-all">
-                <Info size={22} className="text-neon-purple"/>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xs" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
+                <Info size={22} />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-white tracking-wide">General Details</h2>
-                <p className="text-xs text-gray-400">Basic header information</p>
+                <h2 className="text-lg font-bold" style={{ color: '#1A1A2E' }}>General Details</h2>
+                <p className="text-xs" style={{ color: '#5A5A72' }}>Basic assessment header information</p>
               </div>
             </div>
 
             <div className="space-y-5">
               <div>
-                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">School Name <span className="text-pink-500">*</span></label>
+                <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>School Name <span className="text-pink-500">*</span></label>
                 <input 
                   type="text" 
                   placeholder="e.g. Yugsoft Academy" 
-                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-neon-purple focus:ring-1 focus:ring-neon-purple/50 transition-all"
+                  className="cs-input w-full px-4 py-3 text-sm font-semibold"
+                  style={{ color: '#1A1A2E', background: 'white' }}
                   value={generalDetails.schoolName}
                   onChange={e => setGeneralDetails({...generalDetails, schoolName: e.target.value})}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Class <span className="text-pink-500">*</span></label>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Class <span className="text-pink-500">*</span></label>
                   <input 
                     type="text" 
                     placeholder="e.g. 10th Grade" 
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-neon-purple focus:ring-1 focus:ring-neon-purple/50 transition-all"
+                    className="cs-input w-full px-4 py-3 text-sm font-semibold"
+                    style={{ color: '#1A1A2E', background: 'white' }}
                     value={generalDetails.className}
                     onChange={e => setGeneralDetails({...generalDetails, className: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Section</label>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Section</label>
                   <input 
                     type="text" 
                     placeholder="e.g. A or B" 
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-neon-purple focus:ring-1 focus:ring-neon-purple/50 transition-all"
+                    className="cs-input w-full px-4 py-3 text-sm font-semibold"
+                    style={{ color: '#1A1A2E', background: 'white' }}
                     value={generalDetails.section}
                     onChange={e => setGeneralDetails({...generalDetails, section: e.target.value})}
                   />
@@ -448,31 +448,33 @@ export default function TestPaperGen() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Duration <span className="text-pink-500">*</span></label>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Duration <span className="text-pink-500">*</span></label>
                   <input 
                     type="text" 
                     placeholder="e.g. 2 hours" 
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-neon-purple focus:ring-1 focus:ring-neon-purple/50 transition-all"
+                    className="cs-input w-full px-4 py-3 text-sm font-semibold"
+                    style={{ color: '#1A1A2E', background: 'white' }}
                     value={generalDetails.duration}
                     onChange={e => setGeneralDetails({...generalDetails, duration: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Paper Type <span className="text-pink-500">*</span></label>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Paper Type <span className="text-pink-500">*</span></label>
                   <div className="relative">
                     <select 
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-purple focus:ring-1 focus:ring-neon-purple/50 transition-all appearance-none cursor-pointer"
+                      className="cs-input w-full px-4 py-3 text-sm font-semibold appearance-none cursor-pointer"
+                      style={{ color: '#1A1A2E', background: 'white' }}
                       value={generalDetails.paperType}
                       onChange={e => setGeneralDetails({...generalDetails, paperType: e.target.value})}
                     >
-                      <option className="bg-[#1a1a1a] text-white" value="Unit Test">Unit Test</option>
-                      <option className="bg-[#1a1a1a] text-white" value="Half Yearly">Half Yearly</option>
-                      <option className="bg-[#1a1a1a] text-white" value="Term 1">Term 1</option>
-                      <option className="bg-[#1a1a1a] text-white" value="Term 2">Term 2</option>
-                      <option className="bg-[#1a1a1a] text-white" value="Yearly">Yearly</option>
+                      <option value="Unit Test">Unit Test</option>
+                      <option value="Half Yearly">Half Yearly</option>
+                      <option value="Term 1">Term 1</option>
+                      <option value="Term 2">Term 2</option>
+                      <option value="Yearly">Yearly</option>
                     </select>
-                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                      <Layers size={16} className="text-gray-500"/>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none" style={{ color: '#6B5CE7' }}>
+                      <Layers size={16} />
                     </div>
                   </div>
                 </div>
@@ -481,46 +483,47 @@ export default function TestPaperGen() {
           </GlassCard>
 
           
-          <GlassCard className="p-8 border border-white/10 hover:border-emerald-green/30 transition-colors group flex flex-col justify-between">
+          <GlassCard className="p-8 rounded-2xl shadow-xs flex flex-col justify-between" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
             <div>
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-emerald-green/20 to-teal-500/10 flex items-center justify-center border border-emerald-green/20 group-hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all">
-                  <BookOpen size={22} className="text-emerald-green"/>
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xs" style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981' }}>
+                  <BookOpen size={22} />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-white tracking-wide">Content Source</h2>
-                  <p className="text-xs text-gray-400">Syllabus mapped materials</p>
+                  <h2 className="text-lg font-bold" style={{ color: '#1A1A2E' }}>Content Source</h2>
+                  <p className="text-xs" style={{ color: '#5A5A72' }}>Syllabus mapped materials</p>
                 </div>
               </div>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Select Book <span className="text-pink-500">*</span></label>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Select Book <span className="text-pink-500">*</span></label>
                   <div className="relative">
                     <select 
-                      className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-green focus:ring-1 focus:ring-emerald-green/50 transition-all appearance-none cursor-pointer"
+                      className="cs-input w-full px-4 py-3 text-sm font-semibold appearance-none cursor-pointer"
+                      style={{ color: '#1A1A2E', background: 'white' }}
                       value={selectedBookId}
                       onChange={(e) => setSelectedBookId(e.target.value)}
                       disabled={isBooksLoading || isGenerating}
                     >
-                      <option className="bg-[#1a1a1a] text-white" value="" disabled>{isBooksLoading ? 'Loading books...' : 'Select a book'}</option>
-                      {books.map(b => <option className="bg-[#1a1a1a] text-white" key={b.id || b._id} value={b.id || b._id}>{b.title || b.name}</option>)}
+                      <option value="" disabled>{isBooksLoading ? 'Loading books...' : 'Select a book'}</option>
+                      {books.map(b => <option key={b.id || b._id} value={b.id || b._id}>{b.title || b.name}</option>)}
                     </select>
-                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                      <Layers size={16} className="text-gray-500"/>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none" style={{ color: '#10b981' }}>
+                      <Layers size={16} />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Select Chapters <span className="text-pink-500">*</span></label>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Select Chapters <span className="text-pink-500">*</span></label>
                   {selectedBookId ? (
-                    <div className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm focus-within:border-emerald-green focus-within:ring-1 focus-within:ring-emerald-green/50 transition-all max-h-40 overflow-y-auto custom-scrollbar">
+                    <div className="cs-input w-full px-4 py-3 text-sm max-h-40 overflow-y-auto custom-scrollbar" style={{ background: 'white' }}>
                       {isChaptersLoading ? (
-                        <span className="text-gray-500">Loading chapters...</span>
+                        <span style={{ color: '#5A5A72' }}>Loading chapters...</span>
                       ) : chapters.length === 0 ? (
-                        <span className="text-gray-500">No chapters found.</span>
+                        <span style={{ color: '#5A5A72' }}>No chapters found.</span>
                       ) : (
-                        <div className="space-y-2">
+                        <div className="space-y-2.5">
                           {chapters.map(c => {
                             const cId = c.id || c._id;
                             const isChecked = selectedChapterIds.includes(cId);
@@ -532,10 +535,10 @@ export default function TestPaperGen() {
                                   checked={isChecked} 
                                   onChange={() => toggleChapter(cId)} 
                                 />
-                                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isChecked ? 'bg-emerald-green border-emerald-green' : 'border-gray-500 group-hover:border-white'}`}>
+                                <div className="w-4 h-4 rounded flex items-center justify-center transition-colors shadow-2xs" style={{ background: isChecked ? '#10b981' : 'white', border: isChecked ? 'none' : '1.5px solid rgba(107,92,231,0.3)' }}>
                                   {isChecked && <Sparkles size={10} className="text-white"/>}
                                 </div>
-                                <span className={isChecked ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}>
+                                <span className="text-sm font-semibold transition-colors" style={{ color: isChecked ? '#1A1A2E' : '#5A5A72' }}>
                                   {c.title || c.name}
                                 </span>
                               </label>
@@ -545,8 +548,8 @@ export default function TestPaperGen() {
                       )}
                     </div>
                   ) : (
-                    <div className="w-full bg-black/20 border border-white/5 border-dashed rounded-xl px-4 py-4 text-center">
-                      <p className="text-sm text-gray-500 italic">Please select a book to view available chapters</p>
+                    <div className="w-full rounded-xl px-4 py-6 text-center" style={{ background: 'rgba(107,92,231,0.04)', border: '1.5px dashed rgba(107,92,231,0.2)' }}>
+                      <p className="text-sm italic font-medium" style={{ color: '#9CA3AF' }}>Please select a book to view chapters</p>
                     </div>
                   )}
                 </div>
@@ -556,63 +559,57 @@ export default function TestPaperGen() {
         </div>
 
         
-        <GlassCard className="p-8 border border-white/10 relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-            <HelpCircle size={200}/>
-          </div>
-
-          <div className="flex items-center gap-4 mb-8 relative z-10">
-            <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-blue-500/20 to-purple-500/10 flex items-center justify-center border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-              <HelpCircle size={22} className="text-blue-400"/>
+        <GlassCard className="p-8 rounded-2xl shadow-xs" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-2xs" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
+              <HelpCircle size={22} />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white tracking-wide">Question Blueprint</h2>
-              <p className="text-xs text-gray-400">Define the assessment structure and marking scheme</p>
+              <h2 className="text-lg font-bold" style={{ color: '#1A1A2E' }}>Question Blueprint</h2>
+              <p className="text-xs" style={{ color: '#5A5A72' }}>Configure assessment structure and marking distribution</p>
             </div>
           </div>
 
-          <div className="w-full relative z-10">
-            <div className="grid grid-cols-12 gap-4 pb-4 border-b border-white/10 text-xs font-bold text-gray-400 uppercase tracking-wider">
+          <div className="w-full">
+            <div className="grid grid-cols-12 gap-4 pb-3 border-b text-xs font-bold uppercase tracking-wider" style={{ color: '#5A5A72', borderColor: 'rgba(107,92,231,0.15)' }}>
               <div className="col-span-5 pl-2">Question Type</div>
               <div className="col-span-3 text-center">No. of Questions</div>
               <div className="col-span-2 text-center">Marks Each</div>
               <div className="col-span-2 text-right pr-4">Total</div>
             </div>
             
-            <div className="space-y-2 mt-4">
+            <div className="space-y-3 mt-4">
               {questionStructure.map((q) => (
-                <div key={q.id} className="grid grid-cols-12 gap-4 py-3 px-2 rounded-xl hover:bg-white/5 transition-colors items-center border border-transparent hover:border-white/5">
+                <div key={q.id} className="grid grid-cols-12 gap-4 py-2.5 px-2 rounded-xl transition-colors items-center hover:bg-purple-50/50">
                   <div className="col-span-5 flex items-center gap-3">
-                    <div className="w-1.5 h-6 rounded-full bg-linear-to-b from-neon-purple to-transparent opacity-70"></div>
-                    <span className="text-[15px] font-medium text-gray-200">{q.label}</span>
+                    <div className="w-1.5 h-6 rounded-full" style={{ background: '#6B5CE7' }}></div>
+                    <span className="text-sm font-bold" style={{ color: '#1A1A2E' }}>{q.label}</span>
                   </div>
                   
                   <div className="col-span-3 flex justify-center">
-                    <div className="relative flex items-center bg-black/40 border border-white/10 rounded-lg overflow-hidden group focus-within:border-neon-purple/70 focus-within:ring-1 focus-within:ring-neon-purple/30">
-                      <input 
-                        type="number" 
-                        value={q.count}
-                        onChange={(e) => updateQuestion(q.id, 'count', e.target.value)}
-                        className="w-16 bg-transparent px-2 py-2 text-center text-sm font-semibold text-white focus:outline-none custom-number-input"
-                        min="0"
-                      />
-                    </div>
+                    <input 
+                      type="number" 
+                      value={q.count}
+                      onChange={(e) => updateQuestion(q.id, 'count', e.target.value)}
+                      className="cs-input w-16 px-2 py-1.5 text-center text-sm font-bold"
+                      style={{ color: '#6B5CE7', background: 'white' }}
+                      min="0"
+                    />
                   </div>
                   
                   <div className="col-span-2 flex justify-center">
-                    <div className="relative flex items-center bg-black/40 border border-white/10 rounded-lg overflow-hidden group focus-within:border-blue-500/70 focus-within:ring-1 focus-within:ring-blue-500/30">
-                      <input 
-                        type="number" 
-                        value={q.marks}
-                        onChange={(e) => updateQuestion(q.id, 'marks', e.target.value)}
-                        className="w-16 bg-transparent px-2 py-2 text-center text-sm font-semibold text-white focus:outline-none custom-number-input"
-                        min="0"
-                      />
-                    </div>
+                    <input 
+                      type="number" 
+                      value={q.marks}
+                      onChange={(e) => updateQuestion(q.id, 'marks', e.target.value)}
+                      className="cs-input w-16 px-2 py-1.5 text-center text-sm font-bold"
+                      style={{ color: '#10b981', background: 'white' }}
+                      min="0"
+                    />
                   </div>
                   
                   <div className="col-span-2 text-right pr-4">
-                    <span className="text-[16px] font-bold text-neon-purple bg-neon-purple/10 px-3 py-1 rounded-md">
+                    <span className="text-base font-extrabold px-3 py-1 rounded-lg" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
                       {q.count * q.marks}
                     </span>
                   </div>
@@ -620,10 +617,10 @@ export default function TestPaperGen() {
               ))}
             </div>
 
-            <div className="flex justify-end items-center mt-8 pt-6 border-t border-white/10">
-              <div className="bg-linear-to-r from-neon-purple/10 to-blue-500/10 border border-neon-purple/20 px-8 py-4 rounded-2xl flex items-center gap-6 shadow-[0_0_30px_rgba(139,92,246,0.1)]">
-                <span className="text-sm font-bold text-gray-300 uppercase tracking-widest">Maximum Marks</span>
-                <span className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-neon-purple to-blue-400">
+            <div className="flex justify-end items-center mt-8 pt-6 border-t" style={{ borderColor: 'rgba(107,92,231,0.15)' }}>
+              <div className="px-8 py-4 rounded-2xl flex items-center gap-6 shadow-xs" style={{ background: 'rgba(107,92,231,0.08)', border: '1.5px solid rgba(107,92,231,0.2)' }}>
+                <span className="text-xs font-extrabold uppercase tracking-widest" style={{ color: '#5A5A72' }}>Maximum Marks</span>
+                <span className="text-2xl font-black" style={{ color: '#6B5CE7' }}>
                   {totalMaximumMarks}
                 </span>
               </div>
@@ -631,49 +628,28 @@ export default function TestPaperGen() {
           </div>
         </GlassCard>
 
-        
         {!isGenerated && (
-          <div className="mt-12 text-center flex flex-col items-center max-w-md mx-auto">
+          <div className="mt-10 text-center flex flex-col items-center max-w-md mx-auto">
             <button 
-              disabled={!isFormValid}
+              disabled={!isFormValid || isGenerating}
               onClick={handleGenerate}
-              className={`
-                w-full py-4 rounded-xl font-bold text-[16px] flex items-center justify-center gap-3 transition-all duration-300 mb-3
-                ${isFormValid 
-                  ? 'bg-linear-to-r from-neon-purple to-blue-600 text-white shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] hover:scale-[1.02]' 
-                  : 'bg-white/5 text-gray-500 border border-white/10 cursor-not-allowed'
-                }
-              `}
+              className="cs-btn-purple w-full py-4 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isGenerating ? (
                 <>
                   <Loader2 size={20} className="animate-spin text-white"/>
-                  Generating...
+                  Generating Assessment...
                 </>
               ) : (
                 <>
-                  <Sparkles size={20} className={isFormValid ? "text-white" : "text-gray-500"}/>
+                  <Sparkles size={20} className="text-white"/>
                   Generate Custom Test Paper
                 </>
               )}
             </button>
-            
-            <div className="h-4">
-              {!isFormValid && !isGenerating && (
-                <p className="text-xs text-gray-500 tracking-wide">Please fill in all required fields to generate</p>
-              )}
-            </div>
           </div>
         )}
       </div>
-      
-      <style jsx>{`
-        .custom-number-input::-webkit-inner-spin-button, 
-        .custom-number-input::-webkit-outer-spin-button {  
-           opacity: 1;
-           cursor: pointer;
-        }
-      `}</style>
     </div>
   );
 }

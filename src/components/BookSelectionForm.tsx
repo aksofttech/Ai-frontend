@@ -113,58 +113,80 @@ export default function BookSelectionForm({
   const selectedChapterData = chapters.find(c => c.id === selectedChapterId || c._id === selectedChapterId);
 
   return (
-    <div className="h-full w-full bg-[#0a0a0a] flex flex-col items-center justify-center p-4 rounded-xl">
-      <div className="w-full max-w-xl bg-zinc-900 rounded-xl border border-zinc-800 p-6 md:p-8 space-y-8 shadow-2xl">
-        
-        {/* Header Section */}
-        <div className="flex flex-col space-y-1.5">
+    <div
+      className="h-full w-full flex flex-col items-center justify-center p-6"
+      style={{ background: 'linear-gradient(135deg, rgba(255,245,240,0.6) 0%, rgba(237,232,245,0.6) 100%)' }}
+    >
+      <div
+        className="w-full max-w-xl rounded-2xl p-7 space-y-7"
+        style={{
+          background: 'rgba(255,255,255,0.8)',
+          backdropFilter: 'blur(24px)',
+          border: '1.5px solid rgba(107,92,231,0.15)',
+          boxShadow: '0 4px 32px rgba(107,92,231,0.1)',
+        }}
+      >
+        {/* Header */}
+        <div className="flex flex-col space-y-1">
           <div className="flex items-center space-x-2.5">
-            <BookOpen className="w-6 h-6 text-white" />
-            <h2 className="text-xl font-semibold text-white tracking-tight">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(107,92,231,0.1)' }}>
+              <BookOpen className="w-5 h-5" style={{ color: '#6B5CE7' }} />
+            </div>
+            <h2 className="text-xl font-black" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
               Book & Chapter Selection
             </h2>
           </div>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm ml-0.5" style={{ color: '#9CA3AF' }}>
             Choose the book and chapter for your lesson plan
           </p>
         </div>
 
         {/* Form Fields */}
         <div className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="flex flex-col space-y-1.5 relative">
-              <label htmlFor="class" className="text-sm font-medium text-gray-200">
-                Select Class {isClassLoading && <Loader2 className="inline w-3 h-3 animate-spin ml-1" />}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Class Select */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="class" className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>
+                Class {isClassLoading && <Loader2 className="inline w-3 h-3 animate-spin ml-1" style={{ color: '#6B5CE7' }} />}
               </label>
               <div className="relative">
                 <select
                   id="class"
                   value={selectedClassId}
                   onChange={(e) => setSelectedClassId(e.target.value)}
-                  className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-500 transition-colors appearance-none cursor-pointer"
+                  className="w-full rounded-xl px-3 py-2.5 text-sm appearance-none cursor-pointer"
+                  style={{
+                    background: 'rgba(255,255,255,0.8)',
+                    border: '1.5px solid rgba(107,92,231,0.2)',
+                    color: '#1A1A2E',
+                  }}
                   disabled={mounted && (isGenerating || isClassLoading)}
                 >
                   <option value="" disabled>Select a class</option>
                   {classes.map((cls, idx) => (
-                    <option key={idx} value={cls}>
-                      {cls}
-                    </option>
+                    <option key={idx} value={cls}>{cls}</option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: '#9CA3AF' }} />
               </div>
             </div>
 
-            <div className="flex flex-col space-y-1.5 relative">
-              <label htmlFor="subject" className="text-sm font-medium text-gray-200">
-                Select Subject {isSubjectLoading && <Loader2 className="inline w-3 h-3 animate-spin ml-1" />}
+            {/* Subject Select */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="subject" className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>
+                Subject {isSubjectLoading && <Loader2 className="inline w-3 h-3 animate-spin ml-1" style={{ color: '#6B5CE7' }} />}
               </label>
               <div className="relative">
                 <select
                   id="subject"
                   value={selectedSubjectId}
                   onChange={(e) => setSelectedSubjectId(e.target.value)}
-                  className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-500 transition-colors appearance-none cursor-pointer"
+                  className="w-full rounded-xl px-3 py-2.5 text-sm appearance-none cursor-pointer"
+                  style={{
+                    background: 'rgba(255,255,255,0.8)',
+                    border: '1.5px solid rgba(107,92,231,0.2)',
+                    color: '#1A1A2E',
+                  }}
                   disabled={mounted && (!selectedClassId || isGenerating || isSubjectLoading)}
                 >
                   <option value="" disabled>Select a subject</option>
@@ -174,20 +196,26 @@ export default function BookSelectionForm({
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: '#9CA3AF' }} />
               </div>
             </div>
-            
-            <div className="flex flex-col space-y-1.5 relative">
-              <label htmlFor="chapter" className="text-sm font-medium text-gray-200">
-                Select Chapter {isLoading && <Loader2 className="inline w-3 h-3 animate-spin ml-1" />}
+
+            {/* Chapter Select */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="chapter" className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>
+                Chapter {isLoading && <Loader2 className="inline w-3 h-3 animate-spin ml-1" style={{ color: '#6B5CE7' }} />}
               </label>
               <div className="relative">
                 <select
                   id="chapter"
                   value={selectedChapterId}
                   onChange={(e) => setSelectedChapterId(e.target.value)}
-                  className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-500 transition-colors appearance-none cursor-pointer"
+                  className="w-full rounded-xl px-3 py-2.5 text-sm appearance-none cursor-pointer"
+                  style={{
+                    background: 'rgba(255,255,255,0.8)',
+                    border: '1.5px solid rgba(107,92,231,0.2)',
+                    color: '#1A1A2E',
+                  }}
                   disabled={mounted && (!selectedSubjectId || isGenerating || isLoading)}
                 >
                   <option value="" disabled>Select a chapter</option>
@@ -197,14 +225,14 @@ export default function BookSelectionForm({
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" style={{ color: '#9CA3AF' }} />
               </div>
             </div>
           </div>
 
           {!hidePeriods && (
             <div className="flex flex-col space-y-1.5">
-              <label htmlFor="periods" className="text-sm font-medium text-gray-200">Number of Periods</label>
+              <label htmlFor="periods" className="text-sm font-semibold" style={{ color: '#1A1A2E' }}>Number of Periods</label>
               <input
                 type="number"
                 id="periods"
@@ -212,31 +240,33 @@ export default function BookSelectionForm({
                 max="20"
                 value={periods}
                 onChange={(e) => setPeriods(e.target.value ? parseInt(e.target.value, 10) : "")}
-                className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-500 transition-colors placeholder:text-gray-600"
+                className="cs-input w-full px-3 py-2.5 text-sm"
+                style={{ color: '#1A1A2E' }}
                 placeholder="e.g., 5"
                 disabled={isGenerating}
               />
-              <p className="text-xs text-gray-500">
-                Specify the number of periods (1-20) to generate lesson plans for
+              <p className="text-xs" style={{ color: '#9CA3AF' }}>
+                Specify the number of periods (1–20) to generate lesson plans for
               </p>
             </div>
           )}
         </div>
 
         {/* Info Summary Box */}
-        <div className="bg-[#f4f7fa] rounded-lg p-4 border border-blue-100 flex flex-col space-y-1.5 min-h-[90px]">
-          <span className="text-xs font-semibold text-blue-800 uppercase tracking-wider">
+        <div
+          className="rounded-xl p-4 flex flex-col space-y-1 min-h-[80px]"
+          style={{ background: 'rgba(107,92,231,0.05)', border: '1px solid rgba(107,92,231,0.15)' }}
+        >
+          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#6B5CE7' }}>
             Selected Chapter
           </span>
           {selectedChapterData ? (
-            <>
-              <div className="text-base text-blue-950">
-                <span className="font-bold">{selectedChapterData.title || selectedChapterData.name}</span>{" "}
-                <span className="italic font-medium">from {selectedSubjectData?.title || selectedSubjectData?.name}</span>
-              </div>
-            </>
+            <div className="text-sm" style={{ color: '#1A1A2E' }}>
+              <span className="font-bold">{selectedChapterData.title || selectedChapterData.name}</span>{' '}
+              <span className="italic" style={{ color: '#5A5A72' }}>from {selectedSubjectData?.title || selectedSubjectData?.name}</span>
+            </div>
           ) : (
-            <div className="text-sm text-gray-500 italic mt-1">
+            <div className="text-sm italic" style={{ color: '#9CA3AF' }}>
               Please select a book and chapter above.
             </div>
           )}
@@ -247,18 +277,25 @@ export default function BookSelectionForm({
           type="button"
           onClick={handleGenerate}
           disabled={mounted && (!selectedSubjectId || !selectedChapterId || (!hidePeriods && !periods) || isGenerating)}
-          className="w-full flex items-center justify-center bg-white text-black font-semibold py-2.5 px-4 rounded-md hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[#0a0a0a] shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full py-3.5 px-4 rounded-full font-bold flex items-center justify-center gap-2 text-sm transition-all duration-200 shadow-sm disabled:cursor-not-allowed"
+          style={{
+            background: (!mounted || (selectedSubjectId && selectedChapterId && (hidePeriods || periods) && !isGenerating))
+              ? '#6B5CE7'
+              : 'rgba(107,92,231,0.12)',
+            color: (!mounted || (selectedSubjectId && selectedChapterId && (hidePeriods || periods) && !isGenerating))
+              ? 'white'
+              : '#9CA3AF',
+          }}
         >
           {isGenerating ? (
             <>
-              <Loader2 className="w-5 h-5 animate-spin mr-2" />
+              <Loader2 className="w-4 h-4 animate-spin" />
               {hidePeriods ? 'Loading...' : 'Generating AI Plan... please wait'}
             </>
           ) : (
             hidePeriods ? 'Start Chat' : 'Generate Lesson Plan'
           )}
         </button>
-
       </div>
     </div>
   );

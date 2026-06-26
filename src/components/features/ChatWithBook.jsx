@@ -8,7 +8,6 @@ import useCurriculumStore from '@/store/curriculumStore';
 import api from '@/services/api';
 
 export default function ChatWithBook({ onReady }) {
-  // null = show selection form; object = chat is active
   const [selection, setSelection] = useState(null);
   const { setSelectedSubjectId, setSelectedChapterId } = useCurriculumStore();
 
@@ -87,14 +86,13 @@ export default function ChatWithBook({ onReady }) {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
-  // ── Step 1: Show BookSelectionForm (no periods field) ──
+  // Step 1: Show BookSelectionForm
   if (!selection) {
     return (
       <BookSelectionForm
         hidePeriods
         onGenerate={(data) => {
           setSelection(data);
-          // Sync into curriculum store → Textbook Reader loads automatically
           setSelectedSubjectId(data.bookId);
           setSelectedChapterId(data.chapterId);
           if (onReady) onReady(true);
@@ -103,24 +101,30 @@ export default function ChatWithBook({ onReady }) {
     );
   }
 
-  // ── Step 2: Chat UI ──
+  // Step 2: Chat UI
   return (
     <GlassCard className="h-full flex flex-col relative p-0 overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-glass-border bg-obsidian/50 backdrop-blur-md flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <BookOpen className="text-neon-purple" size={20} />
+      <div
+        className="p-4 flex items-center justify-between"
+        style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(107,92,231,0.1)' }}
+      >
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ background: 'rgba(107,92,231,0.1)' }}>
+            <BookOpen size={16} style={{ color: '#6B5CE7' }} />
+          </div>
           <div>
-            <h3 className="font-semibold text-white leading-tight">Chat with Textbook</h3>
-            <p className="text-xs text-gray-400 leading-tight mt-0.5">
+            <h3 className="text-sm font-bold" style={{ color: '#1A1A2E' }}>Chat with Textbook</h3>
+            <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>
               {selection.chapterTitle}
-              <span className="mx-1.5 text-gray-600">·</span>
+              <span className="mx-1.5">·</span>
               {selection.bookTitle}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Sparkles className="text-emerald-green" size={18} />
+          <Sparkles size={16} style={{ color: '#6B5CE7' }} />
           <button
             onClick={() => {
               setSelection(null);
@@ -129,15 +133,17 @@ export default function ChatWithBook({ onReady }) {
               if (onReady) onReady(false);
             }}
             title="Change book / chapter"
-            className="text-gray-400 hover:text-white transition-colors"
+            className="transition-colors"
+            style={{ color: '#9CA3AF' }}
           >
-            <RefreshCw size={15} />
+            <RefreshCw size={14} />
           </button>
         </div>
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-4"
+        style={{ background: 'rgba(248,246,255,0.5)' }}>
         {messages.map((msg, idx) => (
           <div
             key={idx}
@@ -148,16 +154,25 @@ export default function ChatWithBook({ onReady }) {
             }`}
           >
             <div
-              className={`p-4 rounded-2xl ${
-                msg.role === 'user'
-                  ? 'bg-neon-purple text-white rounded-br-sm box-shadow-glow-purple'
-                  : 'bg-white/10 text-gray-200 rounded-bl-sm border border-white/5'
-              }`}
+              className="p-3.5 rounded-2xl text-sm"
+              style={msg.role === 'user'
+                ? {
+                    background: 'linear-gradient(135deg,#6B5CE7,#8B7CF6)',
+                    color: 'white',
+                    borderRadius: '18px 18px 4px 18px',
+                  }
+                : {
+                    background: 'rgba(255,255,255,0.9)',
+                    color: '#1A1A2E',
+                    border: '1px solid rgba(107,92,231,0.15)',
+                    borderRadius: '18px 18px 18px 4px',
+                  }
+              }
             >
-              <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+              <p className="whitespace-pre-wrap leading-relaxed">{msg.content}</p>
             </div>
             {msg.citation && (
-              <span className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+              <span className="text-xs mt-1 flex items-center gap-1" style={{ color: '#9CA3AF' }}>
                 <BookOpen size={10} /> Source: {msg.citation}
               </span>
             )}
@@ -166,10 +181,17 @@ export default function ChatWithBook({ onReady }) {
 
         {isLoading && (
           <div className="flex flex-col max-w-[80%] self-start items-start mr-auto">
-            <div className="p-4 rounded-2xl bg-white/10 text-gray-400 rounded-bl-sm border border-white/5 flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-neon-purple animate-bounce" style={{ animationDelay: '0ms' }}></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-neon-purple animate-bounce" style={{ animationDelay: '150ms' }}></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-neon-purple animate-bounce" style={{ animationDelay: '300ms' }}></span>
+            <div
+              className="p-3.5 rounded-2xl flex items-center gap-1.5"
+              style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(107,92,231,0.15)', borderRadius: '18px 18px 18px 4px' }}
+            >
+              {[0, 150, 300].map((delay) => (
+                <span
+                  key={delay}
+                  className="w-2.5 h-2.5 rounded-full animate-bounce"
+                  style={{ background: '#6B5CE7', animationDelay: `${delay}ms` }}
+                />
+              ))}
             </div>
           </div>
         )}
@@ -177,7 +199,10 @@ export default function ChatWithBook({ onReady }) {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 border-t border-glass-border bg-obsidian/80 backdrop-blur-lg">
+      <div
+        className="p-4"
+        style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', borderTop: '1px solid rgba(107,92,231,0.1)' }}
+      >
         <div className="flex gap-2 relative">
           <Input
             value={input}

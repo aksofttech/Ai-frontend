@@ -1,68 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
+  /* ChatSavvy Palette - Light Pastel AI SaaS */
+  --color-cs-cream: #FFF5F0;
+  --color-cs-lavender: #EDE8F5;
+  --color-cs-purple: #6B5CE7;
+  --color-cs-purple-light: #8B7CF6;
+  --color-cs-purple-dim: rgba(107, 92, 231, 0.15);
+  --color-cs-card-bg: #E8E6F8;
+  --color-cs-dark: #1A1A2E;
+  --color-cs-gray: #5A5A72;
+  --color-cs-border: rgba(107, 92, 231, 0.2);
+  --color-cs-white-card: #FFFFFF;
+  --color-cs-glass: rgba(255, 255, 255, 0.6);
+  --color-cs-glass-border: rgba(255, 255, 255, 0.8);
+
+  /* Legacy (kept for gradual migration) */
   --color-obsidian: #050505;
-  --color-neon-purple: #8b5cf6;
-  --color-neon-purple-dim: rgba(139, 92, 246, 0.2);
+  --color-neon-purple: #6B5CE7;
+  --color-neon-purple-dim: rgba(107, 92, 231, 0.15);
   --color-emerald-green: #10b981;
   --color-glass-bg: rgba(255, 255, 255, 0.05);
-  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(107, 92, 231, 0.2);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Outfit', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer utilities {
+  /* ChatSavvy Card Styles */
+  .cs-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/80 rounded-2xl shadow-sm;
+  }
+
+  .cs-input {
+    background: rgba(255,255,255,0.8);
+    border: 1.5px solid rgba(107, 92, 231, 0.2);
+    border-radius: 12px;
+    color: #1A1A2E;
+    transition: all 0.2s;
+  }
+  .cs-input:focus {
+    outline: none;
+    border-color: #6B5CE7;
+    box-shadow: 0 0 0 3px rgba(107, 92, 231, 0.12);
+  }
+  .cs-input::placeholder {
+    color: #9CA3AF;
+  }
+
+  .cs-btn-primary {
+    background: #1A1A2E;
+    color: white;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .cs-btn-primary:hover {
+    background: #2d2d4e;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(26,26,46,0.25);
+  }
+
+  .cs-btn-purple {
+    background: #6B5CE7;
+    color: white;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .cs-btn-purple:hover {
+    background: #5a4bd6;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(107, 92, 231, 0.35);
+  }
+
+  /* Legacy glass panel — now maps to ChatSavvy glass */
   .glass-panel {
-    @apply bg-glass-bg border border-glass-border backdrop-blur-xl;
+    @apply bg-white/60 border border-white/70 backdrop-blur-xl;
   }
 
+  /* Sidebar nav active */
+  .cs-nav-active {
+    background: rgba(107, 92, 231, 0.12);
+    color: #6B5CE7;
+    border-left: 3px solid #6B5CE7;
+  }
+
+  /* Gradient page backgrounds */
+  .cs-page-bg {
+    background: linear-gradient(135deg, #FFF5F0 0%, #F5F0FF 50%, #EDE8F5 100%);
+  }
+
+  .cs-page-bg-full {
+    background: linear-gradient(105deg, #FFF5F0 0%, #EDE8F5 100%);
+  }
+
+  /* Shadow utilities */
+  .cs-shadow {
+    box-shadow: 0 4px 24px rgba(107, 92, 231, 0.12), 0 1px 4px rgba(107,92,231,0.08);
+  }
+  .cs-shadow-lg {
+    box-shadow: 0 8px 40px rgba(107, 92, 231, 0.18), 0 2px 8px rgba(107,92,231,0.1);
+  }
+
+  /* Scrollbar — light version */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(107, 92, 231, 0.25);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(107, 92, 231, 0.45);
+  }
+
+  /* Text utilities */
   .text-shadow-glow-purple {
-    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    text-shadow: 0 0 20px rgba(107, 92, 231, 0.4);
   }
-
   .box-shadow-glow-purple {
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 15px rgba(107, 92, 231, 0.3);
   }
-
   .text-shadow-glow-green {
     text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
   }
-
   .box-shadow-glow-green {
     box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
   }
 
-  /* Webkit scrollbar for sleek dark mode */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+  /* Floating animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animate-float-slow {
+    animation: float 9s ease-in-out infinite;
+  }
+  .animate-float-delay {
+    animation: float 7s ease-in-out infinite 2s;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease forwards;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+  /* Shimmer effect */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+  .shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(107,92,231,0.08) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
   }
 }
 
 :root {
-  --background: #050505;
-  --foreground: #ffffff;
+  --background: #FFF5F0;
+  --foreground: #1A1A2E;
 }
 
 body {
-  background-color: var(--background);
+  background: linear-gradient(105deg, #FFF5F0 0%, #EDE8F5 100%);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: 'Outfit', 'Inter', ui-sans-serif, system-ui, sans-serif;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  /* App is a fixed 100vh split workspace */
+  min-height: 100vh;
 }

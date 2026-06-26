@@ -322,35 +322,38 @@ export default function WorksheetGen() {
   const dateStr = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
 
   return (
-    <div className="h-full flex flex-col gap-6 p-4 relative bg-[#0a0a0a] min-h-screen text-white overflow-y-auto custom-scrollbar">
+    <div className="h-full flex flex-col gap-6 p-6 relative min-h-screen text-[#1A1A2E] overflow-y-auto custom-scrollbar">
       
       {/* Top Action Bar */}
-      <div className="w-full max-w-[1000px] mx-auto bg-[#1a1a1a] rounded-xl border border-gray-800 p-6 no-print flex flex-col gap-6">
+      <div className="w-full max-w-[1000px] mx-auto rounded-2xl p-6 no-print flex flex-col gap-6 shadow-sm" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)', backdropFilter: 'blur(20px)' }}>
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">Worksheet: {selection.chapterTitle || "Computer Peripherals"}</h2>
-          <div className="px-3 py-1 bg-black rounded-md border border-gray-800 text-xs text-gray-400 font-mono">
+          <h2 className="text-xl font-black" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>Worksheet: {selection.chapterTitle || "Computer Peripherals"}</h2>
+          <div className="px-3 py-1 rounded-md text-xs font-bold font-mono" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
             {dateStr}
           </div>
         </div>
         
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <button 
             onClick={handleExportPDF}
             disabled={!isGenerated || isGenerating}
-            className="flex items-center gap-2 px-4 py-2 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50 text-sm"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition-colors disabled:opacity-50 text-sm shadow-xs"
+            style={{ background: '#1A1A2E', color: 'white' }}
           >
-            <FileText size={16} /> Export to PDF
+            <FileText size={16} /> Export PDF
           </button>
           <button 
             onClick={handleExportDOCX}
             disabled={!isGenerated || isGenerating}
-            className="flex items-center gap-2 px-4 py-2 bg-[#111] text-gray-300 font-semibold rounded-md hover:bg-[#222] border border-gray-700 transition-colors disabled:opacity-50 text-sm"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition-colors disabled:opacity-50 text-sm shadow-xs"
+            style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7', border: '1px solid rgba(107,92,231,0.2)' }}
           >
-            <Download size={16} /> Export to DOCX
+            <Download size={16} /> Export DOCX
           </button>
           <button 
             disabled={!isGenerated || isGenerating}
-            className="flex items-center gap-2 px-4 py-2 bg-white text-black font-semibold rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50 text-sm"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition-colors disabled:opacity-50 text-sm"
+            style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981', border: '1px solid rgba(16,185,129,0.2)' }}
           >
             Answer Key <CheckCircle size={16} />
           </button>
@@ -359,7 +362,7 @@ export default function WorksheetGen() {
             <button 
               onClick={handleGenerate}
               disabled={isGenerating}
-              className="flex items-center gap-2 px-4 py-2 bg-amber-500 text-black font-bold rounded-md hover:bg-amber-400 transition-colors ml-auto text-sm"
+              className="cs-btn-purple flex items-center gap-2 px-5 py-2.5 rounded-full font-bold transition-all ml-auto text-sm shadow-sm"
             >
               {isGenerating ? <Loader2 className="animate-spin" size={16} /> : <Play size={16} />}
               Generate Worksheet
@@ -372,7 +375,8 @@ export default function WorksheetGen() {
               setSelectedChapterId('');
             }}
             title="Change book / chapter"
-            className="text-gray-400 hover:text-white transition-colors ml-4"
+            className="transition-colors ml-3 p-2 rounded-xl hover:bg-purple-50"
+            style={{ color: '#6B5CE7' }}
           >
             <RefreshCw size={18} />
           </button>
@@ -380,18 +384,18 @@ export default function WorksheetGen() {
 
         {/* Config Sliders */}
         {!isGenerated && (
-          <div className="flex gap-8 mt-4 pt-4 border-t border-gray-800">
+          <div className="flex gap-8 mt-2 pt-4 border-t" style={{ borderColor: 'rgba(107,92,231,0.15)' }}>
             <div className="flex-1 flex flex-col gap-2">
-              <div className="flex justify-between text-sm text-gray-400">
+              <div className="flex justify-between text-sm font-semibold" style={{ color: '#5A5A72' }}>
                 <span>Difficulty</span>
-                <span>{difficulty}%</span>
+                <span style={{ color: '#6B5CE7' }}>{difficulty}%</span>
               </div>
               <Slider value={difficulty} onChange={setDifficulty} />
             </div>
             <div className="flex-1 flex flex-col gap-2">
-              <div className="flex justify-between text-sm text-gray-400">
+              <div className="flex justify-between text-sm font-semibold" style={{ color: '#5A5A72' }}>
                 <span>Question Count</span>
-                <span>{qCount}</span>
+                <span style={{ color: '#6B5CE7' }}>{qCount}</span>
               </div>
               <Slider value={qCount} max={50} onChange={setQCount} />
             </div>
@@ -399,31 +403,31 @@ export default function WorksheetGen() {
         )}
       </div>
 
-      {/* Interactive Preview Container for Web Dashboard */}
+      {/* Interactive Preview Container */}
       <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-6 pb-20">
         {isGenerating ? (
-          <div className="h-[400px] flex flex-col items-center justify-center bg-[#1a1a1a] rounded-xl border border-gray-800">
-            <Loader2 className="animate-spin text-amber-500 mb-4" size={48} />
-            <p className="text-gray-400 font-sans font-medium text-lg">Generating Worksheet Schema...</p>
+          <div className="h-[350px] flex flex-col items-center justify-center rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.7)', border: '1.5px solid rgba(107,92,231,0.15)' }}>
+            <Loader2 className="animate-spin mb-4" style={{ color: '#6B5CE7' }} size={48} />
+            <p className="font-semibold text-lg" style={{ color: '#5A5A72' }}>Generating Worksheet Schema...</p>
           </div>
         ) : isGenerated && worksheetData ? (
-          <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-8 font-sans shadow-2xl">
-            <h1 className="text-xl font-bold text-center uppercase tracking-wider text-amber-500 mb-8 font-serif border-b border-gray-800 pb-4">
-              {chapterTitle} (Web Dashboard Preview)
+          <div className="rounded-2xl p-8 font-sans shadow-sm" style={{ background: 'rgba(255,255,255,0.9)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+            <h1 className="text-xl font-bold text-center uppercase tracking-wider mb-8 font-serif pb-4 border-b" style={{ color: '#6B5CE7', borderColor: 'rgba(107,92,231,0.15)' }}>
+              {chapterTitle} (Preview)
             </h1>
             
-            <div className="space-y-10 text-[15px] text-gray-200">
+            <div className="space-y-10 text-[15px]" style={{ color: '#1A1A2E' }}>
               {/* MCQs Preview */}
               {worksheetData.mcqs && worksheetData.mcqs.length > 0 && (
                 <div>
-                  <h2 className="font-bold text-lg mb-4 text-amber-400 font-serif">I. Multiple Choice Questions</h2>
+                  <h2 className="font-bold text-lg mb-4 font-serif" style={{ color: '#6B5CE7' }}>I. Multiple Choice Questions</h2>
                   <div className="space-y-6 pl-2">
                     {worksheetData.mcqs.map((item, idx) => (
-                      <div key={idx}>
-                        <p className="font-semibold mb-2">{idx + 1}. {item.question || item.q}</p>
-                        <div className="grid grid-cols-2 gap-2 pl-4 text-gray-400">
-                          {item.options?.map((opt, oIdx) => (
-                            <div key={oIdx} className={item.correctAnswer === opt ? 'text-amber-500 font-medium' : ''}>
+                      <div key={idx} className="space-y-2">
+                        <p className="font-semibold">{idx + 1}. {item.question || item.q}</p>
+                        <div className="grid grid-cols-2 gap-2 pl-4">
+                          {(item.options || []).map((opt, oIdx) => (
+                            <div key={oIdx} className="text-sm py-1" style={{ color: '#5A5A72' }}>
                               {String.fromCharCode(65 + oIdx)}. {opt}
                             </div>
                           ))}

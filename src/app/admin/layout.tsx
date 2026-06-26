@@ -8,11 +8,9 @@ export const metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen w-screen bg-obsidian overflow-hidden font-sans">
+    <div className="flex h-screen w-screen bg-cs-cream overflow-hidden font-sans">
       <AdminSidebar />
-      <main className="flex-1 h-full overflow-y-auto custom-scrollbar relative">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 left-1/4 w-1/2 h-64 bg-emerald-900/10 blur-[100px] rounded-full pointer-events-none -z-10"></div>
+      <main className="flex-1 h-full overflow-y-auto custom-scrollbar relative" style={{ background: 'linear-gradient(135deg, #FFF5F0 0%, #EDE8F5 100%)' }}>
         {children}
       </main>
     </div>

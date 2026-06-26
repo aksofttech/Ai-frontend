@@ -107,64 +107,64 @@ export default function CreateBookModal({ isOpen, onClose, onSuccess }: CreateBo
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg glass-panel rounded-2xl p-6 shadow-2xl border border-glass-border bg-[#0a0a0a]"
+            className="relative w-full max-w-lg rounded-2xl p-6 shadow-2xl border border-purple-200 bg-white text-cs-dark"
           >
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-cs-gray hover:text-cs-dark transition-colors cursor-pointer"
             >
               <X size={20} />
             </button>
 
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-white mb-1">Upload New Textbook</h2>
-              <p className="text-sm text-gray-400">
+              <h2 className="text-xl font-black text-cs-dark mb-1">Upload New Textbook</h2>
+              <p className="text-sm text-cs-gray font-semibold">
                 Upload a PDF. Our AI will automatically chunk it into chapters and blocks.
               </p>
             </div>
 
             {error && (
-              <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm font-bold">
                 <strong>Upload Failed:</strong> {error}
               </div>
             )}
 
             {success ? (
               <div className="py-12 flex flex-col items-center justify-center text-center">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mb-4 box-shadow-glow-green">
-                  <FileText className="text-emerald-500" size={32} />
+                <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                  <FileText className="text-emerald-600" size={32} />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">Upload Successful!</h3>
-                <p className="text-sm text-gray-400">The textbook has been processed and indexed.</p>
+                <h3 className="text-lg font-bold text-cs-dark mb-2">Upload Successful!</h3>
+                <p className="text-sm text-cs-gray font-semibold">The textbook has been processed and indexed.</p>
               </div>
             ) : (
               <div className="space-y-6">
                 <div className="flex gap-4 mb-2">
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-400 mb-1">Class / Grade</label>
+                    <label className="block text-xs font-bold text-cs-gray mb-1 uppercase">Class / Grade</label>
                     <input 
                       type="text" 
                       placeholder="e.g. 6, Grade 10" 
                       value={bookClass}
                       onChange={(e) => setBookClass(e.target.value)}
-                      className="w-full bg-glass-bg border border-glass-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                      className="cs-input w-full rounded-lg px-4 py-2"
                     />
                   </div>
                   <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-400 mb-1">Subject</label>
+                    <label className="block text-xs font-bold text-cs-gray mb-1 uppercase">Subject</label>
                     <input 
                       type="text" 
-                      placeholder="e.g. english, Science" 
+                      placeholder="e.g. English, Science" 
                       value={bookSubject}
                       onChange={(e) => setBookSubject(e.target.value)}
-                      className="w-full bg-glass-bg border border-glass-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-neon-purple transition-colors"
+                      className="cs-input w-full rounded-lg px-4 py-2"
                     />
                   </div>
                 </div>
 
                 <div 
                   className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors
-                    ${file ? 'border-neon-purple bg-neon-purple/5' : 'border-glass-border hover:border-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.02)]'}
+                    ${file ? 'border-[#6B5CE7] bg-purple-50' : 'border-purple-200 hover:border-[#6B5CE7] hover:bg-purple-50/50'}
                   `}
                 >
                   <input 
@@ -175,18 +175,18 @@ export default function CreateBookModal({ isOpen, onClose, onSuccess }: CreateBo
                     onChange={handleFileChange}
                   />
                   <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center w-full h-full">
-                    <div className="w-12 h-12 rounded-full bg-glass-bg flex items-center justify-center mb-4">
-                      <Upload className="text-gray-400" size={24} />
+                    <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                      <Upload className="text-[#6B5CE7]" size={24} />
                     </div>
                     {file ? (
                       <div>
-                        <p className="text-sm font-medium text-white mb-1">{file.name}</p>
-                        <p className="text-xs text-gray-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        <p className="text-sm font-bold text-cs-dark mb-1">{file.name}</p>
+                        <p className="text-xs text-cs-gray font-semibold">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                       </div>
                     ) : (
                       <div>
-                        <p className="text-sm font-medium text-white mb-1">Click to upload or drag and drop</p>
-                        <p className="text-xs text-gray-400">PDF up to 50MB</p>
+                        <p className="text-sm font-bold text-cs-dark mb-1">Click to upload or drag and drop</p>
+                        <p className="text-xs text-cs-gray font-semibold">PDF up to 50MB</p>
                       </div>
                     )}
                   </label>
@@ -195,14 +195,14 @@ export default function CreateBookModal({ isOpen, onClose, onSuccess }: CreateBo
                 <div className="flex gap-3 justify-end">
                   <button 
                     onClick={onClose}
-                    className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-glass-bg transition-colors"
+                    className="px-4 py-2.5 rounded-xl text-sm font-bold text-cs-gray hover:text-cs-dark hover:bg-purple-50 transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button 
                     onClick={handleUpload}
                     disabled={!file || isUploading}
-                    className="px-6 py-2 bg-neon-purple hover:bg-[#7c3aed] disabled:bg-gray-700 disabled:text-gray-400 text-white rounded-lg text-sm font-semibold transition-colors box-shadow-glow-purple flex items-center gap-2"
+                    className="cs-btn-purple px-6 py-2.5 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center gap-2 cursor-pointer"
                   >
                     {isUploading ? (
                       <>

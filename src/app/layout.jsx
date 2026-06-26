@@ -7,17 +7,17 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Yugsoft Tech - Enterprise Educational AI SaaS",
-  description: "Next-gen AI orchestration canvas and gamified learning platform.",
+  title: "YugSoft AI — Enterprise Educational AI SaaS",
+  description: "Next-gen AI orchestration canvas and gamified learning platform for modern educators.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full antialiased dark`}
+      className={`${inter.variable} h-full antialiased`}
     >
-      <body className="h-full flex flex-col text-white bg-obsidian custom-scrollbar">
+      <body className="h-full flex flex-col text-cs-dark" style={{ background: 'linear-gradient(105deg, #FFF5F0 0%, #EDE8F5 100%)' }}>
         {children}
       </body>
     </html>

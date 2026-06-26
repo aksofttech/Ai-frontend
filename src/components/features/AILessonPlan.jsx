@@ -311,26 +311,27 @@ export default function AILessonPlan() {
   const periods = lessonPlan.periods || [];
 
   return (
-    <div className="h-full flex flex-col gap-6 p-1">
+    <div className="h-full flex flex-col gap-6 p-4 overflow-y-auto custom-scrollbar">
       {/* Config Card */}
-      <GlassCard className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-white flex items-center gap-2">
-            <BrainCircuit className="text-neon-purple" />
+      <GlassCard className="flex flex-col gap-4 rounded-2xl p-6 shadow-xs" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <h3 className="font-bold text-lg flex items-center gap-2" style={{ color: '#1A1A2E' }}>
+            <BrainCircuit style={{ color: '#6B5CE7' }} />
             {lessonPlan.chapterName || 'AI Lesson Plan Generated'}
           </h3>
           <div className="flex items-center gap-3">
             <Button
               variant="accent"
-              className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm px-4 py-1.5 transition-all shadow-lg shadow-emerald-900/30"
+              className="flex items-center gap-2 bg-[#1A1A2E] hover:opacity-90 text-white text-sm px-4 py-2 rounded-xl transition-all shadow-xs font-bold"
               onClick={handleExportPDF}
             >
               <Download size={15} />
-              Export to PDF
+              Export PDF
             </Button>
             <Button
               variant="accent"
-              className="text-sm px-4 py-1.5"
+              className="text-sm px-4 py-2 rounded-xl font-bold transition-all shadow-xs hover:bg-purple-50"
+              style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7', border: '1px solid rgba(107,92,231,0.2)' }}
               onClick={() => setLessonPlan(null)}
             >
               Reset / New Plan
@@ -338,23 +339,23 @@ export default function AILessonPlan() {
           </div>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
-            <label className="text-xs text-gray-400 mb-1 block">Theme</label>
-            <Input defaultValue={lessonPlan.theme || 'N/A'} readOnly className="bg-black/20 text-gray-300" />
+            <label className="text-xs font-bold uppercase tracking-wider mb-1.5 block" style={{ color: '#5A5A72' }}>Theme</label>
+            <Input defaultValue={lessonPlan.theme || 'N/A'} readOnly className="cs-input w-full font-semibold" style={{ color: '#1A1A2E', background: 'white' }} />
           </div>
-          <div className="flex-2">
-            <label className="text-xs text-gray-400 mb-1 block">NCF Goals</label>
-            <Input defaultValue={lessonPlan.ncfGoals || 'N/A'} readOnly className="bg-black/20 text-gray-300" />
+          <div className="flex-[2]">
+            <label className="text-xs font-bold uppercase tracking-wider mb-1.5 block" style={{ color: '#5A5A72' }}>NCF Goals</label>
+            <Input defaultValue={lessonPlan.ncfGoals || 'N/A'} readOnly className="cs-input w-full font-semibold" style={{ color: '#1A1A2E', background: 'white' }} />
           </div>
         </div>
 
-        <div className="mt-2 p-3 rounded-lg bg-black/20 border border-white/5">
-          <strong className="text-xs text-emerald-green uppercase tracking-wider block mb-1">
+        <div className="mt-2 p-4 rounded-xl shadow-2xs" style={{ background: 'rgba(16,185,129,0.08)', border: '1.5px solid rgba(16,185,129,0.25)' }}>
+          <strong className="text-xs font-extrabold uppercase tracking-wider block mb-2" style={{ color: '#065f46' }}>
             Learning Objectives:
           </strong>
-          <ul className="list-disc list-inside text-sm text-gray-300">
-            {lessonPlan.learningObjectives?.map((obj, idx) => (
+          <ul className="list-disc list-inside text-sm space-y-1 font-medium" style={{ color: '#047857' }}>
+            {(lessonPlan.learningObjectives || []).map((obj, idx) => (
               <li key={idx}>{obj}</li>
             ))}
           </ul>
@@ -362,24 +363,24 @@ export default function AILessonPlan() {
       </GlassCard>
 
       {/* Timeline */}
-      <GlassCard className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-6 relative">
-        <div className="absolute left-[47px] top-8 bottom-8 w-0.5 bg-white/10 rounded-full" />
+      <GlassCard className="flex-1 rounded-2xl p-6 shadow-xs flex flex-col gap-6 relative" style={{ background: 'rgba(255,255,255,0.75)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+        <div className="absolute left-[51px] top-10 bottom-10 w-1 rounded-full" style={{ background: 'rgba(107,92,231,0.15)' }} />
         {periods.map((period, i) => (
           <div key={i} className="flex gap-6 relative z-10">
-            <div className="w-20 shrink-0 flex flex-col items-center">
-              <div className="w-4 h-4 rounded-full bg-emerald-green box-shadow-glow-green mb-1 z-10" />
-              <span className="text-[11px] text-emerald-green font-mono font-bold mt-1">
+            <div className="w-20 shrink-0 flex flex-col items-center pt-2">
+              <div className="w-4 h-4 rounded-full mb-1.5 z-10 shadow-sm" style={{ background: '#6B5CE7', border: '3px solid white' }} />
+              <span className="text-xs font-extrabold mt-1 uppercase" style={{ color: '#6B5CE7' }}>
                 Day {period.day}
               </span>
-              <span className="text-[10px] text-emerald-green/70 font-mono text-center leading-tight mt-0.5">
+              <span className="text-[11px] font-semibold text-center leading-tight mt-0.5" style={{ color: '#5A5A72' }}>
                 {period.duration}
               </span>
             </div>
 
-            <div className="flex-1 glass-panel p-5 rounded-xl border border-white/5 hover:border-emerald-green/30 transition-colors">
-              <div className="flex justify-between items-start mb-4">
-                <h4 className="text-lg text-white font-semibold">{period.topic}</h4>
-                <span className="px-2 py-1 bg-neon-purple/20 text-neon-purple text-[10px] font-bold uppercase rounded-md">
+            <div className="flex-1 p-6 rounded-2xl shadow-xs transition-all hover:shadow-sm" style={{ background: 'white', border: '1px solid rgba(107,92,231,0.18)' }}>
+              <div className="flex justify-between items-start mb-4 pb-3 border-b" style={{ borderColor: 'rgba(107,92,231,0.1)' }}>
+                <h4 className="text-lg font-bold" style={{ color: '#1A1A2E' }}>{period.topic}</h4>
+                <span className="px-3 py-1 text-xs font-extrabold uppercase rounded-full tracking-wide shadow-2xs" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
                   {period.skill}
                 </span>
               </div>
@@ -387,34 +388,34 @@ export default function AILessonPlan() {
               <div className="space-y-4">
                 {period.introduction && (
                   <div>
-                    <h5 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider mb-1" style={{ color: '#6B5CE7' }}>
                       Introduction
                     </h5>
-                    <p className="text-sm text-gray-300">{period.introduction}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#5A5A72' }}>{period.introduction}</p>
                   </div>
                 )}
                 {period.exploration && (
                   <div>
-                    <h5 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider mb-1" style={{ color: '#6B5CE7' }}>
                       Exploration
                     </h5>
-                    <p className="text-sm text-gray-300">{period.exploration}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#5A5A72' }}>{period.exploration}</p>
                   </div>
                 )}
                 {period.conclusion && (
                   <div>
-                    <h5 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider mb-1" style={{ color: '#6B5CE7' }}>
                       Conclusion
                     </h5>
-                    <p className="text-sm text-gray-300">{period.conclusion}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: '#5A5A72' }}>{period.conclusion}</p>
                   </div>
                 )}
                 {period.homework && (
-                  <div className="pt-3 border-t border-white/5 mt-3">
-                    <h5 className="text-[10px] font-semibold text-emerald-green uppercase tracking-wider mb-1">
+                  <div className="pt-4 border-t mt-4" style={{ borderColor: 'rgba(16,185,129,0.2)' }}>
+                    <h5 className="text-xs font-extrabold uppercase tracking-wider mb-1" style={{ color: '#059669' }}>
                       Homework / Assignment
                     </h5>
-                    <p className="text-sm text-gray-300">{period.homework}</p>
+                    <p className="text-sm font-medium leading-relaxed" style={{ color: '#065f46' }}>{period.homework}</p>
                   </div>
                 )}
               </div>
@@ -423,7 +424,7 @@ export default function AILessonPlan() {
         ))}
 
         {periods.length === 0 && (
-          <div className="text-center text-gray-500 py-10">
+          <div className="text-center py-12 font-semibold text-base" style={{ color: '#9CA3AF' }}>
             No periods generated in this plan.
           </div>
         )}

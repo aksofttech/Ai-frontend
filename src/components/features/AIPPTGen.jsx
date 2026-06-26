@@ -84,20 +84,20 @@ export default function AIPPTGen() {
   }
 
   return (
-    <div className="h-full flex flex-col gap-6 p-1 overflow-y-auto custom-scrollbar pb-10">
+    <div className="h-full flex flex-col gap-6 p-4 overflow-y-auto custom-scrollbar pb-10">
       {/* Header Config Card */}
-      <GlassCard className="flex items-center justify-between shrink-0">
+      <GlassCard className="flex items-center justify-between shrink-0 rounded-2xl p-6 shadow-xs flex-wrap gap-4" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
         <div className="flex items-center gap-4">
-          <Presentation className="text-neon-purple" size={24} />
+          <Presentation style={{ color: '#6B5CE7' }} size={26} />
           <div>
-            <h3 className="font-semibold text-white">Presentation Generator</h3>
-            <p className="text-xs text-gray-400">Generate PPTs directly from the book content</p>
+            <h3 className="font-bold text-lg" style={{ color: '#1A1A2E' }}>Presentation Generator</h3>
+            <p className="text-xs" style={{ color: '#5A5A72' }}>Generate PPTs directly from curriculum syllabus</p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="w-48">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="w-48 font-bold text-sm">
             <Dropdown 
-              options={['Modern Dark', 'Clean White', 'Neon Cyber', 'Green']} 
+              options={['ChatSavvy Lavender', 'Minimal White', 'Sleek Dark', 'Curriculum Green']} 
               placeholder="Visual Theme" 
               value={theme} 
               onChange={setTheme} 
@@ -107,7 +107,7 @@ export default function AIPPTGen() {
           {!isGenerated && (
             <Button 
               variant="accent" 
-              className="flex items-center gap-2" 
+              className="cs-btn-purple flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm shadow-sm" 
               onClick={handleGenerate} 
               disabled={isGenerating}
             >
@@ -124,7 +124,8 @@ export default function AIPPTGen() {
               setIsGenerated(false);
             }}
             title="Change book / chapter"
-            className="text-gray-400 hover:text-white transition-colors ml-2"
+            className="transition-colors ml-1 p-2 rounded-xl hover:bg-purple-50"
+            style={{ color: '#6B5CE7' }}
           >
             <RefreshCw size={18} />
           </button>
@@ -133,14 +134,17 @@ export default function AIPPTGen() {
 
       {/* Before Generation State */}
       {!isGenerated && !isGenerating && (
-        <div className="flex-1 flex items-center justify-center border-2 border-dashed border-gray-800 rounded-xl m-4">
+        <div 
+          className="flex-1 flex items-center justify-center rounded-2xl p-10 m-2 transition-all"
+          style={{ minHeight: '400px', background: 'rgba(107,92,231,0.03)', border: '2px dashed rgba(107,92,231,0.25)' }}
+        >
           <div className="text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-neon-purple/10 flex items-center justify-center mx-auto text-neon-purple">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto shadow-xs" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
               <Presentation size={32} />
             </div>
-            <h3 className="text-xl font-medium text-white">Ready to Generate</h3>
-            <p className="text-sm text-gray-400 max-w-sm mx-auto">
-              Select your preferred theme from the top right and click 'Generate PPT' to create a comprehensive presentation for {chapterTitle}.
+            <h3 className="text-lg font-bold" style={{ color: '#1A1A2E' }}>Ready to Generate</h3>
+            <p className="text-sm max-w-sm mx-auto leading-relaxed" style={{ color: '#5A5A72' }}>
+              Select your preferred theme from the top right and click <strong style={{ color: '#6B5CE7' }}>'Generate PPT'</strong> to create a structured presentation for {chapterTitle}.
             </p>
           </div>
         </div>
@@ -148,89 +152,90 @@ export default function AIPPTGen() {
 
       {/* Loading State */}
       {isGenerating && (
-        <div className="flex-1 flex flex-col items-center justify-center m-4">
-          <Loader2 size={48} className="animate-spin text-neon-purple mb-6" />
-          <h3 className="text-xl font-medium text-white mb-2">Analyzing content...</h3>
-          <p className="text-gray-400">Generating slides and applying {theme} theme</p>
+        <div className="flex-1 flex flex-col items-center justify-center m-8 py-16">
+          <Loader2 size={48} className="animate-spin mb-6" style={{ color: '#6B5CE7' }} />
+          <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A2E' }}>Analyzing content...</h3>
+          <p className="text-sm font-medium" style={{ color: '#5A5A72' }}>Generating slides and applying theme formatting</p>
         </div>
       )}
 
-      {/* Generated View (Matching Screenshot) */}
+      {/* Generated View */}
       {isGenerated && (
-        <div className="flex flex-col gap-6 w-full max-w-[900px] mx-auto mt-4 px-4">
-          <div className="flex items-center gap-4 mb-2">
-            <Presentation className="text-blue-500" size={36} />
+        <div className="flex flex-col gap-6 w-full max-w-[900px] mx-auto mt-2 px-2 animate-fade-in">
+          <div className="flex items-center gap-4 mb-1">
+            <div className="p-3 rounded-2xl shadow-xs" style={{ background: 'rgba(107,92,231,0.1)', color: '#6B5CE7' }}>
+              <Presentation size={32} />
+            </div>
             <div>
-              <h1 className="text-3xl font-bold text-white mb-1">{chapterTitle}</h1>
-              <p className="text-sm text-gray-400">PowerPoint Presentation Generated</p>
+              <h1 className="text-2xl font-bold" style={{ color: '#1A1A2E' }}>{chapterTitle}</h1>
+              <p className="text-xs font-semibold uppercase tracking-wider mt-0.5" style={{ color: '#6B5CE7' }}>PowerPoint Presentation Ready</p>
             </div>
           </div>
 
           {/* 4 Stat Cards */}
-          <div className="grid grid-cols-4 gap-4">
-            <div className="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center border-blue-500/30 bg-[#0d1117]/80">
-              <span className="text-3xl font-bold text-blue-500 mb-2">{slidesData?.length || 0}</span>
-              <span className="text-sm text-blue-500/80 font-medium">Total Slides</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="p-5 rounded-2xl shadow-xs flex flex-col items-center justify-center" style={{ background: 'white', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+              <span className="text-2xl font-black mb-1" style={{ color: '#6B5CE7' }}>{slidesData?.length || 0}</span>
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#5A5A72' }}>Total Slides</span>
             </div>
-            <div className="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center border-green-500/30 bg-[#0a1411]/80">
-              <span className="text-3xl font-bold text-green-500 mb-2">{slidesData?.length || 0}</span>
-              <span className="text-sm text-green-500/80 font-medium">Content Slides</span>
+            <div className="p-5 rounded-2xl shadow-xs flex flex-col items-center justify-center" style={{ background: 'white', border: '1.5px solid rgba(16,185,129,0.25)' }}>
+              <span className="text-2xl font-black mb-1" style={{ color: '#10b981' }}>{slidesData?.length || 0}</span>
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#5A5A72' }}>Content Slides</span>
             </div>
-            <div className="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center border-purple-500/30 bg-[#120d17]/80">
-              <span className="text-2xl font-bold text-purple-500 mb-2">{theme}</span>
-              <span className="text-sm text-purple-500/80 font-medium">Theme</span>
+            <div className="p-5 rounded-2xl shadow-xs flex flex-col items-center justify-center" style={{ background: 'white', border: '1.5px solid rgba(139,92,246,0.25)' }}>
+              <span className="text-base font-extrabold mb-1 truncate max-w-full px-2" style={{ color: '#8B5CF6' }}>{theme}</span>
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#5A5A72' }}>Theme</span>
             </div>
-            <div className="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center border-orange-500/30 bg-[#17100d]/80">
-              <FileText className="text-orange-500 mb-2" size={28} />
-              <span className="text-sm text-orange-500/80 font-medium">PPTX</span>
+            <div className="p-5 rounded-2xl shadow-xs flex flex-col items-center justify-center" style={{ background: 'white', border: '1.5px solid rgba(249,115,22,0.25)' }}>
+              <FileText style={{ color: '#F97316' }} className="mb-1" size={24} />
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: '#5A5A72' }}>Format: PPTX</span>
             </div>
           </div>
 
           {/* Presentation Details Card */}
-          <GlassCard className="mt-4 border-gray-800 bg-[#0d0d0d] rounded-2xl p-0 overflow-hidden">
+          <GlassCard className="rounded-2xl p-0 overflow-hidden shadow-xs" style={{ background: 'white', border: '1.5px solid rgba(107,92,231,0.18)' }}>
             <div className="p-6">
-              <div className="flex items-center gap-2 border-b border-gray-800 pb-4 mb-6">
-                <FileText size={18} className="text-gray-300" />
-                <h3 className="font-semibold text-white">Presentation Details</h3>
+              <div className="flex items-center gap-2.5 pb-4 mb-6 border-b" style={{ borderColor: 'rgba(107,92,231,0.12)' }}>
+                <FileText size={18} style={{ color: '#6B5CE7' }} />
+                <h3 className="font-bold text-base" style={{ color: '#1A1A2E' }}>Presentation Details</h3>
               </div>
               
-              <div className="grid grid-cols-2 gap-y-8 gap-x-12 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12 mb-4">
                 <div>
-                  <p className="text-xs text-gray-500 mb-1.5 font-medium">Title</p>
-                  <p className="text-[15px] font-bold text-white">{chapterTitle}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#5A5A72' }}>Title</p>
+                  <p className="text-sm font-bold" style={{ color: '#1A1A2E' }}>{chapterTitle}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1.5 font-medium">Theme</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#5A5A72' }}>Theme</p>
                   <div className="flex items-center gap-2">
-                     <div className="w-4 h-4 rounded-full bg-green-500 border border-white/20"></div>
-                     <p className="text-[14px] text-white font-semibold">{theme}</p>
+                     <div className="w-3.5 h-3.5 rounded-full" style={{ background: '#6B5CE7' }}></div>
+                     <p className="text-sm font-bold" style={{ color: '#1A1A2E' }}>{theme}</p>
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1.5 font-medium">Subtitle</p>
-                  <p className="text-[14px] text-gray-400">Generated Educational Content</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#5A5A72' }}>Subtitle</p>
+                  <p className="text-sm font-medium" style={{ color: '#5A5A72' }}>Curriculum Aligned AI Presentation</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1.5 font-medium">Total Slides</p>
-                  <p className="text-[14px] text-white font-semibold">{slidesData?.length || 0} slides</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#5A5A72' }}>Total Slides</p>
+                  <p className="text-sm font-bold" style={{ color: '#6B5CE7' }}>{slidesData?.length || 0} slides</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1.5 font-medium">Author</p>
-                  <p className="text-[14px] text-gray-400 flex items-center gap-2">
-                    <User size={14} /> Epoch AI Generated Presentation
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#5A5A72' }}>Generator Engine</p>
+                  <p className="text-sm font-medium flex items-center gap-1.5" style={{ color: '#5A5A72' }}>
+                    <User size={14} style={{ color: '#6B5CE7' }} /> Yugsoft AI PPT Engine
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1.5 font-medium">Filename</p>
-                  <p className="text-[14px] text-gray-400">{chapterTitle.replace(/\s+/g, '_')}_generated.pptx</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#5A5A72' }}>Export Filename</p>
+                  <p className="text-xs font-mono py-1 px-2 rounded bg-purple-50 inline-block font-semibold" style={{ color: '#6B5CE7' }}>{chapterTitle.replace(/\s+/g, '_')}.pptx</p>
                 </div>
               </div>
             </div>
 
-            {/* Download CTA Button Only */}
-            <div className="px-6 pb-6 pt-2 flex justify-end">
-              <Button onClick={handleDownload} className="bg-neon-purple hover:bg-neon-purple/80 text-white flex items-center gap-2 font-medium px-8 py-2.5 shadow-[0_0_15px_rgba(139,92,246,0.3)] transition-all whitespace-nowrap border-none">
-                <Download size={18} /> Download PPT
+            <div className="p-6 flex justify-end items-center" style={{ background: 'rgba(107,92,231,0.04)', borderTop: '1px solid rgba(107,92,231,0.12)' }}>
+              <Button onClick={handleDownload} className="cs-btn-purple flex items-center gap-2 font-bold px-8 py-3 rounded-full shadow-sm text-sm">
+                <Download size={18} /> Download PPTX
               </Button>
             </div>
           </GlassCard>

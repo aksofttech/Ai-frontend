@@ -346,14 +346,14 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
   const totalChaptersCount = books.reduce((acc, b) => acc + (b.chapters?.length || 0), 0);
 
   return (
-    <div className="w-full min-h-[500px] flex flex-col gap-6 text-white font-sans">
+    <div className="w-full min-h-[500px] flex flex-col gap-6 text-cs-dark font-sans">
       {/* Top Breadcrumb / Title */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-neon-purple to-emerald-green">
+          <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-neon-purple to-blue-600">
             Tech Administration Canvas
           </h1>
-          <p className="text-gray-400 text-sm mt-1">Manage educational curriculum, PDF ingestions, and user permissions.</p>
+          <p className="text-cs-gray text-sm mt-1">Manage educational curriculum, PDF ingestions, and user permissions.</p>
         </div>
         
         <button 
@@ -362,7 +362,7 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
             if (activeTab === 'users' && isAdmin) loadUsers();
             showSuccess('Refreshed administrative data!');
           }}
-          className="p-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2 text-sm"
+          className="p-3 bg-white/80 border border-purple-200 rounded-xl hover:bg-white transition-colors flex items-center gap-2 text-sm font-bold text-[#6B5CE7] shadow-2xs cursor-pointer"
         >
           <RefreshCw size={14} className={isActionLoading ? "animate-spin" : ""} />
           Refresh
@@ -376,7 +376,7 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="p-4 rounded-xl bg-emerald-green/10 border border-emerald-green/30 text-emerald-green text-sm flex items-center gap-2 box-shadow-glow-green"
+            className="p-4 rounded-xl bg-emerald-green/10 border border-emerald-green/30 text-emerald-green text-sm flex items-center gap-2 shadow-xs"
           >
             <CheckCircle size={16} />
             {successMessage}
@@ -387,7 +387,7 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-center gap-2 box-shadow-glow-red"
+            className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 text-sm flex items-center gap-2 shadow-xs"
           >
             <ShieldAlert size={16} />
             {errorMessage}
@@ -396,23 +396,23 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
       </AnimatePresence>
 
       {/* Navigation Tabs */}
-      <div className="flex border-b border-glass-border">
+      <div className="flex border-b border-purple-200/60">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`px-6 py-3 border-b-2 text-sm font-semibold transition-all ${
+          className={`px-6 py-3 border-b-2 text-sm transition-all cursor-pointer ${
             activeTab === 'overview'
-              ? 'border-neon-purple text-white'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
+              ? 'border-[#6B5CE7] text-[#6B5CE7] font-extrabold'
+              : 'border-transparent text-cs-gray hover:text-cs-dark font-semibold'
           }`}
         >
           Overview
         </button>
         <button
           onClick={() => setActiveTab('curriculum')}
-          className={`px-6 py-3 border-b-2 text-sm font-semibold transition-all ${
+          className={`px-6 py-3 border-b-2 text-sm transition-all cursor-pointer ${
             activeTab === 'curriculum'
-              ? 'border-neon-purple text-white'
-              : 'border-transparent text-gray-400 hover:text-gray-200'
+              ? 'border-[#6B5CE7] text-[#6B5CE7] font-extrabold'
+              : 'border-transparent text-cs-gray hover:text-cs-dark font-semibold'
           }`}
         >
           Curriculum Management
@@ -420,10 +420,10 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
         {isAdmin && (
           <button
             onClick={() => setActiveTab('users')}
-            className={`px-6 py-3 border-b-2 text-sm font-semibold transition-all ${
+            className={`px-6 py-3 border-b-2 text-sm transition-all cursor-pointer ${
               activeTab === 'users'
-                ? 'border-neon-purple text-white'
-                : 'border-transparent text-gray-400 hover:text-gray-200'
+                ? 'border-[#6B5CE7] text-[#6B5CE7] font-extrabold'
+                : 'border-transparent text-cs-gray hover:text-cs-dark font-semibold'
             }`}
           >
             User Directory
@@ -440,47 +440,43 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
             className="grid grid-cols-1 md:grid-cols-4 gap-6"
           >
             {/* Stat Cards */}
-            <GlassCard className="p-6 flex items-center gap-4 border border-white/5 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-neon-purple/5 rounded-full blur-2xl group-hover:bg-neon-purple/10 transition-colors" />
-              <div className="p-4 rounded-xl bg-neon-purple/20 text-neon-purple">
+            <GlassCard className="p-6 flex items-center gap-4 rounded-2xl shadow-xs relative overflow-hidden group" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+              <div className="p-4 rounded-xl bg-purple-100 text-[#6B5CE7]">
                 <BookOpen size={24} />
               </div>
               <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Total Books</p>
-                <h3 className="text-2xl font-bold mt-1 text-white">{books.length}</h3>
+                <p className="text-xs text-cs-gray font-bold uppercase tracking-wider">Total Books</p>
+                <h3 className="text-2xl font-black mt-1 text-cs-dark">{books.length}</h3>
               </div>
             </GlassCard>
 
-            <GlassCard className="p-6 flex items-center gap-4 border border-white/5 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-green/5 rounded-full blur-2xl group-hover:bg-emerald-green/10 transition-colors" />
-              <div className="p-4 rounded-xl bg-emerald-green/20 text-emerald-green">
+            <GlassCard className="p-6 flex items-center gap-4 rounded-2xl shadow-xs relative overflow-hidden group" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+              <div className="p-4 rounded-xl bg-emerald-100 text-emerald-600">
                 <GraduationCap size={24} />
               </div>
               <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Unique Classes</p>
-                <h3 className="text-2xl font-bold mt-1 text-white">{uniqueClasses.length || 1}</h3>
+                <p className="text-xs text-cs-gray font-bold uppercase tracking-wider">Unique Classes</p>
+                <h3 className="text-2xl font-black mt-1 text-cs-dark">{uniqueClasses.length || 1}</h3>
               </div>
             </GlassCard>
 
-            <GlassCard className="p-6 flex items-center gap-4 border border-white/5 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors" />
-              <div className="p-4 rounded-xl bg-blue-500/20 text-blue-400">
+            <GlassCard className="p-6 flex items-center gap-4 rounded-2xl shadow-xs relative overflow-hidden group" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+              <div className="p-4 rounded-xl bg-blue-100 text-blue-600">
                 <Database size={24} />
               </div>
               <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">Total Chapters</p>
-                <h3 className="text-2xl font-bold mt-1 text-white">{totalChaptersCount}</h3>
+                <p className="text-xs text-cs-gray font-bold uppercase tracking-wider">Total Chapters</p>
+                <h3 className="text-2xl font-black mt-1 text-cs-dark">{totalChaptersCount}</h3>
               </div>
             </GlassCard>
 
-            <GlassCard className="p-6 flex items-center gap-4 border border-white/5 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-500/5 rounded-full blur-2xl group-hover:bg-yellow-500/10 transition-colors" />
-              <div className="p-4 rounded-xl bg-yellow-500/20 text-yellow-400">
+            <GlassCard className="p-6 flex items-center gap-4 rounded-2xl shadow-xs relative overflow-hidden group" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+              <div className="p-4 rounded-xl bg-amber-100 text-amber-600">
                 <Sparkles size={24} />
               </div>
               <div>
-                <p className="text-xs text-gray-400 font-medium uppercase tracking-wider">RAG Status</p>
-                <h3 className="text-2xl font-bold mt-1 text-emerald-400 flex items-center gap-1.5 text-shadow-glow-green">
+                <p className="text-xs text-cs-gray font-bold uppercase tracking-wider">RAG Status</p>
+                <h3 className="text-2xl font-black mt-1 text-emerald-600 flex items-center gap-1.5">
                   Active
                 </h3>
               </div>
@@ -488,61 +484,59 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
 
             {/* Quick Actions Panel */}
             <div className="col-span-1 md:col-span-2 flex flex-col gap-6">
-              <GlassCard className="p-6 border border-white/5 h-full flex flex-col justify-between">
+              <GlassCard className="p-6 rounded-2xl shadow-xs h-full flex flex-col justify-between" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                    <School size={18} className="text-neon-purple" />
+                  <h3 className="text-lg font-bold text-cs-dark mb-2 flex items-center gap-2">
+                    <School size={18} className="text-[#6B5CE7]" />
                     Quick Curriculum Setup
                   </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                  <p className="text-cs-gray text-sm leading-relaxed mb-4">
                     Quickly add new textbooks, specify classes, and outline chapters to expand the library database.
                   </p>
                 </div>
                 <div className="flex gap-3">
-                  <Button 
-                    variant="primary" 
+                  <button 
                     onClick={() => {
                       resetBookForm();
                       setIsBookModalOpen(true);
                     }}
-                    className="flex-1 flex items-center justify-center gap-2 rounded-xl"
+                    className="cs-btn-purple flex-1 py-3 px-4 flex items-center justify-center gap-2 rounded-xl font-bold text-sm shadow-md"
                   >
                     <Plus size={16} /> Create Book
-                  </Button>
-                  <Button 
-                    variant="secondary"
+                  </button>
+                  <button 
                     onClick={() => setActiveTab('curriculum')}
-                    className="flex-1 rounded-xl"
+                    className="flex-1 py-3 px-4 rounded-xl font-bold text-sm bg-purple-50 hover:bg-purple-100 text-[#6B5CE7] border border-purple-200 transition-colors cursor-pointer"
                   >
                     Manage Chapters
-                  </Button>
+                  </button>
                 </div>
               </GlassCard>
             </div>
 
             {/* System Information */}
             <div className="col-span-1 md:col-span-2">
-              <GlassCard className="p-6 border border-white/5 h-full">
-                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <Settings size={18} className="text-emerald-green" />
+              <GlassCard className="p-6 rounded-2xl shadow-xs h-full" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
+                <h3 className="text-lg font-bold text-cs-dark mb-4 flex items-center gap-2">
+                  <Settings size={18} className="text-emerald-600" />
                   Tenant Information
                 </h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between border-b border-glass-border pb-2">
-                    <span className="text-gray-400">User Email:</span>
-                    <span className="text-white font-medium">{user?.email}</span>
+                <div className="space-y-3.5 text-sm">
+                  <div className="flex justify-between border-b border-purple-100 pb-2.5">
+                    <span className="text-cs-gray font-semibold">User Email:</span>
+                    <span className="text-cs-dark font-bold">{user?.email}</span>
                   </div>
-                  <div className="flex justify-between border-b border-glass-border pb-2">
-                    <span className="text-gray-400">Current Role:</span>
-                    <span className="text-neon-purple font-semibold uppercase">{user?.role}</span>
+                  <div className="flex justify-between border-b border-purple-100 pb-2.5">
+                    <span className="text-cs-gray font-semibold">Current Role:</span>
+                    <span className="text-[#6B5CE7] font-extrabold uppercase">{user?.role}</span>
                   </div>
-                  <div className="flex justify-between border-b border-glass-border pb-2">
-                    <span className="text-gray-400">Institution ID:</span>
-                    <span className="text-gray-300 font-mono text-xs truncate max-w-[150px]">{user?.tenantId}</span>
+                  <div className="flex justify-between border-b border-purple-100 pb-2.5">
+                    <span className="text-cs-gray font-semibold">Institution ID:</span>
+                    <span className="text-cs-gray font-mono text-xs truncate max-w-[150px]">{user?.tenantId}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">LLM Ingestion Model:</span>
-                    <span className="text-emerald-400 font-medium">gemini-embedding-2</span>
+                    <span className="text-cs-gray font-semibold">LLM Ingestion Model:</span>
+                    <span className="text-emerald-600 font-bold">gemini-embedding-2</span>
                   </div>
                 </div>
               </GlassCard>
@@ -559,22 +553,21 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
             {/* Books Column (5 cols) */}
             <div className="lg:col-span-5 flex flex-col gap-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold text-white">Books Directory</h3>
-                <Button 
-                  variant="primary" 
+                <h3 className="text-lg font-bold text-cs-dark">Books Directory</h3>
+                <button 
                   onClick={() => {
                     resetBookForm();
                     setIsBookModalOpen(true);
                   }}
-                  className="py-1 px-3 text-xs flex items-center gap-1.5 rounded-lg"
+                  className="cs-btn-purple py-1.5 px-3 text-xs flex items-center gap-1 rounded-lg font-bold shadow-xs cursor-pointer"
                 >
                   <Plus size={14} /> New Book
-                </Button>
+                </button>
               </div>
 
               <div className="space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar pr-1">
                 {books.length === 0 ? (
-                  <GlassCard className="p-8 text-center text-gray-500 border border-white/5">
+                  <GlassCard className="p-8 text-center text-cs-gray rounded-2xl shadow-xs" style={{ background: 'white' }}>
                     No books found. Click "New Book" to create one.
                   </GlassCard>
                 ) : (
@@ -594,36 +587,36 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                             setIsActionLoading(false);
                           }
                         }}
-                        className={`p-4 rounded-xl border transition-all cursor-pointer flex justify-between items-start ${
+                        className={`p-4 rounded-2xl border transition-all cursor-pointer flex justify-between items-start shadow-2xs ${
                           isCurrent 
-                            ? 'bg-neon-purple/10 border-neon-purple shadow-[0_0_15px_rgba(139,92,246,0.15)]'
-                            : 'bg-white/5 border-white/10 hover:bg-white/10'
+                            ? 'bg-purple-50 border-[#6B5CE7] shadow-xs'
+                            : 'bg-white/80 border-purple-100 hover:bg-white hover:border-purple-200'
                         }`}
                       >
                         <div className="flex-1">
                           <div className="flex gap-2 mb-1.5 flex-wrap">
-                            <span className="px-2 py-0.5 text-[10px] font-semibold rounded bg-neon-purple/20 text-neon-purple">
+                            <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-purple-100 text-[#6B5CE7]">
                               {b.class}
                             </span>
-                            <span className="px-2 py-0.5 text-[10px] font-semibold rounded bg-emerald-green/20 text-emerald-green">
+                            <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-100 text-emerald-700">
                               {b.subject}
                             </span>
                           </div>
-                          <h4 className="font-semibold text-white line-clamp-2">{b.title}</h4>
-                          <p className="text-xs text-gray-400 mt-2">
+                          <h4 className="font-bold text-cs-dark line-clamp-2">{b.title}</h4>
+                          <p className="text-xs text-cs-gray font-semibold mt-2">
                             {b.chapters?.length || 0} chapters registered
                           </p>
                         </div>
                         <div className="flex gap-1">
                           <button
                             onClick={(e) => openEditBook(b, e)}
-                            className="p-1.5 text-gray-400 hover:text-white hover:bg-white/5 rounded transition-colors"
+                            className="p-1.5 text-cs-gray hover:text-[#6B5CE7] hover:bg-purple-50 rounded transition-colors"
                           >
                             <Edit2 size={14} />
                           </button>
                           <button
                             onClick={(e) => handleDeleteBook(b.id, e)}
-                            className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                            className="p-1.5 text-cs-gray hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                           >
                             <Trash2 size={14} />
                           </button>
@@ -639,29 +632,28 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
             <div className="lg:col-span-7 flex flex-col gap-4">
               {selectedBook ? (
                 <>
-                  <div className="flex justify-between items-center border-b border-glass-border pb-3">
+                  <div className="flex justify-between items-center border-b border-purple-200/60 pb-3">
                     <div>
-                      <span className="text-xs text-neon-purple uppercase font-semibold tracking-wider">Active Book</span>
-                      <h3 className="text-xl font-bold text-white mt-0.5">{selectedBook.title}</h3>
-                      <p className="text-xs text-gray-400">{selectedBook.class} &bull; {selectedBook.subject}</p>
+                      <span className="text-xs text-[#6B5CE7] uppercase font-extrabold tracking-wider">Active Book</span>
+                      <h3 className="text-xl font-black text-cs-dark mt-0.5">{selectedBook.title}</h3>
+                      <p className="text-xs text-cs-gray font-semibold">{selectedBook.class} &bull; {selectedBook.subject}</p>
                     </div>
-                    <Button
-                      variant="secondary"
+                    <button
                       onClick={() => {
                         setChapterTitle('');
                         setEditingChapter(null);
                         setIsChapterModalOpen(true);
                       }}
-                      className="py-1 px-3 text-xs flex items-center gap-1.5 rounded-lg"
+                      className="py-1.5 px-3 text-xs flex items-center gap-1 rounded-lg font-bold bg-white text-[#6B5CE7] border border-purple-200 hover:bg-purple-50 transition-colors cursor-pointer shadow-2xs"
                     >
                       <Plus size={14} /> Add Chapter
-                    </Button>
+                    </button>
                   </div>
 
                   {/* Chapters List */}
                   <div className="space-y-4">
                     {(!selectedBook.chapters || selectedBook.chapters.length === 0) ? (
-                      <GlassCard className="p-8 text-center text-gray-500 border border-white/5">
+                      <GlassCard className="p-8 text-center text-cs-gray rounded-2xl shadow-xs" style={{ background: 'white' }}>
                         No chapters in this book. Click "Add Chapter" to build the curriculum.
                       </GlassCard>
                     ) : (
@@ -669,22 +661,22 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                         const isUploadingThis = uploadingChapterId === ch.id;
                         const hasUploadOpen = uploadChapter?.id === ch.id;
                         return (
-                          <GlassCard key={ch.id} className="p-5 border border-white/5 hover:border-white/10 transition-colors">
+                          <GlassCard key={ch.id} className="p-5 rounded-2xl shadow-xs transition-colors" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
                             <div className="flex justify-between items-start gap-4">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-xs text-gray-400 font-mono">Ch {index + 1}</span>
-                                  <h4 className="font-semibold text-white text-base">{ch.title}</h4>
+                                  <span className="text-xs text-[#6B5CE7] font-bold font-mono">Ch {index + 1}</span>
+                                  <h4 className="font-bold text-cs-dark text-base">{ch.title}</h4>
                                 </div>
-                                <div className="mt-3 flex items-center gap-3">
+                                <div className="mt-2.5 flex items-center gap-3">
                                   {/* RAG Status Indicator */}
-                                  <div className="flex items-center gap-1.5 text-xs">
+                                  <div className="flex items-center gap-1.5 text-xs font-bold">
                                     <div className={`w-2 h-2 rounded-full ${
                                       ch.chunks && ch.chunks.length > 0 
-                                        ? 'bg-emerald-green box-shadow-glow-green' 
-                                        : 'bg-yellow-500'
+                                        ? 'bg-emerald-500' 
+                                        : 'bg-amber-500'
                                     }`} />
-                                    <span className={ch.chunks && ch.chunks.length > 0 ? 'text-emerald-400' : 'text-yellow-500'}>
+                                    <span className={ch.chunks && ch.chunks.length > 0 ? 'text-emerald-600' : 'text-amber-600'}>
                                       {ch.chunks && ch.chunks.length > 0 
                                         ? `Ingested (${ch.chunks.length} Vector Chunks)` 
                                         : 'Pending Ingestion'}
@@ -692,27 +684,26 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex gap-2">
-                                <Button
-                                  variant="secondary"
+                              <div className="flex gap-1.5">
+                                <button
                                   onClick={() => {
                                     setUploadChapter(hasUploadOpen ? null : ch);
                                     setSelectedFile(null);
                                     setIngestedChunksCount(null);
                                   }}
-                                  className="py-1 px-2.5 text-xs flex items-center gap-1 rounded-lg"
+                                  className="py-1 px-2.5 text-xs flex items-center gap-1 rounded-lg font-bold bg-purple-50 hover:bg-purple-100 text-[#6B5CE7] transition-colors cursor-pointer"
                                 >
                                   <UploadCloud size={13} /> Ingest PDF
-                                </Button>
+                                </button>
                                 <button
                                   onClick={() => openEditChapter(ch)}
-                                  className="p-1.5 text-gray-400 hover:text-white hover:bg-white/5 rounded transition-colors"
+                                  className="p-1.5 text-cs-gray hover:text-[#6B5CE7] hover:bg-purple-50 rounded transition-colors"
                                 >
                                   <Edit2 size={13} />
                                 </button>
                                 <button
                                   onClick={() => handleDeleteChapter(ch.id)}
-                                  className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors"
+                                  className="p-1.5 text-cs-gray hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                                 >
                                   <Trash2 size={13} />
                                 </button>
@@ -724,11 +715,11 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                               <motion.div 
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
-                                className="mt-4 pt-4 border-t border-glass-border overflow-hidden"
+                                className="mt-4 pt-4 border-t border-purple-100 overflow-hidden"
                               >
-                                <div className="p-4 rounded-xl bg-black/40 border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
-                                  <UploadCloud size={32} className="text-neon-purple mb-2" />
-                                  <p className="text-xs text-gray-400 mb-3">
+                                <div className="p-4 rounded-xl bg-purple-50/50 border border-dashed border-purple-200 flex flex-col items-center justify-center text-center">
+                                  <UploadCloud size={32} className="text-[#6B5CE7] mb-2" />
+                                  <p className="text-xs text-cs-gray font-semibold mb-3">
                                     Upload chapter textbook PDF to extract vector embeddings.
                                   </p>
                                   <input
@@ -790,13 +781,13 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                   </div>
                 </>
               ) : (
-                <div className="h-full flex flex-col justify-center items-center text-center p-12 bg-white/5 rounded-2xl border border-white/10 text-gray-500">
-                  <BookOpen size={48} className="text-gray-600 mb-3" />
-                  <h4 className="font-semibold text-gray-300">No Book Selected</h4>
-                  <p className="text-sm mt-1 max-w-sm">
+                <div className="h-full flex flex-col justify-center items-center text-center p-12 bg-white/80 rounded-2xl border border-purple-200 text-cs-gray shadow-xs">
+                  <BookOpen size={48} className="text-[#6B5CE7] mb-3" />
+                  <h4 className="font-bold text-cs-dark text-lg">No Book Selected</h4>
+                  <p className="text-sm mt-1 max-w-sm font-semibold text-cs-gray">
                     Select a textbook from the list on the left to edit its curriculum chapters and ingest PDFs.
                   </p>
-                  <ChevronRight size={24} className="text-gray-600 mt-4 animate-pulse hidden lg:block rotate-90" />
+                  <ChevronRight size={24} className="text-[#6B5CE7] mt-4 animate-pulse hidden lg:block rotate-90" />
                 </div>
               )}
             </div>
@@ -810,72 +801,71 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
             className="flex flex-col gap-4"
           >
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-white">Institution User Directory</h3>
-              <Button 
-                variant="primary" 
+              <h3 className="text-lg font-bold text-cs-dark">Institution User Directory</h3>
+              <button 
                 onClick={() => {
                   resetUserForm();
                   setIsUserModalOpen(true);
                 }}
-                className="py-1.5 px-4 text-sm flex items-center gap-1.5 rounded-xl"
+                className="cs-btn-purple py-2 px-4 text-sm flex items-center gap-1.5 rounded-xl font-bold shadow-xs cursor-pointer"
               >
                 <Plus size={16} /> Create User
-              </Button>
+              </button>
             </div>
 
             {/* Users Table */}
-            <GlassCard className="p-0 overflow-hidden border border-white/5">
+            <GlassCard className="p-0 overflow-hidden rounded-2xl shadow-xs" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
               {isLoadingUsers ? (
-                <div className="p-12 flex justify-center items-center gap-2 text-gray-400">
-                  <Loader2 className="animate-spin text-neon-purple" /> Loading user records...
+                <div className="p-12 flex justify-center items-center gap-2 text-cs-gray font-semibold">
+                  <Loader2 className="animate-spin text-[#6B5CE7]" /> Loading user records...
                 </div>
               ) : usersList.length === 0 ? (
-                <div className="p-12 text-center text-gray-500">
+                <div className="p-12 text-center text-cs-gray font-semibold">
                   No users found in this tenant directory.
                 </div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-glass-border bg-white/5 text-gray-400 text-xs font-semibold uppercase tracking-wider">
-                        <th className="p-4">Email Address</th>
-                        <th className="p-4">Assigned Role</th>
-                        <th className="p-4">Created Date</th>
-                        <th className="p-4 text-right">Actions</th>
+                      <tr className="border-b border-purple-100 bg-purple-50/70 text-cs-gray text-xs font-bold uppercase tracking-wider">
+                        <th className="p-4 font-extrabold">Email Address</th>
+                        <th className="p-4 font-extrabold">Assigned Role</th>
+                        <th className="p-4 font-extrabold">Created Date</th>
+                        <th className="p-4 text-right font-extrabold">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-glass-border text-sm text-gray-300">
+                    <tbody className="divide-y divide-purple-100/60 text-sm text-cs-dark bg-white/50">
                       {usersList.map((u) => (
-                        <tr key={u.id} className="hover:bg-white/5 transition-colors">
-                          <td className="p-4 font-medium text-white">{u.email}</td>
+                        <tr key={u.id} className="hover:bg-purple-50/50 transition-colors">
+                          <td className="p-4 font-bold text-cs-dark">{u.email}</td>
                           <td className="p-4">
-                            <span className={`px-2.5 py-0.5 rounded text-xs font-semibold ${
+                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wide ${
                               u.role === 'admin' 
-                                ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                ? 'bg-purple-100 text-[#6B5CE7] border border-purple-200'
                                 : u.role === 'teacher'
-                                  ? 'bg-neon-purple/20 text-neon-purple border border-neon-purple/30'
-                                  : 'bg-emerald-green/20 text-emerald-green border border-emerald-green/30'
+                                  ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                                  : 'bg-blue-100 text-blue-700 border border-blue-200'
                             }`}>
                               {u.role.toUpperCase()}
                             </span>
                           </td>
-                          <td className="p-4 text-gray-400">
+                          <td className="p-4 text-cs-gray font-semibold">
                             {new Date(u.createdAt).toLocaleDateString(undefined, {
                               year: 'numeric', month: 'short', day: 'numeric'
                             })}
                           </td>
                           <td className="p-4 text-right">
-                            <div className="flex justify-end gap-2">
+                            <div className="flex justify-end gap-1.5">
                               <button
                                 onClick={() => openEditUser(u)}
-                                className="p-1.5 text-gray-400 hover:text-white hover:bg-white/5 rounded transition-colors"
+                                className="p-1.5 text-cs-gray hover:text-[#6B5CE7] hover:bg-purple-50 rounded transition-colors cursor-pointer"
                               >
                                 <Edit2 size={14} />
                               </button>
                               <button
                                 onClick={() => handleDeleteUser(u.id)}
                                 disabled={u.id === user.id}
-                                className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                                className="p-1.5 text-cs-gray hover:text-red-600 hover:bg-red-50 rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
                               >
                                 <Trash2 size={14} />
                               </button>
@@ -894,37 +884,37 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
 
       {/* --- Book Modal (Create/Edit) --- */}
       {isBookModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-full max-w-md glass-panel p-6 rounded-2xl border border-white/10"
+            className="w-full max-w-md bg-white p-6 rounded-2xl border border-purple-200 shadow-2xl text-cs-dark"
           >
-            <h3 className="text-xl font-bold text-white mb-4">
+            <h3 className="text-xl font-black text-cs-dark mb-4">
               {editingBook ? 'Edit Book Details' : 'Create New Book'}
             </h3>
             <form onSubmit={handleSaveBook} className="space-y-4">
               <div>
-                <label className="block text-xs text-gray-400 font-semibold mb-1 uppercase">Book Title</label>
+                <label className="block text-xs text-cs-gray font-bold mb-1 uppercase">Book Title</label>
                 <Input
                   required
                   value={bookTitle}
                   onChange={(e) => setBookTitle(e.target.value)}
                   placeholder="e.g. Advanced Chemistry Concepts"
-                  className="w-full"
+                  className="cs-input w-full"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-gray-400 font-semibold mb-1 uppercase">Class / Grade</label>
+                  <label className="block text-xs text-cs-gray font-bold mb-1 uppercase">Class / Grade</label>
                   <div className="relative">
                     <Input
                       required
                       value={bookClass}
                       onChange={(e) => setBookClass(e.target.value)}
                       placeholder="e.g. Grade 11"
-                      className="w-full"
+                      className="cs-input w-full"
                     />
                     {uniqueClasses.length > 0 && (
                       <div className="flex gap-1 flex-wrap mt-1.5">
@@ -933,7 +923,7 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                             key={c}
                             type="button"
                             onClick={() => setBookClass(c)}
-                            className="text-[10px] bg-white/5 hover:bg-white/15 px-2 py-0.5 rounded text-gray-300 transition-colors"
+                            className="text-[10px] bg-purple-50 hover:bg-purple-100 px-2 py-0.5 rounded font-bold text-[#6B5CE7] transition-colors cursor-pointer"
                           >
                             {c}
                           </button>
@@ -944,14 +934,14 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-400 font-semibold mb-1 uppercase">Subject</label>
+                  <label className="block text-xs text-cs-gray font-bold mb-1 uppercase">Subject</label>
                   <div className="relative">
                     <Input
                       required
                       value={bookSubject}
                       onChange={(e) => setBookSubject(e.target.value)}
                       placeholder="e.g. Chemistry"
-                      className="w-full"
+                      className="cs-input w-full"
                     />
                     {uniqueSubjects.length > 0 && (
                       <div className="flex gap-1 flex-wrap mt-1.5">
@@ -960,7 +950,7 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                             key={s}
                             type="button"
                             onClick={() => setBookSubject(s)}
-                            className="text-[10px] bg-white/5 hover:bg-white/15 px-2 py-0.5 rounded text-gray-300 transition-colors"
+                            className="text-[10px] bg-purple-50 hover:bg-purple-100 px-2 py-0.5 rounded font-bold text-[#6B5CE7] transition-colors cursor-pointer"
                           >
                             {s}
                           </button>
@@ -973,14 +963,14 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
 
               {/* Optional PDF Upload Field */}
               {!editingBook && (
-                <div className="border-t border-glass-border pt-4">
-                  <label className="block text-xs text-gray-400 font-semibold mb-1.5 uppercase">
+                <div className="border-t border-purple-100 pt-4">
+                  <label className="block text-xs text-cs-gray font-bold mb-1.5 uppercase">
                     Upload Textbook PDF (Optional)
                   </label>
                   
-                  <div className="p-4 rounded-xl bg-black/40 border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
-                    <UploadCloud size={24} className="text-neon-purple mb-1.5" />
-                    <p className="text-[11px] text-gray-400 mb-2">
+                  <div className="p-4 rounded-xl bg-purple-50/50 border border-dashed border-purple-200 flex flex-col items-center justify-center text-center">
+                    <UploadCloud size={24} className="text-[#6B5CE7] mb-1.5" />
+                    <p className="text-[11px] text-cs-gray font-semibold mb-2">
                       Automatically registers content to RAG vectors.
                     </p>
                     <input
@@ -997,19 +987,19 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                     />
                     <label
                       htmlFor="book-pdf-file"
-                      className="py-1 px-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-semibold cursor-pointer transition-colors"
+                      className="py-1 px-3 bg-white hover:bg-purple-50 border border-purple-200 rounded-lg text-xs font-bold text-[#6B5CE7] cursor-pointer transition-colors shadow-2xs"
                     >
                       {bookFile ? 'Change File' : 'Select PDF'}
                     </label>
 
                     {bookFile && (
-                      <div className="mt-2.5 flex items-center gap-1.5 text-xs text-emerald-400 font-medium bg-emerald-green/10 border border-emerald-green/20 px-2.5 py-1 rounded-lg">
+                      <div className="mt-2.5 flex items-center gap-1.5 text-xs text-emerald-700 font-bold bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg">
                         <CheckCircle size={12} />
                         <span className="truncate max-w-[180px]">{bookFile.name}</span>
                         <button
                           type="button"
                           onClick={() => setBookFile(null)}
-                          className="text-gray-400 hover:text-red-400 ml-1"
+                          className="text-cs-gray hover:text-red-600 ml-1 cursor-pointer"
                         >
                           ✕
                         </button>
@@ -1021,30 +1011,30 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
 
               {/* Progress Stepper during ingestion */}
               {isActionLoading && bookCreationStep !== 'idle' && (
-                <div className="p-3.5 rounded-xl bg-neon-purple/10 border border-neon-purple/20 text-xs space-y-2 mt-4">
-                  <div className="flex justify-between font-semibold text-neon-purple">
+                <div className="p-3.5 rounded-xl bg-purple-50 border border-purple-200 text-xs space-y-2 mt-4 font-semibold">
+                  <div className="flex justify-between font-bold text-[#6B5CE7]">
                     <span>RAG Ingestion Sequence</span>
                     <span className="animate-pulse">Active</span>
                   </div>
-                  <div className="space-y-1.5 text-gray-300">
+                  <div className="space-y-1.5 text-cs-dark">
                     <div className="flex items-center gap-2">
-                      <div className={`w-1.5 h-1.5 rounded-full ${bookCreationStep !== 'book' ? 'bg-neon-purple' : 'bg-neon-purple animate-ping'}`} />
-                      <span className={bookCreationStep === 'book' ? 'text-white font-medium' : 'text-gray-400'}>
+                      <div className={`w-2 h-2 rounded-full ${bookCreationStep !== 'book' ? 'bg-[#6B5CE7]' : 'bg-[#6B5CE7] animate-ping'}`} />
+                      <span className={bookCreationStep === 'book' ? 'font-bold' : 'text-cs-gray'}>
                         Step 1: Creating book metadata
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className={`w-1.5 h-1.5 rounded-full ${
-                        bookCreationStep === 'chapter' ? 'bg-neon-purple animate-ping' :
-                        (bookCreationStep === 'ingest' ? 'bg-neon-purple' : 'bg-gray-600')
+                      <div className={`w-2 h-2 rounded-full ${
+                        bookCreationStep === 'chapter' ? 'bg-[#6B5CE7] animate-ping' :
+                        (bookCreationStep === 'ingest' ? 'bg-[#6B5CE7]' : 'bg-gray-300')
                       }`} />
-                      <span className={bookCreationStep === 'chapter' ? 'text-white font-medium' : 'text-gray-400'}>
+                      <span className={bookCreationStep === 'chapter' ? 'font-bold' : 'text-cs-gray'}>
                         Step 2: Configuring curriculum indexes
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className={`w-1.5 h-1.5 rounded-full ${bookCreationStep === 'ingest' ? 'bg-neon-purple animate-ping' : 'bg-gray-600'}`} />
-                      <span className={bookCreationStep === 'ingest' ? 'text-white font-medium animate-pulse' : 'text-gray-400'}>
+                      <div className={`w-2 h-2 rounded-full ${bookCreationStep === 'ingest' ? 'bg-[#6B5CE7] animate-ping' : 'bg-gray-300'}`} />
+                      <span className={bookCreationStep === 'ingest' ? 'font-bold animate-pulse' : 'text-cs-gray'}>
                         Step 3: Ingesting vectors (may take a moment)
                       </span>
                     </div>
@@ -1052,25 +1042,23 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4 border-t border-glass-border">
-                <Button
+              <div className="flex gap-3 pt-4 border-t border-purple-100">
+                <button
                   type="button"
-                  variant="secondary"
                   onClick={() => setIsBookModalOpen(false)}
-                  className="flex-1 rounded-xl"
+                  className="flex-1 py-2.5 rounded-xl font-bold text-sm bg-gray-100 hover:bg-gray-200 text-cs-gray transition-colors cursor-pointer"
                   disabled={isActionLoading}
                 >
                   Cancel
-                </Button>
-                <Button
+                </button>
+                <button
                   type="submit"
-                  variant="primary"
-                  className="flex-1 rounded-xl flex items-center justify-center gap-1.5"
+                  className="cs-btn-purple flex-1 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 shadow-md cursor-pointer disabled:opacity-50"
                   disabled={isActionLoading}
                 >
                   {isActionLoading && <Loader2 size={14} className="animate-spin" />}
                   Save Book
-                </Button>
+                </button>
               </div>
             </form>
           </motion.div>
@@ -1079,46 +1067,44 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
 
       {/* --- Chapter Modal (Create/Edit) --- */}
       {isChapterModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-full max-w-md glass-panel p-6 rounded-2xl border border-white/10"
+            className="w-full max-w-md bg-white p-6 rounded-2xl border border-purple-200 shadow-2xl text-cs-dark"
           >
-            <h3 className="text-xl font-bold text-white mb-4">
+            <h3 className="text-xl font-black text-cs-dark mb-4">
               {editingChapter ? 'Rename Chapter' : 'Add Chapter'}
             </h3>
             <form onSubmit={handleSaveChapter} className="space-y-4">
               <div>
-                <label className="block text-xs text-gray-400 font-semibold mb-1 uppercase">Chapter Title</label>
+                <label className="block text-xs text-cs-gray font-bold mb-1 uppercase">Chapter Title</label>
                 <Input
                   required
                   value={chapterTitle}
                   onChange={(e) => setChapterTitle(e.target.value)}
                   placeholder="e.g. Chapter 1: Chemical Bonds"
-                  className="w-full"
+                  className="cs-input w-full"
                 />
               </div>
 
-              <div className="flex gap-3 pt-4 border-t border-glass-border">
-                <Button
+              <div className="flex gap-3 pt-4 border-t border-purple-100">
+                <button
                   type="button"
-                  variant="secondary"
                   onClick={() => setIsChapterModalOpen(false)}
-                  className="flex-1 rounded-xl"
+                  className="flex-1 py-2.5 rounded-xl font-bold text-sm bg-gray-100 hover:bg-gray-200 text-cs-gray transition-colors cursor-pointer"
                   disabled={isActionLoading}
                 >
                   Cancel
-                </Button>
-                <Button
+                </button>
+                <button
                   type="submit"
-                  variant="primary"
-                  className="flex-1 rounded-xl flex items-center justify-center gap-1.5"
+                  className="cs-btn-purple flex-1 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 shadow-md cursor-pointer disabled:opacity-50"
                   disabled={isActionLoading}
                 >
                   {isActionLoading && <Loader2 size={14} className="animate-spin" />}
                   Save Chapter
-                </Button>
+                </button>
               </div>
             </form>
           </motion.div>
@@ -1127,18 +1113,18 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
 
       {/* --- User Modal (Create/Edit) --- */}
       {isUserModalOpen && isAdmin && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="w-full max-w-md glass-panel p-6 rounded-2xl border border-white/10"
+            className="w-full max-w-md bg-white p-6 rounded-2xl border border-purple-200 shadow-2xl text-cs-dark"
           >
-            <h3 className="text-xl font-bold text-white mb-4">
+            <h3 className="text-xl font-black text-cs-dark mb-4">
               {editingUser ? 'Edit User Role' : 'Register New User'}
             </h3>
             <form onSubmit={handleSaveUser} className="space-y-4">
               <div>
-                <label className="block text-xs text-gray-400 font-semibold mb-1 uppercase">Email Address</label>
+                <label className="block text-xs text-cs-gray font-bold mb-1 uppercase">Email Address</label>
                 <Input
                   type="email"
                   required
@@ -1146,12 +1132,12 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                   value={userEmail}
                   onChange={(e) => setUserEmail(e.target.value)}
                   placeholder="name@school.edu"
-                  className="w-full"
+                  className="cs-input w-full disabled:opacity-60"
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-gray-400 font-semibold mb-1 uppercase">
+                <label className="block text-xs text-cs-gray font-bold mb-1 uppercase">
                   {editingUser ? 'New Password (Optional)' : 'Password'}
                 </label>
                 <Input
@@ -1160,16 +1146,16 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                   value={userPassword}
                   onChange={(e) => setUserPassword(e.target.value)}
                   placeholder={editingUser ? 'Leave blank to keep current' : '•••••••• (min 8 chars)'}
-                  className="w-full"
+                  className="cs-input w-full"
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-gray-400 font-semibold mb-1 uppercase">User Role</label>
+                <label className="block text-xs text-cs-gray font-bold mb-1 uppercase">User Role</label>
                 <select
                   value={userRole}
                   onChange={(e) => setUserRole(e.target.value)}
-                  className="w-full py-2.5 px-3 border border-glass-border rounded-xl bg-black text-white focus:outline-none focus:ring-2 focus:ring-neon-purple focus:border-transparent transition-all"
+                  className="cs-input w-full rounded-xl py-2.5 px-3 font-semibold"
                 >
                   <option value="student">Student</option>
                   <option value="teacher">Teacher</option>
@@ -1177,25 +1163,23 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                 </select>
               </div>
 
-              <div className="flex gap-3 pt-4 border-t border-glass-border">
-                <Button
+              <div className="flex gap-3 pt-4 border-t border-purple-100">
+                <button
                   type="button"
-                  variant="secondary"
                   onClick={() => setIsUserModalOpen(false)}
-                  className="flex-1 rounded-xl"
+                  className="flex-1 py-2.5 rounded-xl font-bold text-sm bg-gray-100 hover:bg-gray-200 text-cs-gray transition-colors cursor-pointer"
                   disabled={isActionLoading}
                 >
                   Cancel
-                </Button>
-                <Button
+                </button>
+                <button
                   type="submit"
-                  variant="primary"
-                  className="flex-1 rounded-xl flex items-center justify-center gap-1.5"
+                  className="cs-btn-purple flex-1 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-1.5 shadow-md cursor-pointer disabled:opacity-50"
                   disabled={isActionLoading}
                 >
                   {isActionLoading && <Loader2 size={14} className="animate-spin" />}
                   Save User
-                </Button>
+                </button>
               </div>
             </form>
           </motion.div>

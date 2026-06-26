@@ -81,10 +81,11 @@ export default function GamifiedQuizGen() {
   if (quizData && quizData.questions) {
     return (
       <div className="h-full overflow-y-auto custom-scrollbar p-4 md:p-8 relative">
-        <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center bg-[#1a1a1a] border border-gray-800 p-4 rounded-xl shadow-md">
+        <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center rounded-xl p-4 shadow-sm" style={{ background: 'rgba(255,255,255,0.8)', border: '1px solid rgba(107,92,231,0.15)' }}>
           <button 
             onClick={() => setQuizData(null)} 
-            className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+            className="text-sm font-semibold transition-colors flex items-center gap-2 hover:opacity-70"
+            style={{ color: '#6B5CE7' }}
           >
             ← Back to Generator
           </button>
@@ -98,50 +99,49 @@ export default function GamifiedQuizGen() {
 
   return (
     <div className="h-full overflow-y-auto custom-scrollbar p-4 md:p-8 relative">
-      <div className="absolute top-20 right-20 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-
       <div className="max-w-3xl mx-auto space-y-8 pb-24 relative z-10">
         
-        <GlassCard className="p-8 border border-white/10 hover:border-indigo-500/30 transition-colors group flex flex-col justify-between">
+        <GlassCard className="p-8 group flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-indigo-500/20 to-purple-500/10 flex items-center justify-center border border-indigo-500/20 group-hover:shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all">
-                <BookOpen size={22} className="text-indigo-400"/>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all" style={{ background: 'rgba(107,92,231,0.1)', border: '1px solid rgba(107,92,231,0.2)' }}>
+                <BookOpen size={22} style={{ color: '#6B5CE7' }} />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-white tracking-wide">Generate Gamified Quiz</h2>
-                <p className="text-xs text-gray-400">Select chapters to create an interactive learning experience</p>
+                <h2 className="text-xl font-bold tracking-tight" style={{ color: '#1A1A2E' }}>Generate Gamified Quiz</h2>
+                <p className="text-xs" style={{ color: '#5A5A72' }}>Select chapters to create an interactive learning experience</p>
               </div>
             </div>
 
             <div className="space-y-5">
               <div>
-                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Select Book <span className="text-pink-500">*</span></label>
+                <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#1A1A2E' }}>Select Book <span style={{ color: '#6B5CE7' }}>*</span></label>
                 <div className="relative">
                   <select 
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/50 transition-all appearance-none cursor-pointer"
+                    className="cs-input w-full px-4 py-3 text-sm appearance-none cursor-pointer"
+                    style={{ color: '#1A1A2E', background: 'rgba(255,255,255,0.9)' }}
                     value={selectedBookId}
                     onChange={(e) => setSelectedBookId(e.target.value)}
                     disabled={isBooksLoading || isGenerating}
                   >
-                    <option className="bg-[#1a1a1a] text-white" value="" disabled>{isBooksLoading ? 'Loading books...' : 'Select a book'}</option>
-                    {books.map(b => <option className="bg-[#1a1a1a] text-white" key={b.id || b._id} value={b.id || b._id}>{b.title || b.name}</option>)}
+                    <option value="" disabled>{isBooksLoading ? 'Loading books...' : 'Select a book'}</option>
+                    {books.map(b => <option key={b.id || b._id} value={b.id || b._id}>{b.title || b.name}</option>)}
                   </select>
                   <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                    <Layers size={16} className="text-gray-500"/>
+                    <Layers size={16} style={{ color: '#9CA3AF' }} />
                   </div>
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Select Chapters <span className="text-pink-500">*</span></label>
+                <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#1A1A2E' }}>Select Chapters <span style={{ color: '#6B5CE7' }}>*</span></label>
                 {selectedBookId ? (
-                  <div className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all max-h-40 overflow-y-auto custom-scrollbar">
+                  <div className="w-full rounded-xl px-4 py-3 text-sm transition-all max-h-48 overflow-y-auto custom-scrollbar" style={{ background: 'rgba(255,255,255,0.8)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
                     {isChaptersLoading ? (
-                      <span className="text-gray-500">Loading chapters...</span>
+                      <span style={{ color: '#5A5A72' }}>Loading chapters...</span>
                     ) : chapters.length === 0 ? (
-                      <span className="text-gray-500">No chapters found.</span>
+                      <span style={{ color: '#5A5A72' }}>No chapters found.</span>
                     ) : (
-                      <div className="space-y-2">
+                      <div className="space-y-2.5 py-1">
                         {chapters.map(c => {
                           const cId = c.id || c._id;
                           const isChecked = selectedChapterIds.includes(cId);
@@ -153,10 +153,10 @@ export default function GamifiedQuizGen() {
                                 checked={isChecked} 
                                 onChange={() => toggleChapter(cId)} 
                               />
-                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${isChecked ? 'bg-indigo-500 border-indigo-500' : 'border-gray-500 group-hover:border-white'}`}>
-                                {isChecked && <Sparkles size={10} className="text-white"/>}
+                              <div className="w-5 h-5 rounded-lg flex items-center justify-center transition-colors" style={{ border: isChecked ? 'none' : '1.5px solid rgba(107,92,231,0.3)', background: isChecked ? '#6B5CE7' : 'transparent' }}>
+                                {isChecked && <Sparkles size={12} className="text-white"/>}
                               </div>
-                              <span className={isChecked ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}>
+                              <span className="text-sm font-medium" style={{ color: isChecked ? '#1A1A2E' : '#5A5A72' }}>
                                 {c.title || c.name}
                               </span>
                             </label>
@@ -166,8 +166,8 @@ export default function GamifiedQuizGen() {
                     )}
                   </div>
                 ) : (
-                  <div className="w-full bg-black/20 border border-white/5 border-dashed rounded-xl px-4 py-4 text-center">
-                    <p className="text-sm text-gray-500 italic">Please select a book to view available chapters</p>
+                  <div className="w-full rounded-xl px-4 py-5 text-center" style={{ background: 'rgba(107,92,231,0.04)', border: '1.5px dashed rgba(107,92,231,0.2)' }}>
+                    <p className="text-sm italic" style={{ color: '#9CA3AF' }}>Please select a book above to view available chapters</p>
                   </div>
                 )}
               </div>
@@ -179,13 +179,11 @@ export default function GamifiedQuizGen() {
           <button 
             disabled={!isFormValid}
             onClick={handleGenerate}
-            className={`
-              w-full py-4 rounded-xl font-bold text-[16px] flex items-center justify-center gap-3 transition-all duration-300 mb-3
-              ${isFormValid 
-                ? 'bg-linear-to-r from-indigo-500 to-purple-600 text-white shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] hover:scale-[1.02]' 
-                : 'bg-white/5 text-gray-500 border border-white/10 cursor-not-allowed'
-              }
-            `}
+            className="w-full py-4 rounded-full font-bold text-base flex items-center justify-center gap-3 transition-all duration-300 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              background: isFormValid ? '#6B5CE7' : 'rgba(107,92,231,0.1)',
+              color: isFormValid ? 'white' : '#9CA3AF',
+            }}
           >
             {isGenerating ? (
               <>
@@ -194,7 +192,7 @@ export default function GamifiedQuizGen() {
               </>
             ) : (
               <>
-                <Gamepad2 size={20} className={isFormValid ? "text-white" : "text-gray-500"}/>
+                <Gamepad2 size={20} />
                 Generate & Play
               </>
             )}

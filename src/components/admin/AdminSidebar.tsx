@@ -15,36 +15,36 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <aside className="w-64 h-full flex flex-col bg-[#080808] border-r border-[rgba(255,255,255,0.05)] font-sans">
+    <aside className="w-64 h-full flex flex-col bg-white/85 backdrop-blur-md border-r border-purple-200/70 font-sans shrink-0 shadow-xs z-10">
       {/* Logo Section */}
       <div className="p-6 pb-8">
-        <h1 className="text-2xl font-bold flex items-center gap-2">
-          <span className="text-[#10b981]">Yugsoft</span>
-          <span className="text-white">Admin</span>
+        <h1 className="text-2xl font-black flex items-center gap-2 tracking-tight">
+          <span className="text-[#6B5CE7]">Yugsoft</span>
+          <span className="text-cs-dark">Admin</span>
         </h1>
       </div>
 
       {/* Navigation */}
       <div className="flex-1 px-4">
-        <div className="text-[10px] uppercase tracking-wider text-gray-500 font-semibold mb-4 px-2">
+        <div className="text-[10px] uppercase tracking-wider text-cs-gray font-bold mb-4 px-2">
           Administration
         </div>
         <nav className="flex flex-col gap-2">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href || (item.href !== '/admin' && pathname?.startsWith(item.href));
             const Icon = item.icon;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                className={`flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm transition-all duration-200 ${
                   isActive
-                    ? 'bg-[rgba(16,185,129,0.1)] text-[#10b981] box-shadow-glow-green border border-[rgba(16,185,129,0.2)]'
-                    : 'text-gray-400 hover:text-white hover:bg-[rgba(255,255,255,0.05)]'
+                    ? 'bg-[#6B5CE7] text-white font-extrabold shadow-md shadow-[#6B5CE7]/30'
+                    : 'text-cs-gray hover:text-cs-dark hover:bg-purple-50 font-bold'
                 }`}
               >
-                <Icon size={18} className={isActive ? 'text-[#10b981]' : ''} />
-                <span className="font-medium">{item.label}</span>
+                <Icon size={18} className={isActive ? 'text-white' : 'text-[#6B5CE7]'} />
+                <span>{item.label}</span>
               </Link>
             );
           })}
@@ -52,17 +52,17 @@ export default function AdminSidebar() {
       </div>
 
       {/* Footer Profile */}
-      <div className="p-4 border-t border-[rgba(255,255,255,0.05)]">
-        <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-3 border border-[rgba(255,255,255,0.05)] mb-3 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[rgba(16,185,129,0.2)] flex items-center justify-center border border-[rgba(16,185,129,0.3)]">
-            <Users size={14} className="text-[#10b981]" />
+      <div className="p-4 border-t border-purple-100">
+        <div className="bg-purple-50/70 rounded-xl p-3 border border-purple-100 mb-3 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center border border-purple-200">
+            <Users size={14} className="text-[#6B5CE7]" />
           </div>
-          <div>
-            <div className="text-xs font-semibold text-white">ajeet.admin</div>
-            <div className="text-[10px] text-gray-400">ADMIN</div>
+          <div className="overflow-hidden">
+            <div className="text-xs font-bold text-cs-dark truncate">ajeet.admin</div>
+            <div className="text-[10px] text-[#6B5CE7] font-black">ADMIN</div>
           </div>
         </div>
-        <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[rgba(239,68,68,0.1)] text-red-400 hover:bg-[rgba(239,68,68,0.15)] transition-colors border border-[rgba(239,68,68,0.2)] text-xs font-medium">
+        <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors border border-red-200 text-xs font-bold cursor-pointer">
           <LogOut size={14} />
           <span>Log Out</span>
         </button>

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Gamepad2, Flame, Trophy, Play, CheckCircle2, Clock, BookOpen, Loader2 } from 'lucide-react';
+import { Gamepad2, Flame, Trophy, Play, CheckCircle2, BookOpen, Loader2, Sparkles } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import api from '@/services/api';
@@ -10,7 +10,7 @@ import api from '@/services/api';
 export default function StudentDashboard() {
   const { user } = useAuthStore();
   const router = useRouter();
-  
+
   const studentName = user?.name || user?.email?.split('@')[0] || 'Student';
 
   const [loading, setLoading] = useState(true);
@@ -26,27 +26,22 @@ export default function StudentDashboard() {
       try {
         const res = await api.get('/quiz/my-results');
         const data = res.data?.data || res.data || [];
-        
-        // Calculate totals
+
         const completed = data.length;
         const points = data.reduce((sum, quiz) => sum + (quiz.score || 0), 0);
-        
-        // Calculate Streak (naive implementation: count unique days played consecutively from most recent)
-        // A robust implementation would compare with today's date.
+
         let streak = 0;
         if (data.length > 0) {
           const uniqueDates = Array.from(new Set(data.map(q => new Date(q.createdAt).toDateString())));
-          // Just taking the number of unique days played as a simple streak for now if it's within last few days
-          streak = uniqueDates.length; // Simple fallback
+          streak = uniqueDates.length;
         }
 
         setStats({
           quizzesCompleted: completed,
           totalPoints: points,
           currentStreak: streak,
-          recentScores: data.slice(0, 5) // Top 5 recent
+          recentScores: data.slice(0, 5)
         });
-
       } catch (err) {
         console.error('Failed to fetch dashboard data', err);
       } finally {
@@ -57,17 +52,29 @@ export default function StudentDashboard() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-fade-in pb-12">
-      {/* Welcome Banner */}
-      <div className="relative p-8 rounded-3xl overflow-hidden glass-panel border border-indigo-500/20 bg-linear-to-br from-indigo-900/40 to-obsidian">
-        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-          <Gamepad2 size={120} />
+    <div className="max-w-6xl mx-auto space-y-7 animate-fade-in pb-12 px-2">
+
+      {/* ── Welcome Banner ── */}
+      <div
+        className="relative p-8 rounded-3xl overflow-hidden"
+        style={{
+          background: 'linear-gradient(135deg, rgba(107,92,231,0.12) 0%, rgba(139,92,246,0.08) 100%)',
+          border: '1.5px solid rgba(107,92,231,0.18)',
+          backdropFilter: 'blur(16px)',
+        }}
+      >
+        <div className="absolute top-0 right-0 p-8 pointer-events-none opacity-[0.06]">
+          <Gamepad2 size={120} style={{ color: '#6B5CE7' }} />
         </div>
         <div className="relative z-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-            Welcome back, <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-purple-400">{studentName}</span>!
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles size={16} style={{ color: '#6B5CE7' }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6B5CE7' }}>Student Portal</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black mb-2" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
+            Welcome back, <span style={{ color: '#6B5CE7' }}>{studentName}</span>!
           </h1>
-          <p className="text-gray-400 text-lg max-w-xl">
+          <p className="text-base max-w-xl" style={{ color: '#5A5A72' }}>
             Ready to learn something new today? Keep up the great work and maintain your streak!
           </p>
         </div>
@@ -75,117 +82,125 @@ export default function StudentDashboard() {
 
       {loading ? (
         <div className="flex justify-center py-20">
-          <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+          <Loader2 className="w-10 h-10 animate-spin" style={{ color: '#6B5CE7' }} />
         </div>
       ) : (
         <>
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <motion.div whileHover={{ y: -5 }} className="glass-panel p-6 rounded-2xl flex items-center gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-orange-500/20 flex items-center justify-center text-orange-500 box-shadow-glow-purple">
-                <Flame size={32} />
-              </div>
-              <div>
-                <p className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Current Streak</p>
-                <h3 className="text-3xl font-black text-white">{stats.currentStreak} Days</h3>
-              </div>
-            </motion.div>
-
-            <motion.div whileHover={{ y: -5 }} className="glass-panel p-6 rounded-2xl flex items-center gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 box-shadow-glow-purple">
-                <Trophy size={32} />
-              </div>
-              <div>
-                <p className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Total Points</p>
-                <h3 className="text-3xl font-black text-white">{stats.totalPoints.toLocaleString()}</h3>
-              </div>
-            </motion.div>
-
-            <motion.div whileHover={{ y: -5 }} className="glass-panel p-6 rounded-2xl flex items-center gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 box-shadow-glow-green">
-                <CheckCircle2 size={32} />
-              </div>
-              <div>
-                <p className="text-gray-400 text-sm font-medium uppercase tracking-wider mb-1">Quizzes Completed</p>
-                <h3 className="text-3xl font-black text-white">{stats.quizzesCompleted}</h3>
-              </div>
-            </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { label: 'Current Streak', value: `${stats.currentStreak} Days`, icon: Flame, accent: '#F97316', bg: 'rgba(249,115,22,0.08)' },
+              { label: 'Total Points', value: stats.totalPoints.toLocaleString(), icon: Trophy, accent: '#6B5CE7', bg: 'rgba(107,92,231,0.08)' },
+              { label: 'Quizzes Completed', value: stats.quizzesCompleted, icon: CheckCircle2, accent: '#059669', bg: 'rgba(5,150,105,0.08)' },
+            ].map(({ label, value, icon: Icon, accent, bg }) => (
+              <motion.div
+                key={label}
+                whileHover={{ y: -4 }}
+                className="flex items-center gap-5 p-6 rounded-2xl"
+                style={{ background: 'rgba(255,255,255,0.75)', border: '1.5px solid rgba(107,92,231,0.12)', backdropFilter: 'blur(16px)', boxShadow: '0 2px 12px rgba(107,92,231,0.06)' }}
+              >
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+                  style={{ background: bg }}>
+                  <Icon size={28} style={{ color: accent }} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-0.5" style={{ color: '#9CA3AF' }}>{label}</p>
+                  <h3 className="text-2xl font-black" style={{ color: '#1A1A2E' }}>{value}</h3>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-7">
             {/* Ready to Practice */}
-            <div className="lg:col-span-2 space-y-6">
-              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                <Gamepad2 className="text-indigo-400" /> Ready to Practice?
+            <div className="lg:col-span-2 space-y-5">
+              <h2 className="text-xl font-black flex items-center gap-2" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
+                <Gamepad2 size={20} style={{ color: '#6B5CE7' }} /> Ready to Practice?
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
-                <div className="glass-panel p-6 rounded-2xl flex flex-col justify-between gap-4 transition-all hover:bg-white/5 border border-transparent hover:border-indigo-500/30">
+
+                <div
+                  className="p-6 rounded-2xl flex flex-col justify-between gap-4 transition-all cursor-pointer group"
+                  style={{ background: 'rgba(255,255,255,0.75)', border: '1.5px solid rgba(107,92,231,0.12)', backdropFilter: 'blur(16px)', boxShadow: '0 2px 12px rgba(107,92,231,0.06)' }}
+                >
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
-                      <Gamepad2 size={24} />
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
+                      style={{ background: 'rgba(107,92,231,0.08)' }}>
+                      <Gamepad2 size={22} style={{ color: '#6B5CE7' }} />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Quiz Generator</h3>
-                    <p className="text-gray-400 text-sm mb-4">Generate interactive gamified quizzes from your textbook chapters instantly.</p>
+                    <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>Quiz Generator</h3>
+                    <p className="text-sm mb-4" style={{ color: '#5A5A72' }}>Generate interactive gamified quizzes from your textbook chapters instantly.</p>
                   </div>
-                  <button 
+                  <button
                     onClick={() => router.push('/student/quiz-gen')}
-                    className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_rgba(79,70,229,0.5)]"
+                    className="cs-btn-purple w-full py-3 flex items-center justify-center gap-2 text-sm"
                   >
-                    <Play size={18} fill="currentColor" /> Generate Quiz
+                    <Play size={16} fill="currentColor" /> Generate Quiz
                   </button>
                 </div>
 
-                <div className="glass-panel p-6 rounded-2xl flex flex-col justify-between gap-4 transition-all hover:bg-white/5 border border-transparent hover:border-violet-500/30">
+                <div
+                  className="p-6 rounded-2xl flex flex-col justify-between gap-4 transition-all cursor-pointer group"
+                  style={{ background: 'rgba(255,255,255,0.75)', border: '1.5px solid rgba(107,92,231,0.12)', backdropFilter: 'blur(16px)', boxShadow: '0 2px 12px rgba(107,92,231,0.06)' }}
+                >
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center text-violet-400 mb-4">
-                      <BookOpen size={24} />
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
+                      style={{ background: 'rgba(139,92,246,0.08)' }}>
+                      <BookOpen size={22} style={{ color: '#8B5CF6' }} />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Chat with Book</h3>
-                    <p className="text-gray-400 text-sm mb-4">Have questions about your reading? Ask our AI assistant and get context-aware answers.</p>
+                    <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>Chat with Book</h3>
+                    <p className="text-sm mb-4" style={{ color: '#5A5A72' }}>Have questions about your reading? Ask our AI assistant and get context-aware answers.</p>
                   </div>
-                  <button 
+                  <button
                     onClick={() => router.push('/student/chat')}
-                    className="w-full py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.5)]"
+                    className="w-full py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 transition-all"
+                    style={{ background: 'rgba(139,92,246,0.1)', color: '#8B5CF6', border: '1.5px solid rgba(139,92,246,0.3)' }}
                   >
                     Open Chat
                   </button>
                 </div>
-
               </div>
             </div>
 
-            {/* Recent Activity */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                <Trophy className="text-orange-400" /> Recent Scores
+            {/* Recent Scores */}
+            <div className="space-y-5">
+              <h2 className="text-xl font-black flex items-center gap-2" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
+                <Trophy size={20} style={{ color: '#F97316' }} /> Recent Scores
               </h2>
-              <div className="glass-panel p-6 rounded-2xl space-y-4">
+              <div
+                className="p-5 rounded-2xl space-y-3"
+                style={{ background: 'rgba(255,255,255,0.75)', border: '1.5px solid rgba(107,92,231,0.12)', backdropFilter: 'blur(16px)' }}
+              >
                 {stats.recentScores.map((quiz) => (
-                  <div key={quiz.id} className="flex items-center justify-between p-4 rounded-xl bg-black/40 border border-white/5 hover:border-white/10 transition-colors">
+                  <div
+                    key={quiz.id}
+                    className="flex items-center justify-between p-3 rounded-xl"
+                    style={{ background: 'rgba(107,92,231,0.04)', border: '1px solid rgba(107,92,231,0.1)' }}
+                  >
                     <div>
-                      <h4 className="font-bold text-gray-200 line-clamp-1" title={quiz.title}>{quiz.title}</h4>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <h4 className="text-sm font-semibold line-clamp-1" style={{ color: '#1A1A2E' }}>{quiz.title}</h4>
+                      <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>
                         {new Date(quiz.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                       </p>
                     </div>
                     <div className="text-right shrink-0 ml-2">
-                      <span className="text-xl font-black text-emerald-400">{quiz.score}</span>
-                      <span className="text-xs text-gray-500 ml-1">pts</span>
+                      <span className="text-lg font-black" style={{ color: '#059669' }}>{quiz.score}</span>
+                      <span className="text-xs ml-0.5" style={{ color: '#9CA3AF' }}>pts</span>
                     </div>
                   </div>
                 ))}
-                
+
                 {stats.recentScores.length === 0 && (
-                  <p className="text-center text-gray-500 py-4">No completed quizzes yet.</p>
+                  <p className="text-center text-sm py-6" style={{ color: '#9CA3AF' }}>No completed quizzes yet.</p>
                 )}
 
                 {stats.recentScores.length > 0 && (
-                  <button 
+                  <button
                     onClick={() => router.push('/student/quizzes')}
-                    className="w-full mt-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+                    className="w-full mt-2 py-2 text-sm font-semibold transition-colors"
+                    style={{ color: '#6B5CE7' }}
                   >
-                    View All History
+                    View All History →
                   </button>
                 )}
               </div>

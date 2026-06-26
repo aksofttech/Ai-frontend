@@ -36,71 +36,68 @@ export default function CurriculumManagementPage() {
       <CreateBookModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSuccess={fetchBooks} />
 
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-white">Ingested Textbooks</h2>
+        <h2 className="text-xl font-black text-cs-dark">Ingested Textbooks</h2>
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="px-4 py-2 bg-neon-purple hover:bg-[#7c3aed] text-white rounded-lg text-sm font-semibold transition-colors box-shadow-glow-purple flex items-center gap-2"
+          className="cs-btn-purple px-5 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md flex items-center gap-2 cursor-pointer"
         >
           <span className="text-lg leading-none mb-0.5">+</span> Create Book
         </button>
       </div>
 
-      <div className="glass-panel rounded-xl overflow-hidden border border-glass-border">
+      <div className="rounded-2xl overflow-hidden shadow-xs" style={{ background: 'rgba(255,255,255,0.85)', border: '1.5px solid rgba(107,92,231,0.18)' }}>
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-400">
-            <thead className="bg-[rgba(255,255,255,0.02)] border-b border-glass-bg text-xs uppercase tracking-wider text-gray-500">
+          <table className="w-full text-left text-sm text-cs-gray">
+            <thead className="bg-purple-50/70 border-b border-purple-100 text-xs uppercase tracking-wider text-cs-gray font-bold">
               <tr>
-                <th className="px-6 py-4 font-semibold">Textbook Title</th>
-                <th className="px-6 py-4 font-semibold">Class/Grade</th>
-                <th className="px-6 py-4 font-semibold">Chapters</th>
-                <th className="px-6 py-4 font-semibold">Status</th>
-                <th className="px-6 py-4 font-semibold">Last Updated</th>
-                <th className="px-6 py-4 text-right font-semibold">Actions</th>
+                <th className="px-6 py-4 font-extrabold">Textbook Title</th>
+                <th className="px-6 py-4 font-extrabold">Class/Grade</th>
+                <th className="px-6 py-4 font-extrabold">Chapters</th>
+                <th className="px-6 py-4 font-extrabold">Status</th>
+                <th className="px-6 py-4 font-extrabold">Last Updated</th>
+                <th className="px-6 py-4 text-right font-extrabold">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-glass-bg">
+            <tbody className="divide-y divide-purple-100/60 bg-white/50">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-neon-purple" />
+                  <td colSpan={6} className="px-6 py-12 text-center text-cs-gray font-semibold">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-[#6B5CE7]" />
                     Loading textbooks...
                   </td>
                 </tr>
               ) : books.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-cs-gray font-semibold">
                     No books found. Click "Create Book" to get started.
                   </td>
                 </tr>
               ) : (
                 books.map((book) => (
-                  <tr key={book.id} className="hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+                  <tr key={book.id} className="hover:bg-purple-50/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded bg-neon-purple/10 flex items-center justify-center">
-                          <BookOpen size={16} className="text-neon-purple" />
+                        <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
+                          <BookOpen size={16} className="text-[#6B5CE7]" />
                         </div>
-                        <span className="font-medium text-gray-200">{book.title}</span>
+                        <span className="font-bold text-cs-dark">{book.title}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-300">{book.class || '-'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-300">{book.chapters?.length || 0}</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-bold text-cs-dark">{book.class || '-'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap font-bold text-cs-dark">{book.chapters?.length || 0}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase bg-emerald-500/10 text-emerald-500 border border-emerald-500/20`}>
+                      <span className="px-3 py-1 rounded-full text-[10px] font-extrabold tracking-wide uppercase bg-emerald-100 text-emerald-700 border border-emerald-200">
                         Ingested
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-xs">{new Date(book.createdAt).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-xs font-semibold text-cs-gray">{new Date(book.createdAt).toLocaleDateString()}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button className="p-2 text-gray-500 hover:text-white transition-colors rounded-lg hover:bg-glass-bg">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button className="p-2 text-cs-gray hover:text-[#6B5CE7] transition-colors rounded-lg hover:bg-purple-50 cursor-pointer">
                           <Edit2 size={16} />
                         </button>
-                        <button className="p-2 text-gray-500 hover:text-red-400 transition-colors rounded-lg hover:bg-[rgba(239,68,68,0.1)]">
+                        <button className="p-2 text-cs-gray hover:text-red-600 transition-colors rounded-lg hover:bg-red-50 cursor-pointer">
                           <Trash2 size={16} />
-                        </button>
-                        <button className="p-2 text-gray-500 hover:text-white transition-colors rounded-lg hover:bg-glass-bg">
-                          <MoreVertical size={16} />
                         </button>
                       </div>
                     </td>
