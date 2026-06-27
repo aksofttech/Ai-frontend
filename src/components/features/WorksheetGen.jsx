@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import GlassCard from '@/components/ui/GlassCard';
 import Button from '@/components/ui/Button';
-import { RefreshCw, Play, Loader2, Download, FileText, CheckCircle } from 'lucide-react';
+import { RefreshCw, Play, Loader2, Download, FileText, CheckCircle, X } from 'lucide-react';
 import useCurriculumStore from '@/store/curriculumStore';
 import BookSelectionForm from '@/components/BookSelectionForm';
 import Slider from '@/components/ui/Slider';
@@ -164,6 +164,7 @@ export default function WorksheetGen() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
   const [worksheetData, setWorksheetData] = useState(null);
+  const [showAnswerModal, setShowAnswerModal] = useState(false);
 
   if (!selection) {
     return (
@@ -351,8 +352,9 @@ export default function WorksheetGen() {
             <Download size={16} /> Export DOCX
           </button>
           <button 
+            onClick={() => setShowAnswerModal(true)}
             disabled={!isGenerated || isGenerating}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition-colors disabled:opacity-50 text-sm"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition-colors disabled:opacity-50 text-sm hover:bg-emerald-50 active:scale-98"
             style={{ background: 'rgba(16,185,129,0.1)', color: '#10b981', border: '1px solid rgba(16,185,129,0.2)' }}
           >
             Answer Key <CheckCircle size={16} />
@@ -488,6 +490,75 @@ export default function WorksheetGen() {
           </div>
         )}
       </div>
+
+      {/* Answer Key Modal */}
+      {showAnswerModal && worksheetData && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-[#1A1A2E] text-white w-full max-w-2xl rounded-3xl p-6 shadow-2xl border border-white/10 max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+              <h3 className="text-lg font-bold flex items-center gap-2 text-emerald-400">
+                <CheckCircle size={20}/> Worksheet Answer Key
+              </h3>
+              <button onClick={() => setShowAnswerModal(false)} className="text-gray-400 hover:text-white p-1 rounded-lg bg-white/5">
+                <X size={20}/>
+              </button>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto custom-scrollbar space-y-6 pr-2 text-sm">
+              {worksheetData.mcqs && worksheetData.mcqs.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-purple-300 mb-3 uppercase text-xs tracking-wider">I. Multiple Choice Answers</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {worksheetData.mcqs.map((q, idx) => (
+                      <div key={idx} className="bg-white/5 p-3 rounded-xl border border-white/5">
+                        <span className="font-bold text-gray-400 mr-2">Q{idx+1}.</span>
+                        <span className="text-emerald-300 font-semibold">{q.correctAnswer || q.answer || 'Refer textbook'}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {worksheetData.fillInTheBlanks && worksheetData.fillInTheBlanks.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-amber-300 mb-3 uppercase text-xs tracking-wider">II. Fill in the Blanks</h4>
+                  <div className="space-y-2">
+                    {worksheetData.fillInTheBlanks.map((q, idx) => (
+                      <div key={idx} className="bg-white/5 p-3 rounded-xl border border-white/5 flex justify-between">
+                        <span className="text-gray-300">{idx+1}. {q.question || q.q}</span>
+                        <span className="text-emerald-300 font-bold ml-4">{q.answer || q.correctAnswer || '-'}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {worksheetData.trueFalse && worksheetData.trueFalse.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-teal-300 mb-3 uppercase text-xs tracking-wider">III. True / False Answers</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {worksheetData.trueFalse.map((q, idx) => (
+                      <div key={idx} className="bg-white/5 p-2.5 rounded-xl border border-white/5 flex justify-between items-center">
+                        <span className="font-bold text-gray-400">Q{idx+1}</span>
+                        <span className="text-emerald-300 font-extrabold font-mono">{q.answer || (idx%2===0?'True':'False')}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-4 border-t border-white/10 mt-6 flex justify-end">
+              <button 
+                onClick={() => setShowAnswerModal(false)}
+                className="px-6 py-2 rounded-xl bg-purple-600 text-white font-bold text-sm hover:bg-purple-500 transition-colors"
+              >
+                Close Answer Key
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

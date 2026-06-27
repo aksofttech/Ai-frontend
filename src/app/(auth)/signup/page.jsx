@@ -160,7 +160,7 @@ export default function SignupPage() {
           {/* Google */}
           <button
             type="button"
-            onClick={() => window.location.href = 'http://localhost:4001/api/v1/auth/google'}
+            onClick={() => window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`}
             className="w-full py-3 px-4 rounded-full font-semibold flex items-center justify-center gap-3 text-sm transition-all"
             style={{ background: 'white', color: '#1A1A2E', border: '1.5px solid rgba(107,92,231,0.2)', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}
           >
