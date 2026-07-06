@@ -14,7 +14,7 @@ const api = axios.create({
 // Request interceptor to automatically add the JWT token to every request
 api.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('token');
+    const token = Cookies.get('rag_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -31,7 +31,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       // Auto logout if 401 response returned from api
-      Cookies.remove('token');
+      Cookies.remove('rag_token');
       // In a real app, you might want to redirect to /login here or trigger a global event
       if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
         window.location.href = '/login';

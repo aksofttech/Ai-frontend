@@ -3,16 +3,16 @@ import Cookies from 'js-cookie';
 
 const useAuthStore = create((set) => ({
   user: null,
-  token: Cookies.get('token') || null,
-  isAuthenticated: !!Cookies.get('token'),
+  token: Cookies.get('rag_token') || null,
+  isAuthenticated: !!Cookies.get('rag_token'),
 
   setAuth: (user, token) => {
-    Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
+    Cookies.set('rag_token', token, { expires: 7 }); // Expires in 7 days
     set({ user, token, isAuthenticated: true });
   },
 
   logout: () => {
-    Cookies.remove('token');
+    Cookies.remove('rag_token');
     set({ user: null, token: null, isAuthenticated: false });
   },
 
@@ -25,7 +25,7 @@ const useAuthStore = create((set) => ({
       return data;
     } catch (err) {
       console.warn('Failed to fetch user profile:', err);
-      Cookies.remove('token');
+      Cookies.remove('rag_token');
       set({ user: null, token: null, isAuthenticated: false });
     }
   },
