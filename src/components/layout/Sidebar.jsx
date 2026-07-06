@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   MessageSquare, BookOpen, FileText, LayoutDashboard,
-  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain
+  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 
@@ -16,6 +16,7 @@ const TOOLS = [
   { id: 'ppt', label: 'AI PPT Gen', icon: Presentation },
   { id: 'test-paper', label: 'Test Paper Gen', icon: FilePenLine },
   { id: 'homework', label: 'AI Homework Gen', icon: BookOpen },
+  { id: 'oral-questions', label: 'Oral Question Gen', icon: Mic },
 ];
 
 export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIsMobileOpen }) {

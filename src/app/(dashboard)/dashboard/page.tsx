@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {
   MessageSquare, BookOpen, FileText, LayoutDashboard,
   CheckCircle, Presentation, FilePenLine, GraduationCap,
-  Sparkles, ArrowRight, Brain, Gamepad2,
+  Sparkles, ArrowRight, Brain, Gamepad2, Mic,
 } from 'lucide-react';
 
 /* ─── Tool card definitions ─────────────────────────────────────── */
@@ -89,6 +89,15 @@ const TOOLS = [
     icon: GraduationCap,
     accent: '#16A34A',
     accentBg: 'rgba(22,163,74,0.08)',
+  },
+  {
+    id: 'oral-questions',
+    href: '/teacher?tool=oral-questions',
+    label: 'Oral Question Gen',
+    description: 'Generate interactive oral drills, viva sheets, and rapid fire cards for classroom engagement.',
+    icon: Mic,
+    accent: '#EC4899',
+    accentBg: 'rgba(236,72,153,0.08)',
   },
 ];
 
