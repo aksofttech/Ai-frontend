@@ -26,7 +26,7 @@ function buildOralQuestionsHTML(assignmentData) {
             ${modeBadge}
           </span>
         </p>
-        <p class="a-text"><strong>Expected Answer:</strong> ${q.expectedAnswer}</p>
+        <p class="a-text"><strong>Answer:</strong> ${q.expectedAnswer}</p>
       </div>
     `;
   });
