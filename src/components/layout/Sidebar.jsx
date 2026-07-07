@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   MessageSquare, BookOpen, FileText, LayoutDashboard,
   CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic
@@ -17,9 +18,11 @@ const TOOLS = [
   { id: 'test-paper', label: 'Test Paper Gen', icon: FilePenLine },
   { id: 'homework', label: 'AI Homework Gen', icon: BookOpen },
   { id: 'oral-questions', label: 'Oral Question Gen', icon: Mic },
+  { id: 'e-library', label: 'E-Library', icon: BookOpen },
 ];
 
 export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIsMobileOpen }) {
+  const router = useRouter();
   const { user, logout } = useAuthStore();
   const userRole = user?.role || 'teacher';
   const userEmail = user?.email || 'admin@yugsoft.com';
@@ -83,7 +86,16 @@ export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIs
               <button
                 key={tool.id}
                 onClick={() => {
-                  setActiveTool(tool.id);
+                  if (tool.id === 'e-library') {
+                    router.push('/e-library');
+                  } else {
+                    if (setActiveTool) {
+                      setActiveTool(tool.id);
+                      router.push(`/teacher?tool=${tool.id}`, { scroll: false });
+                    } else {
+                      router.push(`/teacher?tool=${tool.id}`);
+                    }
+                  }
                   if (setIsMobileOpen) setIsMobileOpen(false);
                 }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium ${isActive ? '' : ''}`}
