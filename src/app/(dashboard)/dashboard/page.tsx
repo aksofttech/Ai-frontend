@@ -99,6 +99,15 @@ const TOOLS = [
     accent: '#EC4899',
     accentBg: 'rgba(236,72,153,0.08)',
   },
+  {
+    id: 'e-library',
+    href: '/e-library',
+    label: 'E-Library',
+    description: 'Browse, search, and download textbook PDF documents and digital resources directly.',
+    icon: BookOpen,
+    accent: '#6B5CE7',
+    accentBg: 'rgba(107,92,231,0.08)',
+  },
 ];
 
 /* ─── Component ─────────────────────────────────────────────────── */
