@@ -3,7 +3,7 @@ import GlassCard from '@/components/ui/GlassCard';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import BookSelectionForm from '@/components/BookSelectionForm';
-import { Send, Sparkles, BookOpen, Loader2, RefreshCw } from 'lucide-react';
+import { Send, Sparkles, BookOpen, Loader2, RefreshCw, Mic } from 'lucide-react';
 import useCurriculumStore from '@/store/curriculumStore';
 import api from '@/services/api';
 
@@ -22,6 +22,74 @@ export default function ChatWithBook({ onReady }) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const endOfMessagesRef = useRef(null);
+
+  // Speech-to-Text configuration
+  const [isRecording, setIsRecording] = useState(false);
+  const [isSpeechSupported, setIsSpeechSupported] = useState(true);
+  const recognitionRef = useRef(null);
+  const recordingBaseTextRef = useRef('');
+
+  useEffect(() => {
+    const SpeechRecognition =
+      typeof window !== 'undefined' &&
+      (window.SpeechRecognition || window.webkitSpeechRecognition);
+
+    if (!SpeechRecognition) {
+      setIsSpeechSupported(false);
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsRecording(true);
+    };
+
+    recognition.onresult = (event) => {
+      let speechText = '';
+      for (let i = 0; i < event.results.length; i++) {
+        speechText += event.results[i][0].transcript;
+      }
+
+      const base = recordingBaseTextRef.current;
+      const newText = base
+        ? (base.endsWith(' ') ? base + speechText : base + ' ' + speechText)
+        : speechText;
+      setInput(newText);
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setIsRecording(false);
+    };
+
+    recognition.onend = () => {
+      setIsRecording(false);
+    };
+
+    recognitionRef.current = recognition;
+  }, []);
+
+  const toggleRecording = () => {
+    if (!recognitionRef.current) {
+      alert("Voice input is not supported in this browser.");
+      return;
+    }
+
+    if (isRecording) {
+      recognitionRef.current.stop();
+    } else {
+      recordingBaseTextRef.current = input; // Capture the text in input before starting speech recognition
+      try {
+        recognitionRef.current.start();
+      } catch (err) {
+        console.error('Failed to start speech recognition:', err);
+      }
+    }
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -209,21 +277,38 @@ export default function ChatWithBook({ onReady }) {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Ask anything about the textbook..."
-            className="pr-12 rounded-full"
+            className={`${isSpeechSupported ? 'pr-20' : 'pr-12'} rounded-full`}
             disabled={isLoading}
           />
-          <Button
-            variant="primary"
-            onClick={handleSend}
-            className="absolute right-1 top-1 bottom-1 rounded-full px-3 py-1 h-auto!"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : (
-              <Send size={16} />
+          <div className="absolute right-1.5 top-1.5 bottom-1.5 flex items-center gap-1.5">
+            {isSpeechSupported && (
+              <button
+                type="button"
+                onClick={toggleRecording}
+                className={`w-8 h-8 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer ${
+                  isRecording 
+                    ? 'bg-red-500 text-white animate-pulse shadow-md' 
+                    : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100'
+                }`}
+                disabled={isLoading}
+                title={isRecording ? "Stop recording" : "Voice search (Speech to Text)"}
+              >
+                <Mic size={16} />
+              </button>
             )}
-          </Button>
+            <Button
+              variant="primary"
+              onClick={handleSend}
+              className="rounded-full px-3.5 h-8 flex items-center justify-center"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 size={16} className="animate-spin" />
+              ) : (
+                <Send size={16} />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </GlassCard>

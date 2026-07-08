@@ -26,8 +26,7 @@ function TeacherDashboard() {
   const [activeTool, setActiveTool] = useState(initialTool);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [chatReady, setChatReady] = useState(false);
-  // Show textbook reader only after Chat with Book form is submitted
-  const showReader = activeTool === 'chat' && chatReady;
+  const showReader = false;
 
   return (
     <div className="h-full flex overflow-hidden">

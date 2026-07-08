@@ -3,7 +3,7 @@ import useCurriculumStore from '@/store/curriculumStore';
 import { Loader2 } from 'lucide-react';
 import useThemeStore from '@/store/themeStore';
 
-export default function SplitWorkspace({ children, showReader = true }) {
+export default function SplitWorkspace({ children, showReader = false }) {
   const { chapterDetails, isChapterDetailsLoading } = useCurriculumStore();
   const chapterTitle = chapterDetails?.title || 'No Chapter Selected';
   const { darkMode } = useThemeStore();
