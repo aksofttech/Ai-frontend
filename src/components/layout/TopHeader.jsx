@@ -1,16 +1,23 @@
 import React from 'react';
 import { Sparkles, Menu } from 'lucide-react';
+import useThemeStore from '@/store/themeStore';
 
 export default function TopHeader({ toggleSidebar }) {
+  const { darkMode } = useThemeStore();
+  
   return (
     <header
       data-id="top-header"
-      className="h-[64px] shrink-0 w-full flex items-center justify-between md:justify-end px-4 md:px-6 z-20"
-      style={{ background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(107,92,231,0.1)' }}
+      className="h-[64px] shrink-0 w-full flex items-center justify-between md:justify-end px-4 md:px-6 z-20 transition-colors duration-300"
+      style={{
+        background: darkMode ? 'rgba(10, 7, 30, 0.7)' : 'rgba(255,255,255,0.6)',
+        backdropFilter: 'blur(16px)',
+        borderBottom: darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.1)'
+      }}
     >
       {/* Mobile Menu Button */}
       {toggleSidebar && (
-        <button onClick={toggleSidebar} className="md:hidden p-2 -ml-2 transition-colors" style={{ color: '#5A5A72' }}>
+        <button onClick={toggleSidebar} className="md:hidden p-2 -ml-2 transition-colors" style={{ color: darkMode ? '#A1A1AA' : '#5A5A72' }}>
           <Menu size={22} />
         </button>
       )}
@@ -18,7 +25,10 @@ export default function TopHeader({ toggleSidebar }) {
       {/* RAG Engine Status */}
       <div
         className="flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full"
-        style={{ background: 'rgba(107,92,231,0.08)', border: '1px solid rgba(107,92,231,0.2)' }}
+        style={{
+          background: darkMode ? 'rgba(107,92,231,0.15)' : 'rgba(107,92,231,0.08)',
+          border: darkMode ? '1px solid rgba(107,92,231,0.3)' : '1px solid rgba(107,92,231,0.2)'
+        }}
       >
         <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#6B5CE7', boxShadow: '0 0 6px rgba(107,92,231,0.6)' }} />
         <Sparkles size={13} style={{ color: '#6B5CE7' }} />

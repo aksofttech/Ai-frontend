@@ -6,6 +6,7 @@ import {
   CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic, Video
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
+import useThemeStore from '@/store/themeStore';
 
 const TOOLS = [
   { id: 'chat', label: 'Chat with Book', icon: MessageSquare },
@@ -25,6 +26,7 @@ const TOOLS = [
 export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIsMobileOpen }) {
   const router = useRouter();
   const { user, logout } = useAuthStore();
+  const { darkMode } = useThemeStore();
   const userRole = user?.role || 'teacher';
   const userEmail = user?.email || 'admin@yugsoft.com';
   const displayRole = userRole.charAt(0).toUpperCase() + userRole.slice(1);
@@ -41,30 +43,34 @@ export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIs
       {isMobileOpen && (
         <div
           className="md:hidden fixed inset-0 backdrop-blur-sm z-40 transition-opacity"
-          style={{ background: 'rgba(26,26,46,0.3)' }}
+          style={{ background: darkMode ? 'rgba(10,10,25,0.5)' : 'rgba(26,26,46,0.3)' }}
           onClick={() => setIsMobileOpen?.(false)}
         />
       )}
 
       <div
-        className={`fixed md:static inset-y-0 left-0 transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out w-[250px] md:w-[250px] h-full flex flex-col z-50 custom-scrollbar`}
-        style={{ background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(24px)', borderRight: '1px solid rgba(107,92,231,0.15)' }}
+        className={`fixed md:static inset-y-0 left-0 transform ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-all duration-300 ease-in-out w-[250px] md:w-[250px] h-full flex flex-col z-50 custom-scrollbar`}
+        style={{
+          background: darkMode ? 'rgba(10, 7, 30, 0.75)' : 'rgba(255,255,255,0.75)',
+          backdropFilter: 'blur(24px)',
+          borderRight: darkMode ? '1px solid rgba(107,92,231,0.25)' : '1px solid rgba(107,92,231,0.15)'
+        }}
       >
         {/* Logo */}
         <div className="flex items-center justify-between p-5"
-          style={{ borderBottom: '1px solid rgba(107,92,231,0.1)' }}>
+          style={{ borderBottom: darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.1)' }}>
           <Link href="/dashboard" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center"
               style={{ background: 'linear-gradient(135deg,#6B5CE7,#8B7CF6)' }}>
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <h1 className="text-lg font-black tracking-tight" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
+            <h1 className="text-lg font-black tracking-tight" style={{ color: darkMode ? '#F3F4F6' : '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
               YugSoft <span style={{ color: '#6B5CE7' }}>AI</span>
             </h1>
           </Link>
           <button
             className="md:hidden transition-colors"
-            style={{ color: '#5A5A72' }}
+            style={{ color: darkMode ? '#A1A1AA' : '#5A5A72' }}
             onClick={() => setIsMobileOpen?.(false)}
           >
             <X size={18} />
@@ -73,7 +79,7 @@ export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIs
 
         {/* Section Label */}
         <div className="px-4 pt-4 pb-1">
-          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#9CA3AF' }}>
+          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: darkMode ? '#6B7280' : '#9CA3AF' }}>
             AI Tools
           </span>
         </div>
@@ -101,11 +107,11 @@ export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIs
                 }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-sm font-medium ${isActive ? '' : ''}`}
                 style={isActive
-                  ? { background: 'rgba(107,92,231,0.1)', color: '#6B5CE7', borderLeft: '3px solid #6B5CE7' }
-                  : { color: '#5A5A72', borderLeft: '3px solid transparent' }
+                  ? { background: 'rgba(107,92,231,0.15)', color: darkMode ? '#8B7CF6' : '#6B5CE7', borderLeft: '3px solid #6B5CE7' }
+                  : { color: darkMode ? '#A1A1AA' : '#5A5A72', borderLeft: '3px solid transparent' }
                 }
               >
-                <Icon size={16} style={isActive ? { color: '#6B5CE7' } : { color: '#9CA3AF' }} />
+                <Icon size={16} style={isActive ? { color: darkMode ? '#8B7CF6' : '#6B5CE7' } : { color: darkMode ? '#6B7280' : '#9CA3AF' }} />
                 {tool.label}
               </button>
             );
@@ -113,15 +119,21 @@ export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIs
         </div>
 
         {/* User Profile & Logout */}
-        <div className="p-4 space-y-2" style={{ borderTop: '1px solid rgba(107,92,231,0.1)' }}>
+        <div className="p-4 space-y-2" style={{ borderTop: darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.1)' }}>
           <div className="flex items-center gap-3 p-3 rounded-xl"
-            style={{ background: 'rgba(107,92,231,0.05)', border: '1px solid rgba(107,92,231,0.12)' }}>
+            style={{
+              background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(107,92,231,0.05)',
+              border: darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.12)'
+            }}>
             <div className="w-8 h-8 rounded-full flex items-center justify-center"
-              style={{ background: 'rgba(107,92,231,0.12)', border: '1px solid rgba(107,92,231,0.3)' }}>
+              style={{
+                background: darkMode ? 'rgba(107,92,231,0.25)' : 'rgba(107,92,231,0.12)',
+                border: darkMode ? '1px solid rgba(107,92,231,0.4)' : '1px solid rgba(107,92,231,0.3)'
+              }}>
               <User size={15} style={{ color: '#6B5CE7' }} />
             </div>
             <div className="flex-1 text-left min-w-0">
-              <p className="text-sm font-semibold max-w-[140px] truncate" style={{ color: '#1A1A2E' }}>{displayEmail}</p>
+              <p className="text-sm font-semibold max-w-[140px] truncate" style={{ color: darkMode ? '#F3F4F6' : '#1A1A2E' }}>{displayEmail}</p>
               <p className="text-xs" style={{ color: '#9CA3AF' }}>{displayRole}</p>
             </div>
           </div>

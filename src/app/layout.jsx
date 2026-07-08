@@ -16,8 +16,17 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className={`${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="h-full flex flex-col text-cs-dark" style={{ background: 'linear-gradient(105deg, #FFF5F0 0%, #EDE8F5 100%)' }}>
+      <head>
+        <script dangerouslySetInnerHTML={{__html: `
+          try {
+            localStorage.removeItem('dashboard-theme');
+            document.documentElement.classList.remove('dark');
+          } catch (_) {}
+        `}} />
+      </head>
+      <body className="h-full flex flex-col text-cs-dark">
         {children}
       </body>
     </html>

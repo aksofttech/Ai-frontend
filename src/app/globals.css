@@ -172,14 +172,18 @@
 :root {
   --background: #FFF5F0;
   --foreground: #1A1A2E;
+  --bg-gradient: linear-gradient(105deg, #FFF5F0 0%, #EDE8F5 100%);
+  --page-bg-gradient: linear-gradient(135deg, #FFF5F0 0%, #F5F0FF 50%, #EDE8F5 100%);
 }
 
+
 body {
-  background: linear-gradient(105deg, #FFF5F0 0%, #EDE8F5 100%);
+  background: var(--bg-gradient);
   color: var(--foreground);
   font-family: 'Outfit', 'Inter', ui-sans-serif, system-ui, sans-serif;
   margin: 0;
   padding: 0;
   overflow: hidden;
   min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
 }
