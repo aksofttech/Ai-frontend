@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   Gamepad2, Trophy, LayoutDashboard, Settings,
-  User, LogOut, X, Flame, BookOpen, Brain, FileText
+  User, LogOut, X, Flame, BookOpen, Brain, FileText, Video
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import useAuthStore from '@/store/authStore';
@@ -13,6 +13,7 @@ const TOOLS = [
   { id: 'quiz-gen', href: '/student/quiz-gen', label: 'Quiz Generator', icon: Flame },
   { id: 'my-quizzes', href: '/student/quizzes', label: 'My Quizzes', icon: Gamepad2 },
   { id: 'homework', href: '/student/homework', label: 'My Homework', icon: FileText },
+  { id: 'video-lectures', href: '/student/video-lectures', label: 'Video Lectures', icon: Video },
   { id: 'leaderboard', href: '/student/leaderboard', label: 'Leaderboard', icon: Trophy },
   { id: 'settings', href: '/student/settings', label: 'Settings', icon: Settings },
 ];

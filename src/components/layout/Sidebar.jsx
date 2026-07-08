@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   MessageSquare, BookOpen, FileText, LayoutDashboard,
-  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic
+  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic, Video
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 
@@ -19,6 +19,7 @@ const TOOLS = [
   { id: 'homework', label: 'AI Homework Gen', icon: BookOpen },
   { id: 'oral-questions', label: 'Oral Question Gen', icon: Mic },
   { id: 'e-library', label: 'E-Library', icon: BookOpen },
+  { id: 'video-lectures', label: 'Video Lectures', icon: Video },
 ];
 
 export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIsMobileOpen }) {

@@ -18,6 +18,7 @@ import TestPaperGen from '@/components/features/TestPaperGen';
 import AIHomeworkGen from '@/components/features/AIHomeworkGen';
 import GamifiedQuizGen from '@/components/features/GamifiedQuizGen';
 import OralQuestionsGen from '@/components/features/OralQuestionsGen';
+import VideoLectures from '@/components/features/VideoLectures';
 
 function TeacherDashboard() {
   const searchParams = useSearchParams();
@@ -68,6 +69,9 @@ function TeacherDashboard() {
           </div>
           <div className={`h-full w-full ${activeTool === 'oral-questions' ? 'block' : 'hidden'}`}>
             <OralQuestionsGen />
+          </div>
+          <div className={`h-full w-full ${activeTool === 'video-lectures' ? 'block' : 'hidden'}`}>
+            <VideoLectures />
           </div>
         </SplitWorkspace>
       </div>

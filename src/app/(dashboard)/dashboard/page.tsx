@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {
   MessageSquare, BookOpen, FileText, LayoutDashboard,
   CheckCircle, Presentation, FilePenLine, GraduationCap,
-  Sparkles, ArrowRight, Brain, Gamepad2, Mic,
+  Sparkles, ArrowRight, Brain, Gamepad2, Mic, Video,
 } from 'lucide-react';
 
 /* ─── Tool card definitions ─────────────────────────────────────── */
@@ -98,6 +98,15 @@ const TOOLS = [
     icon: Mic,
     accent: '#EC4899',
     accentBg: 'rgba(236,72,153,0.08)',
+  },
+  {
+    id: 'video-lectures',
+    href: '/teacher?tool=video-lectures',
+    label: 'Video Lectures',
+    description: 'Watch distraction-free, ad-free video lectures directly matched to your chapters.',
+    icon: Video,
+    accent: '#6B5CE7',
+    accentBg: 'rgba(107,92,231,0.08)',
   },
   {
     id: 'e-library',
