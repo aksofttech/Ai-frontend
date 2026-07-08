@@ -53,6 +53,23 @@ const lectureData = {
       { chapterName: 'Ch 11 | Prince Siddhartha and the Wounded Swan', videoId: 'WCjeK51X-Zk' },
       { chapterName: 'Ch 12 | Cinderella', videoId: '5uTwyEnSxIs' }
     ]
+  },
+  "Class 4": {
+    "English": [
+      { chapterName: 'Ch 1 | English Class 04 (Intro)', videoId: 'LteWZAzB7sg' },
+      { chapterName: 'Ch 2 | The Strongest', videoId: 'dPlvPgSYwWg' },
+      { chapterName: 'Ch 3 | Tale of the Toys', videoId: 'WHEXXfcjVTw' },
+      { chapterName: 'Ch 4 | The Magician', videoId: '3uiT9jJNPPU' },
+      { chapterName: 'Ch 5 | The River', videoId: 'LR1ppejqxLU' },
+      { chapterName: 'Ch 6 | The Aeroplane', videoId: 'P2IhR_zGdtM' },
+      { chapterName: 'Ch 7 | The Moon', videoId: 'gFjVX2xE28k' },
+      { chapterName: 'Ch 8 | Rani Lakshmi Bai', videoId: 'SloHsvr9sJg' },
+      { chapterName: 'Ch 9 | In Spring Season', videoId: 'NOhjZsoTxz8' },
+      { chapterName: 'Ch 10 | Hard work', videoId: 'yeGVKSmdacY' },
+      { chapterName: 'Ch 11 | A Nest Making Lesson', videoId: 'V9eXKm40l04' },
+      { chapterName: 'Ch 12 | Yaksha Questions', videoId: '1w8H6kLTW3M' },
+      { chapterName: 'Ch 13 | A Scared Giant', videoId: 'swz_XtRsbSE' }
+    ]
   }
 };
 
