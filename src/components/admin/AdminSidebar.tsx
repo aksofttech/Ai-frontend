@@ -1,11 +1,19 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { LayoutDashboard, BookOpen, FileText, Users, LogOut } from 'lucide-react';
 
 export default function AdminSidebar() {
+  return (
+    <Suspense fallback={<aside className="w-64 h-full bg-white/85 backdrop-blur-md border-r border-purple-200/70 shrink-0" />}>
+      <AdminSidebarInner />
+    </Suspense>
+  );
+}
+
+function AdminSidebarInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeTab = searchParams?.get('tab');
