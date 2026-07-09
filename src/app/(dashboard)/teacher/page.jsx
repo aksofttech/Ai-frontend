@@ -19,6 +19,7 @@ import AIHomeworkGen from '@/components/features/AIHomeworkGen';
 import GamifiedQuizGen from '@/components/features/GamifiedQuizGen';
 import OralQuestionsGen from '@/components/features/OralQuestionsGen';
 import VideoLectures from '@/components/features/VideoLectures';
+import TeacherSettings from '@/components/features/TeacherSettings';
 
 function TeacherDashboard() {
   const searchParams = useSearchParams();
@@ -71,6 +72,9 @@ function TeacherDashboard() {
           </div>
           <div className={`h-full w-full ${activeTool === 'video-lectures' ? 'block' : 'hidden'}`}>
             <VideoLectures />
+          </div>
+          <div className={`h-full w-full overflow-y-auto custom-scrollbar p-6 ${activeTool === 'settings' ? 'block' : 'hidden'}`}>
+            <TeacherSettings />
           </div>
         </SplitWorkspace>
       </div>

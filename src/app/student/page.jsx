@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Gamepad2, Flame, Trophy, Play, CheckCircle2, BookOpen, Loader2, Sparkles } from 'lucide-react';
+import { Gamepad2, Flame, Trophy, Play, CheckCircle2, BookOpen, Loader2, Sparkles, Video } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import api from '@/services/api';
@@ -23,32 +23,59 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     const fetchDashboardData = async () => {
+      let serverData = [];
+      let localData = [];
+
       try {
         const res = await api.get('/quiz/my-results');
-        const data = res.data?.data || res.data || [];
-
-        const completed = data.length;
-        const points = data.reduce((sum, quiz) => sum + (quiz.score || 0), 0);
-
-        let streak = 0;
-        if (data.length > 0) {
-          const uniqueDates = Array.from(new Set(data.map(q => new Date(q.createdAt).toDateString())));
-          streak = uniqueDates.length;
-        }
-
-        setStats({
-          quizzesCompleted: completed,
-          totalPoints: points,
-          currentStreak: streak,
-          recentScores: data.slice(0, 5)
-        });
+        serverData = res.data?.data || res.data || [];
       } catch (err) {
-        console.error('Failed to fetch dashboard data', err);
-      } finally {
-        setLoading(false);
+        console.error('Failed to fetch server dashboard data', err);
       }
+
+      try {
+        const localStr = localStorage.getItem('my_quiz_history');
+        if (localStr) {
+          localData = JSON.parse(localStr);
+        }
+      } catch (err) {
+        console.error('Failed to parse local quiz history', err);
+      }
+
+      // Merge server and local results uniquely
+      const mergedMap = new Map();
+      serverData.forEach((item) => {
+        mergedMap.set(item.id || item.createdAt, item);
+      });
+      localData.forEach((item) => {
+        if (!mergedMap.has(item.id) && !mergedMap.has(item.createdAt)) {
+          mergedMap.set(item.id || item.createdAt, item);
+        }
+      });
+
+      const combined = Array.from(mergedMap.values()).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      const completed = combined.length;
+      const points = combined.reduce((sum, quiz) => sum + (quiz.score || 0), 0);
+
+      let streak = 0;
+      if (combined.length > 0) {
+        const uniqueDates = Array.from(new Set(combined.map(q => new Date(q.createdAt || Date.now()).toDateString())));
+        streak = uniqueDates.length;
+      }
+
+      setStats({
+        quizzesCompleted: completed,
+        totalPoints: points,
+        currentStreak: streak,
+        recentScores: combined.slice(0, 5)
+      });
+      setLoading(false);
     };
+
     fetchDashboardData();
+    window.addEventListener('focus', fetchDashboardData);
+    return () => window.removeEventListener('focus', fetchDashboardData);
   }, []);
 
   return (
@@ -146,17 +173,17 @@ export default function StudentDashboard() {
                   <div>
                     <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
                       style={{ background: 'rgba(139,92,246,0.08)' }}>
-                      <BookOpen size={22} style={{ color: '#8B5CF6' }} />
+                      <Video size={22} style={{ color: '#8B5CF6' }} />
                     </div>
-                    <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>Chat with Book</h3>
-                    <p className="text-sm mb-4" style={{ color: '#5A5A72' }}>Have questions about your reading? Ask our AI assistant and get context-aware answers.</p>
+                    <h3 className="text-lg font-bold mb-2" style={{ color: '#1A1A2E' }}>Video Lectures</h3>
+                    <p className="text-sm mb-4" style={{ color: '#5A5A72' }}>Watch interactive AI-curated video lessons and boost your conceptual understanding anytime.</p>
                   </div>
                   <button
-                    onClick={() => router.push('/student/chat')}
+                    onClick={() => router.push('/student/video-lectures')}
                     className="w-full py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2 transition-all"
                     style={{ background: 'rgba(139,92,246,0.1)', color: '#8B5CF6', border: '1.5px solid rgba(139,92,246,0.3)' }}
                   >
-                    Open Chat
+                    Watch Lectures
                   </button>
                 </div>
               </div>

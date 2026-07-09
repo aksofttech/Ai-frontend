@@ -74,6 +74,8 @@ export default function AIPPTGen() {
     return (
       <BookSelectionForm
         hidePeriods
+        buttonText="Generate PPT"
+        subtitle="Choose the book and chapter for your presentation"
         onGenerate={(data) => {
           setSelection(data);
           setSelectedSubjectId(data.bookId);

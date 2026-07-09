@@ -58,20 +58,20 @@ export const useGamifiedQuiz = (questions: QuizQuestion[], title?: string) => {
     setUserAnswers((prev) => [
       ...prev,
       {
-        questionId: currentQuestion.id,
+        questionId: currentQuestion?.id || `q-${currentIndex}`,
         selectedAnswer,
         timeTaken,
       },
     ]);
 
     // Update streak optimistically on frontend (backend verifies truth)
-    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    const isCorrect = selectedAnswer === currentQuestion?.correctAnswer;
     if (isCorrect) {
       const newStreak = streak + 1;
       setStreak(newStreak);
       if (newStreak >= 2) {
         try {
-          new Audio('/streak.mp3').play().catch(e => console.warn('Audio play failed:', e));
+          new Audio('/streak.mp3').play().catch(() => {});
         } catch(e) {}
       }
     } else {
@@ -81,34 +81,53 @@ export const useGamifiedQuiz = (questions: QuizQuestion[], title?: string) => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      submitQuiz();
+      setCurrentIndex(questions.length); // Trigger isFinished = true immediately!
     }
   };
 
-  const submitQuiz = async () => {
-    setIsSubmitting(true);
-    
-    setTimeout(async () => {
-      try {
-        const payload = {
-          title,
-          originalQuestions: questions,
-          answers: userAnswers,
-        };
-      } catch (err) {
-        console.error(err);
-      }
-    }, 0);
-  };
-
-  // Improved submit handler that gets called when we reach the end
   useEffect(() => {
-    if (isFinished && !isSubmitting && userAnswers.length === questions.length) {
+    if (isFinished && !isSubmitting && verifiedScore === null) {
       const finishAndSubmit = async () => {
         setIsSubmitting(true);
+
+        // Calculate fallback score and stats
+        let calculatedScore = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        const questionMap = new Map(questions.map((q) => [q.id, q]));
+        userAnswers.forEach((ans) => {
+          const q = questionMap.get(ans.questionId);
+          if (q && q.correctAnswer === ans.selectedAnswer) {
+            calculatedScore += 10;
+            correctCount++;
+          } else {
+            wrongCount++;
+          }
+        });
+
+        const localId = 'local-' + Date.now();
         try {
-          // get token from local storage
-          const token = localStorage.getItem('auth-storage') ? JSON.parse(localStorage.getItem('auth-storage')!).state.token : null;
+          const existingHistoryStr = localStorage.getItem('my_quiz_history');
+          const existingHistory = existingHistoryStr ? JSON.parse(existingHistoryStr) : [];
+          const newEntry = {
+            id: localId,
+            title: title || 'Gamified Chapter Quiz',
+            score: calculatedScore,
+            correctCount,
+            wrongCount,
+            totalQuestions: questions.length,
+            createdAt: new Date().toISOString(),
+            questions,
+            userAnswers,
+          };
+          localStorage.setItem('my_quiz_history', JSON.stringify([newEntry, ...existingHistory]));
+        } catch (e) {
+          console.error('Failed to save local history', e);
+        }
+
+        try {
+          const tokenStr = localStorage.getItem('auth-storage');
+          const token = tokenStr ? JSON.parse(tokenStr)?.state?.token : null;
           const headers: any = {
             'Content-Type': 'application/json',
           };
@@ -120,7 +139,7 @@ export const useGamifiedQuiz = (questions: QuizQuestion[], title?: string) => {
             method: 'POST',
             headers,
             body: JSON.stringify({
-              title: title || 'Untitled Quiz',
+              title: title || 'Gamified Chapter Quiz',
               originalQuestions: questions,
               answers: userAnswers,
             }),
@@ -128,16 +147,36 @@ export const useGamifiedQuiz = (questions: QuizQuestion[], title?: string) => {
           const data = await res.json();
           if (data.success) {
             setVerifiedScore(data.verifiedScore);
+            try {
+              const existingHistoryStr = localStorage.getItem('my_quiz_history');
+              if (existingHistoryStr) {
+                const history = JSON.parse(existingHistoryStr);
+                const updated = history.map((item: any) =>
+                  item.id === localId ? { ...item, score: data.verifiedScore } : item
+                );
+                localStorage.setItem('my_quiz_history', JSON.stringify(updated));
+              }
+            } catch (e) {}
           }
         } catch (err) {
-          console.error('Failed to submit quiz', err);
+          // If fetch fails or backend offline, gracefully proceed to local result screen
         } finally {
           setIsSubmitting(false);
         }
       };
       finishAndSubmit();
     }
-  }, [isFinished, userAnswers, questions, title]);
+  }, [isFinished, questions, title]);
+
+  const resetQuiz = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setCurrentIndex(0);
+    setStreak(0);
+    setTimeLeft(15);
+    setUserAnswers([]);
+    setIsSubmitting(false);
+    setVerifiedScore(null);
+  };
 
   return {
     currentIndex,
@@ -149,5 +188,7 @@ export const useGamifiedQuiz = (questions: QuizQuestion[], title?: string) => {
     isFinished,
     verifiedScore,
     handleAnswer,
+    resetQuiz,
   };
 };
+

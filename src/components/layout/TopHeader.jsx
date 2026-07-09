@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import useThemeStore from '@/store/themeStore';
 
 export default function TopHeader({ toggleSidebar }) {
@@ -21,20 +21,6 @@ export default function TopHeader({ toggleSidebar }) {
           <Menu size={22} />
         </button>
       )}
-
-      {/* RAG Engine Status */}
-      <div
-        className="flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 rounded-full"
-        style={{
-          background: darkMode ? 'rgba(107,92,231,0.15)' : 'rgba(107,92,231,0.08)',
-          border: darkMode ? '1px solid rgba(107,92,231,0.3)' : '1px solid rgba(107,92,231,0.2)'
-        }}
-      >
-        <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#6B5CE7', boxShadow: '0 0 6px rgba(107,92,231,0.6)' }} />
-        <Sparkles size={13} style={{ color: '#6B5CE7' }} />
-        <span className="text-xs md:text-sm font-semibold hidden sm:inline" style={{ color: '#6B5CE7' }}>RAG Engine Active</span>
-        <span className="text-xs font-semibold sm:hidden" style={{ color: '#6B5CE7' }}>RAG Active</span>
-      </div>
     </header>
   );
 }

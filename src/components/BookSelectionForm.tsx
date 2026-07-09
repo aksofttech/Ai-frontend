@@ -7,9 +7,13 @@ import api from "@/services/api";
 export default function BookSelectionForm({
   onGenerate,
   hidePeriods = false,
+  buttonText,
+  subtitle,
 }: {
   onGenerate?: (plan: any) => void;
   hidePeriods?: boolean;
+  buttonText?: string;
+  subtitle?: string;
 }) {
   const [classes, setClasses] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<any[]>([]);
@@ -137,7 +141,7 @@ export default function BookSelectionForm({
             </h2>
           </div>
           <p className="text-sm ml-0.5" style={{ color: '#9CA3AF' }}>
-            Choose the book and chapter for your lesson plan
+            {subtitle || (hidePeriods ? 'Choose the book and chapter to get started' : 'Choose the book and chapter for your lesson plan')}
           </p>
         </div>
 
@@ -293,7 +297,7 @@ export default function BookSelectionForm({
               {hidePeriods ? 'Loading...' : 'Generating AI Plan... please wait'}
             </>
           ) : (
-            hidePeriods ? 'Start Chat' : 'Generate Lesson Plan'
+            buttonText || (hidePeriods ? 'Start Chat' : 'Generate Lesson Plan')
           )}
         </button>
       </div>

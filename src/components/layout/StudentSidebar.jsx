@@ -9,13 +9,10 @@ import useAuthStore from '@/store/authStore';
 
 const TOOLS = [
   { id: 'dashboard', href: '/student', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'chat', href: '/student/chat', label: 'Chat with Book', icon: BookOpen },
   { id: 'quiz-gen', href: '/student/quiz-gen', label: 'Quiz Generator', icon: Flame },
   { id: 'my-quizzes', href: '/student/quizzes', label: 'My Quizzes', icon: Gamepad2 },
-  { id: 'homework', href: '/student/homework', label: 'My Homework', icon: FileText },
   { id: 'video-lectures', href: '/student/video-lectures', label: 'Video Lectures', icon: Video },
   { id: 'leaderboard', href: '/student/leaderboard', label: 'Leaderboard', icon: Trophy },
-  { id: 'settings', href: '/student/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function StudentSidebar({ isMobileOpen, setIsMobileOpen }) {
@@ -99,17 +96,23 @@ export default function StudentSidebar({ isMobileOpen, setIsMobileOpen }) {
 
         {/* User Profile & Logout */}
         <div className="p-4 space-y-2" style={{ borderTop: '1px solid rgba(107,92,231,0.1)' }}>
-          <div className="flex items-center gap-3 p-3 rounded-xl"
-            style={{ background: 'rgba(107,92,231,0.05)', border: '1px solid rgba(107,92,231,0.12)' }}>
+          <Link
+            href="/student/settings"
+            onClick={() => { if (setIsMobileOpen) setIsMobileOpen(false); }}
+            className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all hover:opacity-80 block"
+            style={{
+              background: pathname === '/student/settings' ? 'rgba(107,92,231,0.15)' : 'rgba(107,92,231,0.05)',
+              border: pathname === '/student/settings' ? '1px solid #6B5CE7' : '1px solid rgba(107,92,231,0.12)'
+            }}>
             <div className="w-8 h-8 rounded-full flex items-center justify-center"
               style={{ background: 'rgba(107,92,231,0.12)', border: '1px solid rgba(107,92,231,0.3)' }}>
-              <Flame size={15} style={{ color: '#6B5CE7' }} />
+              <User size={15} style={{ color: '#6B5CE7' }} />
             </div>
             <div className="flex-1 text-left min-w-0">
               <p className="text-sm font-semibold max-w-[140px] truncate" style={{ color: '#1A1A2E' }}>{displayEmail}</p>
               <p className="text-xs" style={{ color: '#9CA3AF' }}>{displayRole}</p>
             </div>
-          </div>
+          </Link>
 
           <button
             onClick={handleLogout}

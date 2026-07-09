@@ -170,6 +170,8 @@ export default function WorksheetGen() {
     return (
       <BookSelectionForm
         hidePeriods
+        buttonText="Generate Worksheet"
+        subtitle="Choose the book and chapter for your worksheet"
         onGenerate={(data) => {
           setSelection(data);
           setSelectedSubjectId(data.bookId);

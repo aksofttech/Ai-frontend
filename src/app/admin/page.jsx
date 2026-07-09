@@ -80,15 +80,6 @@ export default function AdminDashboardPage() {
               </h2>
             </div>
           </div>
-
-          <div
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full"
-            style={{ background: 'rgba(107,92,231,0.08)', border: '1px solid rgba(107,92,231,0.2)' }}
-          >
-            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#6B5CE7', boxShadow: '0 0 6px rgba(107,92,231,0.5)' }} />
-            <Sparkles size={13} style={{ color: '#6B5CE7' }} />
-            <span className="text-sm font-semibold" style={{ color: '#6B5CE7' }}>RAG Engine Online</span>
-          </div>
         </header>
 
         {/* Dynamic Admin Panel */}

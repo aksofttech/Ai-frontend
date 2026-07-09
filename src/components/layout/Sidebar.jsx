@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   MessageSquare, BookOpen, FileText, LayoutDashboard,
-  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic, Video
+  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic, Video, Settings
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 import useThemeStore from '@/store/themeStore';
@@ -19,7 +19,6 @@ const TOOLS = [
   { id: 'test-paper', label: 'Test Paper Gen', icon: FilePenLine },
   { id: 'homework', label: 'AI Homework Gen', icon: BookOpen },
   { id: 'oral-questions', label: 'Oral Question Gen', icon: Mic },
-  { id: 'e-library', label: 'E-Library', icon: BookOpen },
   { id: 'video-lectures', label: 'Video Lectures', icon: Video },
 ];
 
@@ -120,10 +119,16 @@ export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIs
 
         {/* User Profile & Logout */}
         <div className="p-4 space-y-2" style={{ borderTop: darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.1)' }}>
-          <div className="flex items-center gap-3 p-3 rounded-xl"
+          <div
+            onClick={() => { setActiveTool('settings'); if (setIsMobileOpen) setIsMobileOpen(false); }}
+            className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all hover:opacity-80"
             style={{
-              background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(107,92,231,0.05)',
-              border: darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.12)'
+              background: activeTool === 'settings'
+                ? (darkMode ? 'rgba(107,92,231,0.25)' : 'rgba(107,92,231,0.15)')
+                : (darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(107,92,231,0.05)'),
+              border: activeTool === 'settings'
+                ? '1px solid #6B5CE7'
+                : (darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.12)')
             }}>
             <div className="w-8 h-8 rounded-full flex items-center justify-center"
               style={{
