@@ -19,6 +19,10 @@ const useCurriculumStore = create((set, get) => ({
   chapterDetails: null,
   isChapterDetailsLoading: false,
 
+  showReader: false,
+  setShowReader: (val) => set({ showReader: typeof val === 'function' ? val(get().showReader) : val }),
+  toggleReader: () => set((state) => ({ showReader: !state.showReader })),
+
   fetchBooks: async () => {
     set({ isBooksLoading: true });
     try {

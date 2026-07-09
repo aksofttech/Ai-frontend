@@ -15,7 +15,7 @@ export default function AdminHeader({ title, description }: AdminHeaderProps) {
 
   const tabs = [
     { name: 'Overview', href: '/admin' },
-    { name: 'Curriculum Management', href: '/admin/curriculum' },
+    { name: 'Curriculum Manager', href: '/admin/curriculum' },
     { name: 'User Directory', href: '/admin/users' },
   ];
 

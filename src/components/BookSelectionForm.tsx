@@ -78,7 +78,17 @@ export default function BookSelectionForm({
     if (hidePeriods) {
       const chapterTitle = selectedChapterData?.title || selectedChapterData?.name || '';
       const bookTitle = selectedSubjectData?.title || selectedSubjectData?.name || '';
-      if (onGenerate) onGenerate({ bookId: selectedSubjectId, chapterId: selectedChapterId, chapterTitle, bookTitle });
+      if (onGenerate) {
+        onGenerate({
+          classId: selectedClassId,
+          bookId: selectedSubjectId,
+          chapterId: selectedChapterId,
+          chapterTitle,
+          bookTitle,
+          subjectsList: subjects,
+          chaptersList: chapters,
+        });
+      }
       return;
     }
 

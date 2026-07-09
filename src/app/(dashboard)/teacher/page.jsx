@@ -27,7 +27,6 @@ function TeacherDashboard() {
   const [activeTool, setActiveTool] = useState(initialTool);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [chatReady, setChatReady] = useState(false);
-  const showReader = false;
 
   return (
     <div className="h-full flex overflow-hidden">
@@ -39,7 +38,7 @@ function TeacherDashboard() {
       />
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
         <TopHeader toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
-        <SplitWorkspace showReader={showReader}>
+        <SplitWorkspace>
           <div className={`h-full w-full ${activeTool === 'chat' ? 'block' : 'hidden'}`}>
             <ChatWithBook onReady={setChatReady} />
           </div>

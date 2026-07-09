@@ -2,16 +2,19 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, Users, LogOut } from 'lucide-react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { LayoutDashboard, BookOpen, FileText, Users, LogOut } from 'lucide-react';
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams?.get('tab');
 
   const navItems = [
-    { label: 'Overview', href: '/admin', icon: LayoutDashboard },
-    { label: 'Curriculum Manager', href: '/admin/curriculum', icon: BookOpen },
-    { label: 'User Directory', href: '/admin/users', icon: Users },
+    { label: 'Overview', href: '/admin', icon: LayoutDashboard, exact: true },
+    { label: 'Curriculum Canvas', href: '/admin?tab=curriculum', icon: BookOpen, tab: 'curriculum' },
+    { label: 'Books Table View', href: '/admin/curriculum', icon: FileText },
+    { label: 'User Directory', href: '/admin?tab=users', icon: Users, tab: 'users' },
   ];
 
   return (
@@ -31,11 +34,15 @@ export default function AdminSidebar() {
         </div>
         <nav className="flex flex-col gap-2">
           {navItems.map((item) => {
-            const isActive = pathname === item.href || (item.href !== '/admin' && pathname?.startsWith(item.href));
+            const isActive = item.tab
+              ? pathname === '/admin' && activeTab === item.tab
+              : item.exact
+              ? pathname === '/admin' && !activeTab
+              : pathname === item.href || (item.href !== '/admin' && !item.tab && pathname?.startsWith(item.href));
             const Icon = item.icon;
             return (
               <Link
-                key={item.href}
+                key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm transition-all duration-200 ${
                   isActive

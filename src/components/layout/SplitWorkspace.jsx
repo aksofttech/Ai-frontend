@@ -3,8 +3,9 @@ import useCurriculumStore from '@/store/curriculumStore';
 import { Loader2 } from 'lucide-react';
 import useThemeStore from '@/store/themeStore';
 
-export default function SplitWorkspace({ children, showReader = false }) {
-  const { chapterDetails, isChapterDetailsLoading } = useCurriculumStore();
+export default function SplitWorkspace({ children, showReader: propShowReader }) {
+  const { chapterDetails, isChapterDetailsLoading, showReader: storeShowReader, toggleReader } = useCurriculumStore();
+  const showReader = propShowReader !== undefined ? propShowReader : storeShowReader;
   const chapterTitle = chapterDetails?.title || 'No Chapter Selected';
   const { darkMode } = useThemeStore();
 
@@ -23,15 +24,29 @@ export default function SplitWorkspace({ children, showReader = false }) {
         >
           {/* Sticky Header */}
           <div
-            className="sticky top-0 z-10 p-4 transition-colors"
+            className="sticky top-0 z-10 p-4 transition-colors flex items-center justify-between"
             style={{
               background: darkMode ? 'rgba(15, 12, 35, 0.85)' : 'rgba(255,255,255,0.85)',
               backdropFilter: 'blur(12px)',
               borderBottom: darkMode ? '1px solid rgba(107,92,231,0.2)' : '1px solid rgba(107,92,231,0.1)'
             }}
           >
-            <h2 className="text-base font-bold" style={{ color: darkMode ? '#F3F4F6' : '#1A1A2E' }}>Textbook Reader</h2>
-            <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>{chapterTitle}</p>
+            <div>
+              <h2 className="text-base font-bold" style={{ color: darkMode ? '#F3F4F6' : '#1A1A2E' }}>Textbook Reader</h2>
+              <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>{chapterTitle}</p>
+            </div>
+            <button
+              onClick={toggleReader}
+              className="px-2.5 py-1 rounded-lg border text-xs font-semibold hover:opacity-80 transition-all cursor-pointer flex items-center gap-1 shrink-0"
+              style={{
+                background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(107,92,231,0.1)',
+                borderColor: darkMode ? 'rgba(255,255,255,0.2)' : 'rgba(107,92,231,0.2)',
+                color: darkMode ? '#E2E8F0' : '#6B5CE7'
+              }}
+              title="Close Reader"
+            >
+              ✕ Close
+            </button>
           </div>
 
           {/* Scrollable Content */}

@@ -415,7 +415,7 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
               : 'border-transparent text-cs-gray hover:text-cs-dark font-semibold'
           }`}
         >
-          Curriculum Management
+          Curriculum Manager
         </button>
         {isAdmin && (
           <button
@@ -565,7 +565,7 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                 </button>
               </div>
 
-              <div className="space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar pr-1">
+              <div className="space-y-3 max-h-[600px] overflow-y-auto custom-scrollbar p-3 rounded-2xl border border-purple-200/60 bg-purple-50/30 shadow-inner">
                 {books.length === 0 ? (
                   <GlassCard className="p-8 text-center text-cs-gray rounded-2xl shadow-xs" style={{ background: 'white' }}>
                     No books found. Click "New Book" to create one.
@@ -650,8 +650,8 @@ export default function AdminPanel({ activeTab: propActiveTab, setActiveTab: pro
                     </button>
                   </div>
 
-                  {/* Chapters List */}
-                  <div className="space-y-4">
+                  {/* Chapters List Box */}
+                  <div className="space-y-3.5 max-h-[600px] overflow-y-auto custom-scrollbar p-3.5 rounded-2xl border border-purple-200/60 bg-purple-50/30 shadow-inner">
                     {(!selectedBook.chapters || selectedBook.chapters.length === 0) ? (
                       <GlassCard className="p-8 text-center text-cs-gray rounded-2xl shadow-xs" style={{ background: 'white' }}>
                         No chapters in this book. Click "Add Chapter" to build the curriculum.

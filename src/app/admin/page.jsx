@@ -1,16 +1,34 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import useAuthStore from '@/store/authStore';
 import AdminPanel from '@/components/features/AdminPanel';
 import { Sparkles, ShieldAlert, Brain } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminDashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <AdminDashboardInner />
+    </Suspense>
+  );
+}
+
+function AdminDashboardInner() {
   const { user, isAuthenticated, fetchProfile } = useAuthStore();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('overview');
+  const searchParams = useSearchParams();
+  const tabFromUrl = searchParams?.get('tab') || 'overview';
+  const [activeTab, setActiveTab] = useState(tabFromUrl);
+
+  useEffect(() => {
+    if (tabFromUrl) {
+      setActiveTab(tabFromUrl);
+    } else {
+      setActiveTab('overview');
+    }
+  }, [tabFromUrl]);
 
   useEffect(() => {
     if (!isAuthenticated) {

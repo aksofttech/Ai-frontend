@@ -29,7 +29,7 @@ export default function CurriculumManagementPage() {
   return (
     <div className="p-8 max-w-[1600px] mx-auto relative">
       <AdminHeader 
-        title="Curriculum Management" 
+        title="Curriculum Manager" 
         description="View and manage the ingested textbooks and their extracted knowledge." 
       />
 

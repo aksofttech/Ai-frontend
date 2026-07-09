@@ -3,13 +3,25 @@ import GlassCard from '@/components/ui/GlassCard';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import BookSelectionForm from '@/components/BookSelectionForm';
-import { Send, Sparkles, BookOpen, Loader2, RefreshCw, Mic } from 'lucide-react';
+import { Send, Sparkles, BookOpen, Loader2, RefreshCw, Mic, ChevronDown } from 'lucide-react';
 import useCurriculumStore from '@/store/curriculumStore';
 import api from '@/services/api';
 
 export default function ChatWithBook({ onReady }) {
   const [selection, setSelection] = useState(null);
-  const { setSelectedSubjectId, setSelectedChapterId } = useCurriculumStore();
+  const {
+    selectedSubjectId,
+    setSelectedSubjectId,
+    selectedChapterId,
+    setSelectedChapterId,
+    chapters: storeChapters,
+    subjects: storeSubjects,
+    books: storeBooks,
+  } = useCurriculumStore();
+
+  const [navSubjects, setNavSubjects] = useState([]);
+  const [navChapters, setNavChapters] = useState([]);
+  const [isNavChaptersLoading, setIsNavChaptersLoading] = useState(false);
 
   const [messages, setMessages] = useState([
     {
@@ -154,6 +166,125 @@ export default function ChatWithBook({ onReady }) {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
+  // Sync navChapters when selection.bookId changes or from store
+  useEffect(() => {
+    if (!selection?.bookId) return;
+    setIsNavChaptersLoading(true);
+    api
+      .get(`/curriculum/chapters?subjectId=${encodeURIComponent(selection.bookId)}`)
+      .then((res) => {
+        const arr = res.data?.data || res.data || [];
+        setNavChapters(Array.isArray(arr) ? arr : []);
+      })
+      .catch((err) => console.warn('Failed to fetch chapters for navbar:', err.message))
+      .finally(() => setIsNavChaptersLoading(false));
+  }, [selection?.bookId]);
+
+  // Sync when store selectedChapterId changes outside (e.g. TopHeader)
+  useEffect(() => {
+    if (selection && selectedChapterId && selectedChapterId !== selection.chapterId) {
+      const found =
+        navChapters.find((c) => c.id === selectedChapterId || c._id === selectedChapterId) ||
+        (storeChapters || []).find((c) => c.id === selectedChapterId || c._id === selectedChapterId);
+      if (found) {
+        setSelection((prev) => ({
+          ...prev,
+          chapterId: found.id || found._id,
+          chapterTitle: found.title || found.name || prev.chapterTitle,
+        }));
+      }
+    }
+  }, [selectedChapterId, navChapters, storeChapters]);
+
+  // Sync when store selectedSubjectId changes outside
+  useEffect(() => {
+    if (selection && selectedSubjectId && selectedSubjectId !== selection.bookId) {
+      const foundBook =
+        navSubjects.find((s) => s.id === selectedSubjectId || s._id === selectedSubjectId) ||
+        (storeSubjects || []).find((s) => s.id === selectedSubjectId || s._id === selectedSubjectId) ||
+        (storeBooks || []).find((b) => b.id === selectedSubjectId || b._id === selectedSubjectId);
+      if (foundBook) {
+        setSelection((prev) => ({
+          ...prev,
+          bookId: foundBook.id || foundBook._id,
+          bookTitle: foundBook.title || foundBook.name || prev.bookTitle,
+        }));
+      }
+    }
+  }, [selectedSubjectId, navSubjects, storeSubjects, storeBooks]);
+
+  const handleNavbarChapterChange = (newChapterId) => {
+    if (!newChapterId || newChapterId === selection?.chapterId) return;
+    const foundChapter = navChapters.find((c) => c.id === newChapterId || c._id === newChapterId);
+    const newChapterTitle = foundChapter
+      ? foundChapter.title || foundChapter.name
+      : 'Selected Chapter';
+
+    setSelection((prev) => ({
+      ...prev,
+      chapterId: newChapterId,
+      chapterTitle: newChapterTitle,
+    }));
+    setSelectedChapterId(newChapterId);
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: 'ai',
+        content: `📖 **Chapter Changed:** Switched to **"${newChapterTitle}"** (${selection?.bookTitle || 'Current Book'}).\n\nAsk me any questions or request summaries for this chapter!`,
+        citation: 'Context Updated',
+      },
+    ]);
+  };
+
+  const handleNavbarBookChange = async (newBookId) => {
+    if (!newBookId || newBookId === selection?.bookId) return;
+    const foundBook = navSubjects.find((s) => s.id === newBookId || s._id === newBookId);
+    const newBookTitle = foundBook ? foundBook.title || foundBook.name : 'Selected Book';
+
+    setIsNavChaptersLoading(true);
+    setSelectedSubjectId(newBookId);
+    try {
+      const res = await api.get(`/curriculum/chapters?subjectId=${encodeURIComponent(newBookId)}`);
+      const data = res.data?.data || res.data || [];
+      const chaps = Array.isArray(data) ? data : [];
+      setNavChapters(chaps);
+
+      let firstChapId = '';
+      let firstChapTitle = '';
+      if (chaps.length > 0) {
+        firstChapId = chaps[0].id || chaps[0]._id;
+        firstChapTitle = chaps[0].title || chaps[0].name;
+      }
+
+      setSelection((prev) => ({
+        ...prev,
+        bookId: newBookId,
+        bookTitle: newBookTitle,
+        chapterId: firstChapId || prev?.chapterId,
+        chapterTitle: firstChapTitle || 'General Chapter',
+      }));
+      if (firstChapId) {
+        setSelectedChapterId(firstChapId);
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'ai',
+          content: `📚 **Textbook Changed:** Switched to **"${newBookTitle}"**${
+            firstChapTitle ? ` (Current Chapter: **"${firstChapTitle}"**)` : ''
+          }.\n\nYou can ask any questions directly right now!`,
+          citation: 'Context Updated',
+        },
+      ]);
+    } catch (err) {
+      console.error('Error fetching chapters for new book:', err);
+    } finally {
+      setIsNavChaptersLoading(false);
+    }
+  };
+
   // Step 1: Show BookSelectionForm
   if (!selection) {
     return (
@@ -163,6 +294,39 @@ export default function ChatWithBook({ onReady }) {
           setSelection(data);
           setSelectedSubjectId(data.bookId);
           setSelectedChapterId(data.chapterId);
+
+          if (data.subjectsList && data.subjectsList.length > 0) {
+            setNavSubjects(data.subjectsList);
+          } else if (storeSubjects && storeSubjects.length > 0) {
+            setNavSubjects(storeSubjects);
+          } else {
+            api
+              .get(
+                data.classId
+                  ? `/curriculum/subjects?classId=${encodeURIComponent(data.classId)}`
+                  : '/curriculum/books'
+              )
+              .then((res) => {
+                const arr = res.data?.data || res.data || [];
+                setNavSubjects(Array.isArray(arr) ? arr : []);
+              })
+              .catch(() => {});
+          }
+
+          if (data.chaptersList && data.chaptersList.length > 0) {
+            setNavChapters(data.chaptersList);
+          } else {
+            setIsNavChaptersLoading(true);
+            api
+              .get(`/curriculum/chapters?subjectId=${encodeURIComponent(data.bookId)}`)
+              .then((res) => {
+                const arr = res.data?.data || res.data || [];
+                setNavChapters(Array.isArray(arr) ? arr : []);
+              })
+              .catch(() => {})
+              .finally(() => setIsNavChaptersLoading(false));
+          }
+
           if (onReady) onReady(true);
         }}
       />
@@ -172,27 +336,110 @@ export default function ChatWithBook({ onReady }) {
   // Step 2: Chat UI
   return (
     <GlassCard className="h-full flex flex-col relative p-0 overflow-hidden">
-      {/* Header */}
+      {/* Header / Navbar */}
       <div
-        className="p-4 flex items-center justify-between"
-        style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(107,92,231,0.1)' }}
+        className="p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shrink-0 z-10"
+        style={{
+          background: 'rgba(255,255,255,0.85)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(107,92,231,0.15)',
+        }}
       >
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: 'rgba(107,92,231,0.1)' }}>
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-sm"
+            style={{
+              background: 'linear-gradient(135deg, rgba(107,92,231,0.15), rgba(139,124,246,0.15))',
+            }}
+          >
             <BookOpen size={16} style={{ color: '#6B5CE7' }} />
           </div>
           <div>
-            <h3 className="text-sm font-bold" style={{ color: '#1A1A2E' }}>Chat with Textbook</h3>
-            <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>
-              {selection.chapterTitle}
-              <span className="mx-1.5">·</span>
-              {selection.bookTitle}
+            <h3 className="text-sm font-bold flex items-center gap-1.5" style={{ color: '#1A1A2E' }}>
+              Chat with Textbook
+            </h3>
+            <p className="text-[11px] font-medium hidden sm:block" style={{ color: '#9CA3AF' }}>
+              Select & switch chapter directly from the navbar below
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <Sparkles size={16} style={{ color: '#6B5CE7' }} />
+
+        <div className="flex items-center flex-wrap gap-2 sm:gap-2.5 ml-auto">
+          {/* Book / Subject Selector Dropdown */}
+          <div className="relative flex items-center">
+            <select
+              value={selection?.bookId || ''}
+              onChange={(e) => handleNavbarBookChange(e.target.value)}
+              title="Change Book / Subject dynamically"
+              className="appearance-none text-xs font-semibold rounded-xl pl-3 pr-7 py-1.5 cursor-pointer transition-all outline-none shadow-sm hover:shadow truncate max-w-[140px] sm:max-w-[180px]"
+              style={{
+                background: 'rgba(255,255,255,0.9)',
+                color: '#1A1A2E',
+                border: '1px solid rgba(107,92,231,0.25)',
+              }}
+            >
+              {navSubjects && navSubjects.length > 0 ? (
+                navSubjects.map((sub) => (
+                  <option key={sub.id || sub._id} value={sub.id || sub._id}>
+                    📚 {sub.title || sub.name}
+                  </option>
+                ))
+              ) : (
+                <option value={selection?.bookId || ''}>
+                  📚 {selection?.bookTitle || 'Book'}
+                </option>
+              )}
+            </select>
+            <ChevronDown
+              size={14}
+              className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
+              style={{ color: '#6B5CE7' }}
+            />
+          </div>
+
+          {/* Chapter Selector Dropdown */}
+          <div className="relative flex items-center">
+            <select
+              value={selection?.chapterId || ''}
+              onChange={(e) => handleNavbarChapterChange(e.target.value)}
+              title="Change Chapter directly during chat"
+              disabled={isNavChaptersLoading}
+              className="appearance-none text-xs font-semibold rounded-xl pl-3 pr-7 py-1.5 cursor-pointer transition-all outline-none shadow-sm hover:shadow truncate max-w-[150px] sm:max-w-[200px]"
+              style={{
+                background: 'rgba(107,92,231,0.08)',
+                color: '#6B5CE7',
+                border: '1px solid rgba(107,92,231,0.3)',
+              }}
+            >
+              {isNavChaptersLoading ? (
+                <option value="">⏳ Loading chapters...</option>
+              ) : navChapters && navChapters.length > 0 ? (
+                navChapters.map((chap) => (
+                  <option key={chap.id || chap._id} value={chap.id || chap._id}>
+                    📖 {chap.title || chap.name}
+                  </option>
+                ))
+              ) : (
+                <option value={selection?.chapterId || ''}>
+                  📖 {selection?.chapterTitle || 'Chapter'}
+                </option>
+              )}
+            </select>
+            {isNavChaptersLoading ? (
+              <Loader2
+                size={13}
+                className="absolute right-2 top-1/2 -translate-y-1/2 animate-spin"
+                style={{ color: '#6B5CE7' }}
+              />
+            ) : (
+              <ChevronDown
+                size={14}
+                className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ color: '#6B5CE7' }}
+              />
+            )}
+          </div>
+          {/* Reset button to go back to full form if desired */}
           <button
             onClick={() => {
               setSelection(null);
@@ -200,11 +447,11 @@ export default function ChatWithBook({ onReady }) {
               setSelectedChapterId('');
               if (onReady) onReady(false);
             }}
-            title="Change book / chapter"
-            className="transition-colors"
+            title="Return to full class/book selection screen"
+            className="w-7 h-7 rounded-lg flex items-center justify-center transition-colors hover:bg-red-50 border border-transparent hover:border-red-200 ml-0.5"
             style={{ color: '#9CA3AF' }}
           >
-            <RefreshCw size={14} />
+            <RefreshCw size={14} className="hover:text-red-500 transition-colors" />
           </button>
         </div>
       </div>
