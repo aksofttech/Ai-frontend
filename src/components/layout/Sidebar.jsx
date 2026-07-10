@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   MessageSquare, BookOpen, FileText, LayoutDashboard,
-  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic, Video, Settings
+  CheckCircle, Presentation, FilePenLine, User, LogOut, X, Gamepad2, Brain, Mic, Video, Settings, Library
 } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 import useThemeStore from '@/store/themeStore';
@@ -19,8 +19,10 @@ const TOOLS = [
   { id: 'test-paper', label: 'Test Paper Gen', icon: FilePenLine },
   { id: 'homework', label: 'AI Homework Gen', icon: BookOpen },
   { id: 'oral-questions', label: 'Oral Question Gen', icon: Mic },
+  { id: 'e-library', label: 'E-Library', icon: Library },
   { id: 'video-lectures', label: 'Video Lectures', icon: Video },
 ];
+
 
 export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIsMobileOpen }) {
   const router = useRouter();
