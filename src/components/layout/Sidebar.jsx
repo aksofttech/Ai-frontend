@@ -26,10 +26,16 @@ const TOOLS = [
 
 export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIsMobileOpen }) {
   const router = useRouter();
-  const { user, logout } = useAuthStore();
+  const { user, userRole: storedRole, logout } = useAuthStore();
   const { darkMode } = useThemeStore();
-  const userRole = user?.role || 'teacher';
-  const userEmail = user?.email || 'admin@yugsoft.com';
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const userRole = isMounted ? (storedRole || user?.role || 'teacher') : 'teacher';
+  const userEmail = isMounted ? (user?.email || 'admin@yugsoft.com') : 'admin@yugsoft.com';
   const displayRole = userRole.charAt(0).toUpperCase() + userRole.slice(1);
   const displayEmail = userEmail.split('@')[0];
 

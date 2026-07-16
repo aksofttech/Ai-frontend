@@ -8,6 +8,8 @@ import {
   Gamepad2, Presentation, GraduationCap, Shield, Zap, Users,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import LoginPage from './(auth)/login/page';
 
 /* ── Floating holo orb ── */
 function Orb({ size = 200 }) {
@@ -44,7 +46,15 @@ function Chip({ label }) {
   );
 }
 
-export default function LandingPage() {
+export default function RootPage() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/login');
+  }, [router]);
+  return <LoginPage />;
+}
+
+export function LandingPage() {
   const waveRef = useRef(null);
   const pageRef = useRef(null);
 

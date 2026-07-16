@@ -18,8 +18,14 @@ const TOOLS = [
 export default function StudentSidebar({ isMobileOpen, setIsMobileOpen }) {
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
-  const userRole = user?.role || 'student';
-  const userEmail = user?.email || 'student@school.com';
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const userRole = isMounted ? (user?.role || 'student') : 'student';
+  const userEmail = isMounted ? (user?.email || 'student@school.com') : 'student@school.com';
   const displayRole = userRole.charAt(0).toUpperCase() + userRole.slice(1);
   const displayEmail = userEmail.split('@')[0];
 

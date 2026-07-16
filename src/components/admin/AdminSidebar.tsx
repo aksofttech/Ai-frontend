@@ -1,9 +1,10 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { LayoutDashboard, BookOpen, FileText, Users, LogOut } from 'lucide-react';
+import useAuthStore from '@/store/authStore';
 
 export default function AdminSidebar() {
   return (
@@ -17,6 +18,20 @@ function AdminSidebarInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeTab = searchParams?.get('tab');
+  const { user, logout } = useAuthStore();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const userEmail = (isMounted && user?.email) ? user.email : 'admin@yugsoft.com';
+  const displayEmail = userEmail.split('@')[0];
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/login';
+  };
 
   const navItems = [
     { label: 'Overview', href: '/admin', icon: LayoutDashboard, exact: true },
@@ -73,11 +88,14 @@ function AdminSidebarInner() {
             <Users size={14} className="text-[#6B5CE7]" />
           </div>
           <div className="overflow-hidden">
-            <div className="text-xs font-bold text-cs-dark truncate">ajeet.admin</div>
+            <div className="text-xs font-bold text-cs-dark truncate">{displayEmail}</div>
             <div className="text-[10px] text-[#6B5CE7] font-black">ADMIN</div>
           </div>
         </div>
-        <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors border border-red-200 text-xs font-bold cursor-pointer">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors border border-red-200 text-xs font-bold cursor-pointer"
+        >
           <LogOut size={14} />
           <span>Log Out</span>
         </button>

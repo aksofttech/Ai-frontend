@@ -164,7 +164,7 @@ const CATEGORIES = [
 
 /* ─── Component ─────────────────────────────────────────────────── */
 export default function DashboardPage() {
-  const { user, fetchProfile, logout } = useAuthStore();
+  const { user, userRole: storedRole, fetchProfile, logout } = useAuthStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const { darkMode, toggleDarkMode, syncTheme } = useThemeStore();
@@ -179,8 +179,14 @@ export default function DashboardPage() {
     }
   }, [user, fetchProfile]);
 
-  const userRole = user?.role || 'teacher';
-  const userEmail = user?.email || 'admin@yugsoft.com';
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const userRole = isMounted ? (storedRole || user?.role || 'teacher') : 'teacher';
+  const userEmail = isMounted ? (user?.email || 'admin@yugsoft.com') : 'admin@yugsoft.com';
   const displayRole = userRole.charAt(0).toUpperCase() + userRole.slice(1);
   const displayEmail = userEmail.split('@')[0];
   const initial = userEmail.charAt(0).toUpperCase();

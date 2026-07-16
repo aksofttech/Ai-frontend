@@ -46,13 +46,27 @@ export default function SignupPage() {
 
   return (
     <div
-      className="h-full flex-1 min-h-0 overflow-y-auto custom-scrollbar flex flex-col justify-center items-center px-4 relative"
-      style={{ background: 'linear-gradient(105deg, #EDE8F5 0%, #FFF5F0 100%)' }}
+      className="h-full flex-1 min-h-0 overflow-y-auto custom-scrollbar flex flex-col justify-center items-center px-4 relative py-8"
+      style={{ background: '#1A1A2E' }}
     >
+      {/* Blurred Background Image */}
+      <div
+        className="fixed inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: 'url("/auth-bg.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(5px)',
+          transform: 'scale(1.04)',
+        }}
+      />
+      {/* Soft overlay to make card and text pop */}
+      <div className="fixed inset-0 z-0 pointer-events-none" style={{ background: 'rgba(255, 248, 245, 0.45)' }} />
+
       {/* Decorative orbs */}
       <div className="absolute w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(107,92,231,0.12) 0%, transparent 70%)' }} />
-        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,180,150,0.18) 0%, transparent 70%)' }} />
+        <div className="absolute top-0 left-0 w-80 h-80 rounded-full" style={{ background: 'radial-gradient(circle, rgba(107,92,231,0.18) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,180,150,0.22) 0%, transparent 70%)' }} />
       </div>
 
       <motion.div
@@ -62,7 +76,7 @@ export default function SignupPage() {
         className="w-full max-w-md z-10 relative"
       >
         <div className="rounded-3xl p-10 cs-shadow-lg"
-          style={{ background: 'rgba(255,255,255,0.75)', backdropFilter: 'blur(24px)', border: '1.5px solid rgba(107,92,231,0.15)' }}>
+          style={{ background: 'rgba(255,255,255,0.86)', backdropFilter: 'blur(24px)', border: '1.5px solid rgba(107,92,231,0.2)', boxShadow: '0 20px 60px rgba(0,0,0,0.18)' }}>
 
           {/* Logo & heading */}
           <div className="flex flex-col items-center mb-8">

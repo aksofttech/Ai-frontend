@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminSidebar from '@/components/admin/AdminSidebar';
+import AdminLayoutClient from '@/components/admin/AdminLayoutClient';
 
 export const metadata = {
   title: 'Yugsoft Admin',
@@ -8,11 +8,8 @@ export const metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen w-screen bg-cs-cream overflow-hidden font-sans">
-      <AdminSidebar />
-      <main className="flex-1 h-full overflow-y-auto custom-scrollbar relative" style={{ background: 'linear-gradient(135deg, #FFF5F0 0%, #EDE8F5 100%)' }}>
-        {children}
-      </main>
-    </div>
+    <AdminLayoutClient>
+      {children}
+    </AdminLayoutClient>
   );
 }

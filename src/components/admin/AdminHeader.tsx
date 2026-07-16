@@ -21,13 +21,6 @@ export default function AdminHeader({ title, description }: AdminHeaderProps) {
 
   return (
     <>
-      {/* Top Indicators */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-2 text-xs font-bold text-cs-gray">
-          <div className="w-2 h-2 rounded-full bg-emerald-green"></div>
-          Administrative Workspace • ADMIN
-        </div>
-      </div>
 
       {/* Header Area */}
       <div className="flex items-start justify-between mb-8">
