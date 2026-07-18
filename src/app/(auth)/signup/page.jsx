@@ -87,7 +87,7 @@ export default function SignupPage() {
               </div>
             </Link>
             <h2 className="text-3xl font-black tracking-tight" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>Create an Account</h2>
-            <p className="mt-2 text-sm text-center" style={{ color: '#5A5A72' }}>Join YugSoft AI and supercharge your teaching.</p>
+            <p className="mt-2 text-sm text-center" style={{ color: '#5A5A72' }}>Join YugSoft and supercharge your teaching.</p>
           </div>
 
           {/* Error */}

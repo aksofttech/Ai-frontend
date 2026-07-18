@@ -14,7 +14,16 @@ export default function CurriculumManagementPage() {
   const fetchBooks = async () => {
     try {
       const response = await api.get('/curriculum/books');
-      setBooks(response.data?.data || response.data);
+      const raw = response.data?.data || response.data;
+      const data = Array.isArray(raw) ? raw : [];
+      // Sort by class number (1, 2, 3...) then by title alphabetically
+      const sorted = [...data].sort((a: any, b: any) => {
+        const clsA = parseInt(String(a?.class ?? a?.grade ?? a?.className ?? ''), 10);
+        const clsB = parseInt(String(b?.class ?? b?.grade ?? b?.className ?? ''), 10);
+        if (!isNaN(clsA) && !isNaN(clsB) && clsA !== clsB) return clsA - clsB;
+        return String(a?.title ?? a?.name ?? '').localeCompare(String(b?.title ?? b?.name ?? ''));
+      });
+      setBooks(sorted);
     } catch (error) {
       console.error('Failed to fetch books', error);
     } finally {

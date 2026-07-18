@@ -7,7 +7,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "YugSoft AI — Enterprise Educational AI SaaS",
+  title: "YugSoft — Enterprise Educational AI SaaS",
   description: "Next-gen AI orchestration canvas and gamified learning platform for modern educators.",
 };
 

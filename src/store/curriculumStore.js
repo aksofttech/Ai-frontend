@@ -28,7 +28,14 @@ const useCurriculumStore = create((set, get) => ({
     try {
       const response = await api.get('/curriculum/books');
       const data = response.data?.data || response.data;
-      const books = Array.isArray(data) ? data : [];
+      const raw = Array.isArray(data) ? data : [];
+      // Sort by class number (1, 2, 3...) then by title alphabetically
+      const books = [...raw].sort((a, b) => {
+        const clsA = parseInt(String(a?.class ?? a?.grade ?? a?.className ?? ''), 10);
+        const clsB = parseInt(String(b?.class ?? b?.grade ?? b?.className ?? ''), 10);
+        if (!isNaN(clsA) && !isNaN(clsB) && clsA !== clsB) return clsA - clsB;
+        return String(a?.title ?? a?.name ?? '').localeCompare(String(b?.title ?? b?.name ?? ''));
+      });
       set({ books });
     } catch (err) {
       console.warn('Failed to fetch books:', err.message);
@@ -112,11 +119,11 @@ const useCurriculumStore = create((set, get) => ({
       set({ chapterDetails: null });
       return;
     }
-    set({ isChapterDetailsLoading: true });
+    set({ isChapterDetailsLoading: true, showReader: true });
     try {
       const response = await api.get(`/curriculum/books/${encodeURIComponent(subjectId)}/chapters/${encodeURIComponent(chapterId)}`);
       const data = response.data?.data || response.data;
-      set({ chapterDetails: data });
+      set({ chapterDetails: data, showReader: true });
     } catch (err) {
       console.warn('Failed to fetch chapter details:', err.message);
       set({ chapterDetails: null });
@@ -133,6 +140,7 @@ const useCurriculumStore = create((set, get) => ({
       subjects: [],
       chapters: [],
       chapterDetails: null,
+      showReader: false,
     });
     if (classId) {
       get().fetchSubjects(classId);
@@ -145,6 +153,7 @@ const useCurriculumStore = create((set, get) => ({
       selectedChapterId: '',
       chapters: [],
       chapterDetails: null,
+      showReader: false,
     });
     if (subjectId) {
       get().fetchChapters(subjectId);
@@ -152,11 +161,11 @@ const useCurriculumStore = create((set, get) => ({
   },
 
   setSelectedChapterId: (chapterId) => {
-    set({ selectedChapterId: chapterId });
+    set({ selectedChapterId: chapterId, showReader: Boolean(chapterId) });
     if (chapterId) {
       get().fetchChapterDetails(get().selectedSubjectId, chapterId);
     } else {
-      set({ chapterDetails: null });
+      set({ chapterDetails: null, showReader: false });
     }
   },
 }));

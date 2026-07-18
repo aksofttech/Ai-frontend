@@ -194,7 +194,7 @@ function buildPrintHTML(lessonPlan) {
 
         <!-- Document header -->
         <div class="doc-header">
-          <div class="brand">Yugsoft <span class="brand-green">Tech</span></div>
+          <div class="brand">YugSoft <span class="brand-green">Tech</span></div>
           <div class="doc-title">AI Lesson Plan — ${lessonPlan.chapterName || 'Chapter'}</div>
           <div class="doc-meta">Generated on ${dateStr}</div>
         </div>
@@ -253,7 +253,7 @@ function buildPrintHTML(lessonPlan) {
 
         <!-- Footer -->
         <div class="doc-footer">
-          <span>Yugsoft Tech — AI Lesson Plan Generator</span>
+          <span>YugSoft Tech — AI Lesson Plan Generator</span>
           <span>${lessonPlan.chapterName || ''} · Day ${period.day} of ${periods.length} · ${new Date().getFullYear()}</span>
         </div>
 

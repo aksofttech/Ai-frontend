@@ -30,9 +30,9 @@ export default function AdminSidebar({ activeTab, setActiveTab }) {
       <div className="p-5" style={{ borderBottom: '1px solid rgba(107,92,231,0.1)' }}>
         <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg,#6B5CE7,#8B7CF6)' }}>
-            <Brain className="w-4 h-4 text-white" />
-          </div>
+              style={{ background: 'linear-gradient(135deg,#6B5CE7,#8B7CF6)' }}>
+              <Brain className="w-4 h-4 text-white" />
+            </div>
           <h1 className="text-lg font-black tracking-tight" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
             YugSoft <span style={{ color: '#6B5CE7' }}>Admin</span>
           </h1>

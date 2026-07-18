@@ -98,10 +98,9 @@ export default function AnswerKeyGen() {
   });
 
   const [mode, setMode] = useState('upload'); // 'upload' | 'auto'
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [extractedText, setExtractedText] = useState('');
-  const [isExtracting, setIsExtracting] = useState(false);
-  const [showOptionalRag, setShowOptionalRag] = useState(false);
+  const [classes, setClasses] = useState([]);
+  const [selectedClassId, setSelectedClassId] = useState('');
+  const [isClassesLoading, setIsClassesLoading] = useState(false);
 
   const [books, setBooks] = useState([]);
   const [chapters, setChapters] = useState([]);
@@ -110,17 +109,53 @@ export default function AnswerKeyGen() {
   const [isBooksLoading, setIsBooksLoading] = useState(false);
   const [isChaptersLoading, setIsChaptersLoading] = useState(false);
 
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [extractedText, setExtractedText] = useState('');
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [showOptionalRag, setShowOptionalRag] = useState(false);
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
   const [answerKeyData, setAnswerKeyData] = useState(null);
 
+  // Fetch classes on mount
   useEffect(() => {
-    setIsBooksLoading(true);
-    api.get("/curriculum/books").then((res) => {
+    setIsClassesLoading(true);
+    api.get('/curriculum/classes').then((res) => {
       const data = res.data?.data || res.data || [];
-      setBooks(data);
-    }).catch(console.error).finally(() => setIsBooksLoading(false));
+      const raw = Array.isArray(data) ? data : [];
+      const sorted = [...raw].sort((a, b) => {
+        const nA = parseInt(String(a?.name ?? a?.className ?? a), 10);
+        const nB = parseInt(String(b?.name ?? b?.className ?? b), 10);
+        if (!isNaN(nA) && !isNaN(nB)) return nA - nB;
+        return String(a).localeCompare(String(b));
+      });
+      setClasses(sorted);
+    }).catch(console.error).finally(() => setIsClassesLoading(false));
   }, []);
+
+  // Fetch books filtered by class
+  useEffect(() => {
+    if (!selectedClassId) {
+      setBooks([]);
+      setSelectedBookId('');
+      setChapters([]);
+      setSelectedChapterIds([]);
+      return;
+    }
+    setIsBooksLoading(true);
+    api.get(`/curriculum/subjects?classId=${encodeURIComponent(selectedClassId)}`).then((res) => {
+      const data = res.data?.data || res.data || [];
+      const raw = Array.isArray(data) ? data : [];
+      const sorted = [...raw].sort((a, b) =>
+        String(a?.title ?? a?.name ?? '').toLowerCase().localeCompare(
+          String(b?.title ?? b?.name ?? '').toLowerCase()
+        )
+      );
+      setBooks(sorted);
+      setSelectedBookId('');
+    }).catch(console.error).finally(() => setIsBooksLoading(false));
+  }, [selectedClassId]);
 
   useEffect(() => {
     if (!selectedBookId) {
@@ -173,8 +208,8 @@ export default function AnswerKeyGen() {
       alert('Please upload an examination paper PDF first.');
       return;
     }
-    if (mode === 'auto' && (!selectedBookId || selectedChapterIds.length === 0)) {
-      alert('Please select textbook content source and chapters.');
+    if (mode === 'auto' && (!selectedClassId || !selectedBookId || selectedChapterIds.length === 0)) {
+      alert('Please select class, textbook, and chapters.');
       return;
     }
 
@@ -469,6 +504,28 @@ export default function AnswerKeyGen() {
                 </div>
 
                 <div className="space-y-5">
+                  {/* Class Selector */}
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-2 text-gray-600">Select Class <span className="text-pink-500">*</span></label>
+                    <div className="relative">
+                      <select
+                        className="cs-input w-full px-4 py-3 text-sm font-semibold bg-white border border-gray-200 rounded-xl appearance-none cursor-pointer text-[#1A1A2E]"
+                        value={selectedClassId}
+                        onChange={(e) => setSelectedClassId(e.target.value)}
+                        disabled={isClassesLoading || isGenerating}
+                      >
+                        <option value="" disabled>{isClassesLoading ? 'Loading classes...' : 'Select a class'}</option>
+                        {classes.map((cls, idx) => (
+                          <option key={idx} value={cls}>{cls}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-emerald-600">
+                        <Layers size={16} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Textbook Selector */}
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider mb-2 text-gray-600">Select Textbook <span className="text-pink-500">*</span></label>
                     <div className="relative">
@@ -476,9 +533,11 @@ export default function AnswerKeyGen() {
                         className="cs-input w-full px-4 py-3 text-sm font-semibold bg-white border border-gray-200 rounded-xl appearance-none cursor-pointer text-[#1A1A2E]"
                         value={selectedBookId}
                         onChange={(e) => setSelectedBookId(e.target.value)}
-                        disabled={isBooksLoading || isGenerating}
+                        disabled={!selectedClassId || isBooksLoading || isGenerating}
                       >
-                        <option value="" disabled>{isBooksLoading ? 'Loading books...' : 'Select curriculum book'}</option>
+                        <option value="" disabled>
+                          {!selectedClassId ? 'Select a class first' : isBooksLoading ? 'Loading books...' : 'Select curriculum book'}
+                        </option>
                         {books.map(b => <option key={b.id || b._id} value={b.id || b._id}>{b.title || b.name}</option>)}
                       </select>
                       <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-emerald-600">

@@ -164,6 +164,10 @@ export default function TestPaperGen() {
     paperType: 'Half Yearly',
   });
 
+  const [classes, setClasses] = useState([]);
+  const [selectedClassId, setSelectedClassId] = useState('');
+  const [isClassesLoading, setIsClassesLoading] = useState(false);
+
   const [books, setBooks] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [selectedBookId, setSelectedBookId] = useState('');
@@ -183,13 +187,44 @@ export default function TestPaperGen() {
     { id: 'long', label: 'Long Answer Questions', count: 3, marks: 5 },
   ]);
 
+  // Fetch classes on mount
   useEffect(() => {
-    setIsBooksLoading(true);
-    api.get("/curriculum/books").then((res) => {
+    setIsClassesLoading(true);
+    api.get('/curriculum/classes').then((res) => {
       const data = res.data?.data || res.data || [];
-      setBooks(data);
-    }).catch(console.error).finally(() => setIsBooksLoading(false));
+      const raw = Array.isArray(data) ? data : [];
+      const sorted = [...raw].sort((a, b) => {
+        const nA = parseInt(String(a?.name ?? a?.className ?? a), 10);
+        const nB = parseInt(String(b?.name ?? b?.className ?? b), 10);
+        if (!isNaN(nA) && !isNaN(nB)) return nA - nB;
+        return String(a).localeCompare(String(b));
+      });
+      setClasses(sorted);
+    }).catch(console.error).finally(() => setIsClassesLoading(false));
   }, []);
+
+  // Fetch books filtered by selected class
+  useEffect(() => {
+    if (!selectedClassId) {
+      setBooks([]);
+      setSelectedBookId('');
+      setChapters([]);
+      setSelectedChapterIds([]);
+      return;
+    }
+    setIsBooksLoading(true);
+    api.get(`/curriculum/subjects?classId=${encodeURIComponent(selectedClassId)}`).then((res) => {
+      const data = res.data?.data || res.data || [];
+      const raw = Array.isArray(data) ? data : [];
+      const sorted = [...raw].sort((a, b) =>
+        String(a?.title ?? a?.name ?? '').toLowerCase().localeCompare(
+          String(b?.title ?? b?.name ?? '').toLowerCase()
+        )
+      );
+      setBooks(sorted);
+      setSelectedBookId('');
+    }).catch(console.error).finally(() => setIsBooksLoading(false));
+  }, [selectedClassId]);
 
   useEffect(() => {
     if (!selectedBookId) {
@@ -282,7 +317,7 @@ export default function TestPaperGen() {
   };
 
   const totalMaximumMarks = questionStructure.reduce((acc, curr) => acc + (curr.count * curr.marks), 0);
-  const isFormValid = generalDetails.schoolName && generalDetails.className && generalDetails.duration && selectedBookId && selectedChapterIds.length > 0 && !isGenerating;
+  const isFormValid = generalDetails.schoolName && generalDetails.className && generalDetails.duration && selectedClassId && selectedBookId && selectedChapterIds.length > 0 && !isGenerating;
 
   const toggleChapter = (chapterId) => {
     setSelectedChapterIds(prev => 
@@ -414,7 +449,7 @@ export default function TestPaperGen() {
                 <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>School Name <span className="text-pink-500">*</span></label>
                 <input 
                   type="text" 
-                  placeholder="e.g. Yugsoft Academy" 
+                  placeholder="e.g. YugSoft Academy" 
                   className="cs-input w-full px-4 py-3 text-sm font-semibold"
                   style={{ color: '#1A1A2E', background: 'white' }}
                   value={generalDetails.schoolName}
@@ -496,6 +531,29 @@ export default function TestPaperGen() {
               </div>
 
               <div className="space-y-5">
+                {/* Class Selector */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Select Class <span className="text-pink-500">*</span></label>
+                  <div className="relative">
+                    <select
+                      className="cs-input w-full px-4 py-3 text-sm font-semibold appearance-none cursor-pointer"
+                      style={{ color: '#1A1A2E', background: 'white' }}
+                      value={selectedClassId}
+                      onChange={(e) => setSelectedClassId(e.target.value)}
+                      disabled={isClassesLoading || isGenerating}
+                    >
+                      <option value="" disabled>{isClassesLoading ? 'Loading classes...' : 'Select a class'}</option>
+                      {classes.map((cls, idx) => (
+                        <option key={idx} value={cls}>{cls}</option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none" style={{ color: '#10b981' }}>
+                      <Layers size={16} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Book Selector */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: '#5A5A72' }}>Select Book <span className="text-pink-500">*</span></label>
                   <div className="relative">
@@ -504,9 +562,11 @@ export default function TestPaperGen() {
                       style={{ color: '#1A1A2E', background: 'white' }}
                       value={selectedBookId}
                       onChange={(e) => setSelectedBookId(e.target.value)}
-                      disabled={isBooksLoading || isGenerating}
+                      disabled={!selectedClassId || isBooksLoading || isGenerating}
                     >
-                      <option value="" disabled>{isBooksLoading ? 'Loading books...' : 'Select a book'}</option>
+                      <option value="" disabled>
+                        {!selectedClassId ? 'Select a class first' : isBooksLoading ? 'Loading books...' : 'Select a book'}
+                      </option>
                       {books.map(b => <option key={b.id || b._id} value={b.id || b._id}>{b.title || b.name}</option>)}
                     </select>
                     <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none" style={{ color: '#10b981' }}>

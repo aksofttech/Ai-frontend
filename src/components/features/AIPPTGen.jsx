@@ -225,7 +225,7 @@ export default function AIPPTGen() {
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: '#5A5A72' }}>Generator Engine</p>
                   <p className="text-sm font-medium flex items-center gap-1.5" style={{ color: '#5A5A72' }}>
-                    <User size={14} style={{ color: '#6B5CE7' }} /> Yugsoft AI PPT Engine
+                    <User size={14} style={{ color: '#6B5CE7' }} /> YugSoft PPT Engine
                   </p>
                 </div>
                 <div>

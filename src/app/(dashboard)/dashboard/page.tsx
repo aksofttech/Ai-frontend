@@ -215,12 +215,12 @@ export default function DashboardPage() {
         }}
       >
         <Link href="/dashboard" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center"
             style={{ background: 'linear-gradient(135deg,#6B5CE7,#8B7CF6)' }}>
-            <Brain className="w-5 h-5 text-white" />
+            <Brain className="w-6 h-6 text-white" />
           </div>
           <span className="text-xl font-black tracking-tight" style={{ color: darkMode ? '#F3F4F6' : '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
-            YugSoft <span style={{ color: '#6B5CE7' }}>AI</span>
+            YugSoft
           </span>
         </Link>
 
@@ -398,7 +398,7 @@ export default function DashboardPage() {
 
       {/* ── Footer ── */}
       <footer className="text-center pb-8 text-xs transition-colors duration-300" style={{ color: darkMode ? '#5A5A72' : '#9CA3AF' }}>
-        Yugsoft Tech — Enterprise Educational AI SaaS · {new Date().getFullYear()}
+        YugSoft Tech — Enterprise Educational AI SaaS · {new Date().getFullYear()}
       </footer>
 
       {/* Account Settings Modal */}

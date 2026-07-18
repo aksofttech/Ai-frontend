@@ -39,7 +39,16 @@ export default function BookSelectionForm({
     setIsClassLoading(true);
     api.get("/curriculum/classes").then((res) => {
       const data = res.data?.data || res.data || [];
-      setClasses(Array.isArray(data) ? data : []);
+      const raw = Array.isArray(data) ? data : [];
+      // Sort numerically so Class 1, 2, 3... appear in order
+      const sorted = [...raw].sort((a, b) => {
+        const numA = parseInt(String(a?.name ?? a?.className ?? a), 10);
+        const numB = parseInt(String(b?.name ?? b?.className ?? b), 10);
+        if (!isNaN(numA) && !isNaN(numB)) return numA - numB;
+        return String(a).localeCompare(String(b));
+      });
+      setClasses(sorted);
+
     }).catch(console.error).finally(() => setIsClassLoading(false));
   }, []);
 
@@ -52,7 +61,15 @@ export default function BookSelectionForm({
     setIsSubjectLoading(true);
     api.get(`/curriculum/subjects?classId=${encodeURIComponent(selectedClassId)}`).then((res) => {
       const data = res.data?.data || res.data || [];
-      setSubjects(Array.isArray(data) ? data : []);
+      const raw = Array.isArray(data) ? data : [];
+      // Sort alphabetically by title/name
+      const sorted = [...raw].sort((a, b) => {
+        const nameA = String(a?.title ?? a?.name ?? '').toLowerCase();
+        const nameB = String(b?.title ?? b?.name ?? '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+      setSubjects(sorted);
+
       setSelectedSubjectId("");
     }).catch(console.error).finally(() => setIsSubjectLoading(false));
   }, [selectedClassId]);

@@ -149,12 +149,12 @@ export function LandingPage() {
         style={{ background: 'rgba(255,245,240,0.65)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(107,92,231,0.1)' }}
       >
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #6B5CE7, #8B7CF6)' }}>
-            <Brain className="w-5 h-5 text-white" />
-          </div>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #6B5CE7, #8B7CF6)' }}>
+              <Brain className="w-6 h-6 text-white" />
+            </div>
           <span className="text-xl font-bold tracking-tight" style={{ color: '#1A1A2E' }}>
-            YugSoft <span style={{ color: '#6B5CE7' }}>AI</span>
+            YugSoft
           </span>
         </Link>
 
@@ -257,12 +257,12 @@ export function LandingPage() {
             >
               <div className="flex items-center gap-3 px-5 py-4"
                 style={{ background: 'rgba(255,255,255,0.5)', borderBottom: '1px solid rgba(107,92,231,0.12)' }}>
-                <div className="w-9 h-9 rounded-full flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg,#6B5CE7,#8B7CF6)' }}>
-                  <Brain className="w-5 h-5 text-white" />
-                </div>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #6B5CE7, #8B7CF6)' }}>
+              <Brain className="w-6 h-6 text-white" />
+            </div>
                 <div>
-                  <p className="text-sm font-bold" style={{ color: '#1A1A2E' }}>YugSoft AI</p>
+                  <p className="text-sm font-bold" style={{ color: '#1A1A2E' }}>YugSoft</p>
                   <p className="text-xs" style={{ color: '#6B5CE7' }}>● Our bot is active instantly</p>
                 </div>
               </div>
@@ -338,7 +338,7 @@ export function LandingPage() {
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6"
                 style={{ background: 'rgba(107,92,231,0.08)', border: '1px solid rgba(107,92,231,0.2)' }}>
                 <Zap className="w-3.5 h-3.5" style={{ color: '#6B5CE7' }} />
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6B5CE7' }}>Why YugSoft AI</span>
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6B5CE7' }}>Why YugSoft</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-black mb-6"
                 style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
@@ -346,7 +346,7 @@ export function LandingPage() {
                 <span style={{ color: '#6B5CE7' }}>Powered by Real AI</span>
               </h2>
               <p className="text-base leading-relaxed mb-8" style={{ color: '#5A5A72' }}>
-                YugSoft AI is not just another edtech tool. It's a full AI operating system for educational institutions — handling everything from curriculum planning to gamified student assessments, all in one intelligent platform.
+                YugSoft is not just another edtech tool. It's a full AI operating system for educational institutions — handling everything from curriculum planning to gamified student assessments, all in one intelligent platform.
               </p>
               <div className="space-y-4">
                 {[
@@ -413,7 +413,7 @@ export function LandingPage() {
                 Ready to Transform Your Classroom?
               </h2>
               <p className="text-white/80 text-base mb-8 max-w-xl mx-auto">
-                Join 10,000+ educators already using YugSoft AI to save time, engage students, and deliver world-class education.
+                Join 10,000+ educators already using YugSoft to save time, engage students, and deliver world-class education.
               </p>
               <div className="flex items-center justify-center gap-4 flex-wrap">
                 <Link href="/signup">
@@ -458,12 +458,12 @@ export function LandingPage() {
             {/* ── Column 1: Brand ── */}
             <div className="lg:col-span-1">
               <Link href="/" className="flex items-center gap-2.5 mb-5">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg,#6B5CE7,#8B7CF6)' }}>
-                  <Brain className="w-5 h-5 text-white" />
-                </div>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #6B5CE7, #8B7CF6)' }}>
+              <Brain className="w-6 h-6 text-white" />
+            </div>
                 <span className="text-xl font-black" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
-                  YugSoft <span style={{ color: '#6B5CE7' }}>AI</span>
+                  YugSoft
                 </span>
               </Link>
               <p className="text-sm leading-relaxed mb-6" style={{ color: '#5A5A72' }}>
@@ -650,7 +650,7 @@ export function LandingPage() {
               className="text-2xl font-black tracking-[0.25em] uppercase"
               style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}
             >
-              YUGSOFT
+              YugSoft
             </span>
           </div>
 

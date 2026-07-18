@@ -134,7 +134,7 @@ export default function LoginPage() {
               </div>
             </Link>
             <h2 className="text-3xl font-black tracking-tight" style={{ color: '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>Welcome Back</h2>
-            <p className="mt-2 text-sm text-center" style={{ color: '#5A5A72' }}>Log in to YugSoft AI to continue to your dashboard.</p>
+            <p className="mt-2 text-sm text-center" style={{ color: '#5A5A72' }}>Log in to YugSoft to continue to your dashboard.</p>
           </div>
 
           {/* Error */}

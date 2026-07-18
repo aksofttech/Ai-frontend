@@ -2,7 +2,7 @@ import React from 'react';
 import AdminLayoutClient from '@/components/admin/AdminLayoutClient';
 
 export const metadata = {
-  title: 'Yugsoft Admin',
+  title: 'YugSoft Admin',
   description: 'Administrative Workspace',
 };
 

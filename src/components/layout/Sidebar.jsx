@@ -72,7 +72,7 @@ export default function Sidebar({ activeTool, setActiveTool, isMobileOpen, setIs
               <Brain className="w-4 h-4 text-white" />
             </div>
             <h1 className="text-lg font-black tracking-tight" style={{ color: darkMode ? '#F3F4F6' : '#1A1A2E', fontFamily: 'Outfit,sans-serif' }}>
-              YugSoft <span style={{ color: '#6B5CE7' }}>AI</span>
+              YugSoft
             </h1>
           </Link>
           <button

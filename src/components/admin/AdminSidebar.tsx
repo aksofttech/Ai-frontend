@@ -45,7 +45,7 @@ function AdminSidebarInner() {
       {/* Logo Section */}
       <div className="p-6 pb-8">
         <h1 className="text-2xl font-black flex items-center gap-2 tracking-tight">
-          <span className="text-[#6B5CE7]">Yugsoft</span>
+          <span className="text-[#6B5CE7]">YugSoft</span>
           <span className="text-cs-dark">Admin</span>
         </h1>
       </div>

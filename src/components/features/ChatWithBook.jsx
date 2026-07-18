@@ -17,6 +17,9 @@ export default function ChatWithBook({ onReady }) {
     chapters: storeChapters,
     subjects: storeSubjects,
     books: storeBooks,
+    showReader,
+    toggleReader,
+    setShowReader,
   } = useCurriculumStore();
 
   const [navSubjects, setNavSubjects] = useState([]);
@@ -365,6 +368,21 @@ export default function ChatWithBook({ onReady }) {
         </div>
 
         <div className="flex items-center flex-wrap gap-2 sm:gap-2.5 ml-auto">
+          {/* Toggle Reader Button */}
+          <button
+            onClick={toggleReader || (() => setShowReader && setShowReader(!showReader))}
+            title={showReader ? "Hide Textbook Reader Panel" : "Show Textbook Reader Panel"}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm ${
+              showReader
+                ? 'bg-purple-100 text-purple-700 border border-purple-300'
+                : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md hover:opacity-90'
+            }`}
+          >
+            <BookOpen size={14} />
+            <span className="hidden sm:inline">{showReader ? 'Hide Reader' : '📖 Textbook Reader'}</span>
+            <span className="sm:hidden">Reader</span>
+          </button>
+
           {/* Book / Subject Selector Dropdown */}
           <div className="relative flex items-center">
             <select
